@@ -1,2 +1,2 @@
 # shakespeares_world
-Full text transcription project for the Folger Shakespeare Library
+Uncover the lives of Shakespeare's contemporaries through their writings; learn to read old texts. 
