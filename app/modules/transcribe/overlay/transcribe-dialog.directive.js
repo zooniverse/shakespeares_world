@@ -25,14 +25,25 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         $scope.data = {};
         $scope.transcription = '';
         $scope.buttons = [
-            { name: 'Insertion', tag: 'insertion' },
-            { name: 'Deletion', tag: 'deletion' },
-            { name: 'Illegible', tag: 'illegible' },
-            { name: 'Foreign Language', tag: 'foreign' }
+            {
+                name: 'Insertion',
+                tag: 'insertion'
+            },
+            {
+                name: 'Deletion',
+                tag: 'deletion'
+            },
+            {
+                name: 'Illegible',
+                tag: 'illegible'
+            },
+            {
+                name: 'Foreign Language',
+                tag: 'foreign'
+            }
         ];
 
         var textarea = $element.find('textarea').first();
-
         var vm = this;
         vm.close = closeDialog;
         vm.open = openDialog;
