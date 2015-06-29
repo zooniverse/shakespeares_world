@@ -9,7 +9,7 @@ require('./overlay.module.js')
 // TODO: Find out what ngInject isn't working properly for transcribeDialogController
 
 // @ngInject
-function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory) {
+function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var directive = {
         link: transcribeDialogLink,
         controller: ['$scope', '$element', transcribeDialogController],
@@ -24,25 +24,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         $scope.active = false;
         $scope.data = {};
         $scope.transcription = '';
-        $scope.buttons = [
-            {
-                name: 'Insertion',
-                tag: 'insertion'
-            },
-            {
-                name: 'Deletion',
-                tag: 'deletion'
-            },
-            {
-                name: 'Illegible',
-                tag: 'illegible'
-            },
-            {
-                name: 'Foreign Language',
-                tag: 'foreign'
-            }
-        ];
-
+        $scope.buttons = overlayConfig.teiTags;
         var textarea = $element.find('textarea').first();
         var vm = this;
         vm.close = closeDialog;
