@@ -38,10 +38,16 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
         function openContextMenu(event) {
             var contextMenuData = {
                 event: event,
-                menuOptions: [{ name: 'Delete', action: _.partial(AnnotationsFactory.destroy, scope.data) }]
+                menuOptions: [{
+                    name: 'Delete',
+                    action: _.partial(AnnotationsFactory.destroy, scope.data)
+                }]
             };
             if (scope.data.complete) {
-                contextMenuData.menuOptions.unshift({ name: 'Edit', action: openTranscribeDialog });
+                contextMenuData.menuOptions.unshift({
+                    name: 'Edit',
+                    action: openTranscribeDialog
+                });
             }
             $rootScope.$broadcast('contextMenu:open', contextMenuData);
         }
@@ -55,4 +61,3 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
     }
 
 }
-

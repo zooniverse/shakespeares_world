@@ -101,6 +101,11 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         // Events
         scope.$on('transcribeDialog:open', openDialog);
 
+        scope.toggleKeypad = function () {
+            scope.visible = false;
+            $rootScope.$broadcast('visible');
+        }
+
         // Methods
         function openDialog(event, data) {
             dialog.open(data);

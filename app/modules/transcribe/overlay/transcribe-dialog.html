@@ -1,12 +1,4 @@
-<div
-    aria-label="Transcribe line"
-    aria-hidden="{{ !active }}"
-    class="transcribe-dialog"
-    ng-class="{ '-active': active }"
-    ng-style="position"
-    role="dialog"
-    tabindex="-1"
-    >
+<div aria-label="Transcribe line" aria-hidden="{{ !active }}" class="transcribe-dialog" ng-class="{ '-active': active }" ng-style="position" role="dialog" tabindex="-1">
 
     <div class="heading">
         <h3 class="title">Transcribe line</h3>
@@ -17,18 +9,13 @@
     </div>
 
     <div class="body">
-        <textarea class="transcribe" ng-model="transcription" rows="3"></textarea>
+        <textarea class="transcribe" ng-model="transcription" rows="2"></textarea>
         <div class="buttons">
             <div class="editing" role="group">
-                <button
-                    class="button -tag"
-                    ng-bind="button.name"
-                    ng-click="tag(button.tag)"
-                    ng-repeat="button in buttons"
-                ></button>
+                <button class="button -tag" ng-bind="button.name" ng-click="tag(button.tag)" ng-repeat="button in buttons"></button>
             </div>
+            <button class="button -keypad" ng-click="toggleKeypad()">Keypad</button>
             <button class="button -save" ng-click="saveAndClose()">Save Changes</button>
         </div>
     </div>
-
 </div>
