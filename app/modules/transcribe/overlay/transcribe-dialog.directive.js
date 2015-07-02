@@ -32,6 +32,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         vm.saveAndClose = saveAndCloseDialog;
         vm.tag = tag;
 
+
         function closeDialog() {
             MarkingSurfaceFactory.enable();
             $scope.active = false;
@@ -100,10 +101,9 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
 
         // Events
         scope.$on('transcribeDialog:open', openDialog);
-
         scope.toggleKeypad = function () {
-            scope.visible = false;
-            $rootScope.$broadcast('visible');
+            $rootScope.$broadcast('event:toggle');
+
         }
 
         // Methods

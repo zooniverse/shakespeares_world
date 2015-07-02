@@ -9,16 +9,19 @@ require('./overlay.module.js')
 // @ngInject
 function keypadSlide() {
     var directive = {
+        link: overlayConfigLink,
         replace: true,
         scope: true,
-        templateUrl: 'overlay/keypad-slide.html',
-        link: overlayConfigLink
+        templateUrl: 'overlay/keypad-slide.html'
+
     };
     return directive;
 
-    function overlayConfigLink(scope, element, attrs) {
-        scope.$on('visible', function (event) {
-            console.log('event received')
+    function overlayConfigLink(scope, elem, attrs) {
+        scope.$on('event:toggle', function () {
+            console.log('event received');
+            //This is not the Angular way of doing it...
+            elem.addClass('-visible');
         });
     }
 
