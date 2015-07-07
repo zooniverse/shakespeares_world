@@ -1,16 +1,62 @@
 .keypad-slide
+    @extend .panel
+    @extend .panel-default
+    width: 300px
+    height: 100%
+    position: absolute
+    right: 0
+    display: none
+    z-index: 1
 
-    &.sidebar
-        transition: right .5s
-        width: 100px
-        background-color: blue
-        position: absolute
-        top: 0px
-        bottom: 0px
-        right: -100px
-        display: none
+    > .heading
+        @extend .panel-heading
+        @extend .panel-default > .panel-heading
+        cursor: move
+        display: flex
 
+    > .heading > .title
+        @extend .panel-default > .panel-heading
+        @extend .panel-title
+        flex: 1
+        line-height: 23px
 
-    &.sidebar.-visible
-        right: 0px
-        display: block
+    > .heading > .close
+        cursor: pointer
+
+    > .heading > .close > .icon
+        @extend .glyphicon
+        @extend .glyphicon-remove-circle
+
+    > .heading > .close > .text
+        @extend $hide-text
+
+    > .body
+        @extend .panel-body
+
+    > .body > .buttons
+        display: flex
+        justify-content: space-between
+
+    > .body > .buttons .button
+        @extend .btn
+        @extend .btn-default
+
+    > .body > .buttons .button.-save
+        @extend .btn-success
+
+    > .body > .buttons .button.-keypad
+        @extend .btn-primary
+
+    > .body > .buttons .button + .button
+        margin-left: -1px
+
+    > .body > .buttons > .editing > .button:not(:first-child):not(:last-child)
+        border-radius: 0
+
+    > .body > .buttons > .editing > .button:first-child
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+    > .body > .buttons > .editing > .button:last-child
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0

@@ -65,6 +65,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         }
 
         function tag(tagText) {
+            console.log('called tag');
             var startTag = '[' + tagText + ']';
             var endTag = '[/' + tagText + ']';
 
@@ -103,7 +104,6 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         scope.$on('transcribeDialog:open', openDialog);
         scope.toggleKeypad = function () {
             $rootScope.$broadcast('event:toggle');
-
         }
 
         // Methods
@@ -139,7 +139,6 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             } else if ((position.left + dialog.width) > overlay.width) {
                 position.left = overlay.width - dialog.width - constant;
             }
-
             scope.position = position;
         }
     }

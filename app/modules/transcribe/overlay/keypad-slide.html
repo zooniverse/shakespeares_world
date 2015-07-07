@@ -1,3 +1,34 @@
-<div class="keypad-slide" ng-class="'event:toggle' ? 'sidebar' : 'sidebar -visible'">
-    Keypad
+<div class="keypad-slide" aria-label="Keypad">
+
+    <div class="heading">
+        <h3 class="title">Abbreviations</h3>
+
+    </div>
+    <div class="body">
+
+        <div class="buttons">
+            <div class="editing" role="group">
+                <button class="button" ng-bind="abbreviation.name" ng-click="" ng-repeat="abbreviation in abbreviations"></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="heading">
+        <h3 class="title">TEI tags</h3>
+
+    </div>
+    <div class="body">
+
+        <div class="buttons">
+            <div class="editing" role="group">
+                <button class="button -tag" ng-bind="tag.name" ng-click="teiTag(tag.tag)" ng-repeat="tag in tags"></button>
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>

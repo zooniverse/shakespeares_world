@@ -25,11 +25,7 @@ function appHeader() {
                 state: 'Home'
             },
             {
-                label: 'Start Transcribing',
-                state: 'Transcribe'
-            },
-            {
-                label: 'About annoTate',
+                label: 'About',
                 state: 'About'
             },
             {
