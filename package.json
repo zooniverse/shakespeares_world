@@ -1,5 +1,5 @@
 {
-    "name": "Shakespeares World",
+    "name": "annotate",
     "version": "1.0.0",
     "author": {
         "name": "Simone Duca",
@@ -14,7 +14,7 @@
     }
   ],
     "description": "A full-text transcription web app, written for the Folger Library",
-    "homepage": "http://anno.tate.org.uk/",
+    "homepage": "",
     "repository": {
         "type": "git",
         "url": "https://github.com/zooniverse/shakespeares_world"

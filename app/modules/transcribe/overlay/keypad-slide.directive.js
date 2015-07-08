@@ -9,15 +9,16 @@ require('./overlay.module.js')
 function keypadSlide(hotkeys, overlayConfig) {
     var directive = {
         link: keypadSlideLink,
-        controller: ['$scope', '$element', keypadSlideController],
+        controller: ['$scope', '$element', '$sce', keypadSlideController],
         replace: true,
         scope: true,
         templateUrl: 'overlay/keypad-slide.html'
     };
     return directive;
 
-    function keypadSlideController($scope, $element) {
+    function keypadSlideController($scope, $element, $sce) {
         $scope.data = {};
+        $scope.transcription = '';
         var textarea = document.querySelector('textarea');
         //.find('textarea').first();
         $scope.abbreviations = overlayConfig.abbrKeys;
@@ -25,8 +26,12 @@ function keypadSlide(hotkeys, overlayConfig) {
         var vm = this;
         vm.tag = teiTag;
 
+        $scope.toTrustedHTML = function (html) {
+            return $sce.trustAsHtml(html);
+        }
+
         function teiTag(tagText) {
-            alert('ALERT')
+
             console.log('called TeiTag');
             var startTag = '[' + tagText + ']';
             var endTag = '[/' + tagText + ']';

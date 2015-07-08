@@ -10,6 +10,7 @@ require('angular-local-storage');
 require('angular-ui-router');
 require('angular-hotkeys');
 require('angular-animate');
+require('angular-sanitize');
 
 // App modules
 bulk(__dirname, ['./**/!(app.module).js']);
