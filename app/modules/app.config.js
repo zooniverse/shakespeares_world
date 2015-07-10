@@ -3,8 +3,8 @@
 var appInfo = require('../../package.json');
 
 var appConfig = {
-    appTitle: 'AnnoTate',
-    appDescription: 'Help the Tate discover the lives of twentieth-century artists by transcribing their letters, diaries and sketchbooks.'
+    appTitle: 'Shakespeare\'s World',
+    appDescription: 'Nam nisl tellus, ultrices a mattis sit amet, ullamcorper ut mi. Morbi eu ligula feugiat, tempus purus sed, consectetur augue. Duis ipsum nibh, interdum at ultricies sit amet, congue accumsan arcu. Nulla quis risus massa. Suspendisse tempus augue velit, in varius lacus vulputate id. Quisque laoreet, lectus et consectetur molestie, felis mi dignissim magna, at condimentum ipsum nisl id quam. Ut laoreet, ipsum mattis blandit feugiat, leo est sagittis dolor, ac luctus est leo id ex.'
 };
 
 // @ngInject

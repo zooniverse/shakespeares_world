@@ -24,13 +24,13 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         $scope.active = false;
         $scope.data = {};
         $scope.transcription = '';
-        $scope.buttons = overlayConfig.teiTags;
+        //$scope.buttons = overlayConfig.teiTags;
         var textarea = $element.find('textarea').first();
         var vm = this;
         vm.close = closeDialog;
         vm.open = openDialog;
         vm.saveAndClose = saveAndCloseDialog;
-        vm.tag = tag;
+        //vm.tag = tag;
 
 
         function closeDialog() {
@@ -64,28 +64,28 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             closeDialog();
         }
 
-        function tag(tagText) {
-            console.log('called tag');
-            var startTag = '[' + tagText + ']';
-            var endTag = '[/' + tagText + ']';
-
-            var start = textarea.prop('selectionStart');
-            var end = textarea.prop('selectionEnd');
-            var text = textarea.val();
-            var textBefore = text.substring(0, start);
-            var textInBetween;
-            var textAfter;
-
-            if (start === end) {
-                textAfter = text.substring(start, text.length);
-                textarea.val(textBefore + startTag + endTag + textAfter);
-            } else {
-                textInBetween = text.substring(start, end);
-                textAfter = text.substring(end, text.length);
-                textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
-            }
-            getFocus();
-        }
+//        function tag(tagText) {
+          //            console.log('called tag');
+          //            var startTag = '[' + tagText + ']';
+          //            var endTag = '[/' + tagText + ']';
+          //
+          //            var start = textarea.prop('selectionStart');
+          //            var end = textarea.prop('selectionEnd');
+          //            var text = textarea.val();
+          //            var textBefore = text.substring(0, start);
+          //            var textInBetween;
+          //            var textAfter;
+          //
+          //            if (start === end) {
+          //                textAfter = text.substring(start, text.length);
+          //                textarea.val(textBefore + startTag + endTag + textAfter);
+          //            } else {
+          //                textInBetween = text.substring(start, end);
+          //                textAfter = text.substring(end, text.length);
+          //                textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
+          //            }
+          //            getFocus();
+          //        }
     }
 
     // @ngInject
