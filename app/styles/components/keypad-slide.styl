@@ -2,11 +2,11 @@
     @extend .panel
     @extend .panel-default
     width: 25%
-    height: 100%
     position: absolute
     right: 0
     display: none
     z-index: 1
+    background-color: rgba(245, 245, 245, 0.5)
 
     > .heading
         @extend .panel-heading
@@ -19,16 +19,6 @@
         @extend .panel-title
         flex: 1
         line-height: 23px
-
-    > .heading > .close
-        cursor: pointer
-
-    > .heading > .close > .icon
-        @extend .glyphicon
-        @extend .glyphicon-remove-circle
-
-    > .heading > .close > .text
-        @extend $hide-text
 
     > .body
         @extend .panel-body

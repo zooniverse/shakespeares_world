@@ -1,11 +1,15 @@
 .context-menu
     @extend .dropdown-menu
-    display: block
+    display: none
     top: 0
-    z-index: -1
+    //Using z-index creates conflict
+    //with putting bg-image on body element,
+    //i.e. one can see an the context menu on top-left
+    //z-index: -1
 
     &.-active
-        z-index: 1
+        display: block
+        //z-index: 1
 
     > li > a
         @extend .dropdown-menu > li > a

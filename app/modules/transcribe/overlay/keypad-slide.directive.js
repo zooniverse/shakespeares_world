@@ -17,8 +17,6 @@ function keypadSlide(hotkeys, overlayConfig) {
     return directive;
 
     function keypadSlideController($scope, $element, $sce) {
-        //$scope.data = {};
-        //$scope.transcription = '';
         $scope.abbreviations = overlayConfig.abbrKeys;
         $scope.tags = overlayConfig.teiTags;
         var textarea = angular.element('textarea').first();
@@ -44,7 +42,6 @@ function keypadSlide(hotkeys, overlayConfig) {
                 textAfter = text.substring(end, text.length);
                 textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
             }
-            //getFocus(startTag);
             var pos = startTag.length;
             console.log(pos);
             textarea.caret(pos);
