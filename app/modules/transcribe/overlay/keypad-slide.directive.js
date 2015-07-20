@@ -49,7 +49,7 @@ function keypadSlide(hotkeys, overlayConfig) {
     }
 
     function keypadSlideLink(scope, elem, attrs, dialog) {
-        scope.tag = dialog.tag;
+        //  scope.tag = dialog.tag;
         scope.$on('event:toggle', function () {
             elem.animate({
                 width: 'toggle'
