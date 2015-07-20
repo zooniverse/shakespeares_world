@@ -42,9 +42,7 @@ function keypadSlide(hotkeys, overlayConfig) {
                 textAfter = text.substring(end, text.length);
                 textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
             }
-            var pos = startTag.length + text.length;
-            console.log(pos);
-            textarea.caret(pos);
+            textarea.caret(startTag.length + text.length);
         }
     }
 

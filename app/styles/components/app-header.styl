@@ -4,17 +4,18 @@ $nav-link-border-size = 4px
     @extend .navbar
     @extend .navbar-default
     @extend .navbar-static-top
+    background-color: rgba(18, 18, 18, 0.8)
     border-bottom: solid #fff 1px
     margin-bottom: 10px
     z-index: 1002
-    background-color: rgba(18, 18, 18, 0.8)
 
 
     > .container-fluid > .collapse > .navbar-nav > li > a
         @media screen and (min-width: $screen-sm-min)
-            padding-bottom: $navbar-padding-vertical - $nav-link-border-size
             border-bottom: $nav-link-border-size solid transparent
             color: light-grey
+            padding-bottom: $navbar-padding-vertical - $nav-link-border-size
+
 
     > .container-fluid > .collapse > .navbar-nav > li > a.-active
         @media screen and (min-width: $screen-sm-min)
