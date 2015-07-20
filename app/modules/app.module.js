@@ -10,6 +10,8 @@ require('angular-local-storage');
 require('angular-ui-router');
 require('angular-hotkeys');
 require('angular-animate');
+require('angular-sanitize');
+require('jquery-caret');
 
 // App modules
 bulk(__dirname, ['./**/!(app.module).js']);
@@ -26,7 +28,6 @@ function startApp() {
         'LocalStorageModule',
         'cfp.hotkeys',
         'ngAnimate',
-
         // App modules
         'app.core',
         'app.404',

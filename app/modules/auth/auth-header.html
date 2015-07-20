@@ -9,14 +9,14 @@
             <form class="form">
                 <input name="login" ng-model="userLogin" type="text" placeholder="Login" class="form-control">
                 <input name="password" ng-model="userPassword" type="password" placeholder="Password" class="form-control"><br>
-                <button type="button" class="btn btn-default" ng-click="signIn({ display_name: userLogin, password: userPassword })">Login</button>
+                <button type="button" class="btn btn-default" ng-click="signIn({ login: userLogin, password: userPassword })">Login</button>
             </form>
         </div>
     </li>
 
     <li dropdown ng-show="user">
         <a href class="dropdown-toggle" dropdown-toggle>
-            {{ user.display_name }} <span class="caret"></span>
+            {{ user.login }} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <li><a href ng-click="signOut()">Logout</a></li>

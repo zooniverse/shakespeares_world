@@ -1,19 +1,13 @@
-.transcribe-dialog
+.keypad-slide
     @extend .panel
     @extend .panel-default
     background-color: rgba(245, 245, 245, 0.5)
-    left: 0
-    margin-bottom: 0
-    opacity: 0
+    display: none
     position: absolute
-    top: 0
-    width: 550px
-    z-index: -1
+    right: 0
+    width: 25%
+    z-index: 1
 
-
-    &.-active
-        opacity: 1
-        z-index: 1
 
     > .heading
         @extend .panel-heading
@@ -27,25 +21,8 @@
         flex: 1
         line-height: 23px
 
-    > .heading > .close
-        cursor: pointer
-        position: relative
-        right: -500px
-
-    > .heading > .close > .icon
-        @extend .glyphicon
-        @extend .glyphicon-remove-circle
-
-    > .heading > .close > .text
-        @extend $hide-text
-
     > .body
         @extend .panel-body
-
-    > .body > .transcribe
-        @extend .form-control
-        @extend textarea.form-control
-        margin-bottom: 15px
 
     > .body > .buttons
         display: flex

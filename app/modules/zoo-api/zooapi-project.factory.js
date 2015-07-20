@@ -19,7 +19,9 @@ function zooAPIProject($q, localStorageService, zooAPIConfig, zooAPI) {
         if (cache) {
             return $q.when(cache);
         } else {
-            return zooAPI.type('projects').get({ display_name: zooAPIConfig.display_name })
+            return zooAPI.type('projects').get({
+                    slug: zooAPIConfig.slug
+                })
                 .then(function (response) {
                     localStorageService.set('project', response[0]);
                     return response[0];

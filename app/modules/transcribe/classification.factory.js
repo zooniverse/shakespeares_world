@@ -29,6 +29,8 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
             },
             links: {
                 subjects: [SubjectsFactory.current.data.id]
+                    //project: 376,
+                    //workflow: 205
             },
             annotations: []
         };
@@ -52,7 +54,10 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
     function submitBlank() {
         return _createNewClassification()
             .then(function addBlankData(classification) {
-                classification.annotations.push({ task: 'T0', value: true });
+                classification.annotations.push({
+                    task: 'T0',
+                    value: true
+                });
                 return classification;
             })
             .then(_submitToApi);
@@ -61,9 +66,18 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
     function submitComplete() {
         return _createNewClassification()
             .then(function addCompleteData(classification) {
-                classification.annotations.push({ task: 'T0', value: false });
-                classification.annotations.push({ task: 'T2', value: angular.copy(AnnotationsFactory.list()) });
-                classification.annotations.push({ task: 'T3', value: true });
+                classification.annotations.push({
+                    task: 'T0',
+                    value: false
+                });
+                classification.annotations.push({
+                    task: 'T2',
+                    value: angular.copy(AnnotationsFactory.list())
+                });
+                classification.annotations.push({
+                    task: 'T3',
+                    value: true
+                });
                 return classification;
             })
             .then(_submitToApi);
@@ -72,9 +86,18 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
     function submitIncomplete() {
         return _createNewClassification()
             .then(function addIncompleteData(classification) {
-                classification.annotations.push({ task: 'T0', value: false });
-                classification.annotations.push({ task: 'T2', value: angular.copy(AnnotationsFactory.list()) });
-                classification.annotations.push({ task: 'T3', value: false });
+                classification.annotations.push({
+                    task: 'T0',
+                    value: false
+                });
+                classification.annotations.push({
+                    task: 'T2',
+                    value: angular.copy(AnnotationsFactory.list())
+                });
+                classification.annotations.push({
+                    task: 'T3',
+                    value: false
+                });
                 return classification;
             })
             .then(_submitToApi);

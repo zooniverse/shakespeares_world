@@ -5,7 +5,7 @@ module.exports = {
     'browserify': {
         'bundleName': 'main.js',
         'entries': ['./app/modules/app.module.js'],
-        'sourcemap' : true
+        'sourcemap': true
     },
 
     'deploy': {
@@ -15,11 +15,11 @@ module.exports = {
         },
         'alpha': {
             'Bucket': 'zooniverse-static',
-            'Prefix': 'preview.zooniverse.org/transcribe/',
+            'Prefix': 'preview.zooniverse.org/folgerdemo/',
         },
         'preview': {
             'Bucket': 'zooniverse-static',
-            'Prefix': 'preview.zooniverse.org/annotate/',
+            'Prefix': 'preview.zooniverse.org/shakespearesworld/',
         }
     },
 
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     'fonts': {
-        'src' : ['app/fonts/**/*'],
+        'src': ['app/fonts/**/*'],
         'dest': 'build/fonts'
     },
 
@@ -39,7 +39,7 @@ module.exports = {
     },
 
     'images': {
-        'src' : 'app/images/**/*',
+        'src': 'app/images/**/*',
         'dest': 'build/images'
     },
 
@@ -52,7 +52,7 @@ module.exports = {
     },
 
     'scripts': {
-        'src' : 'app/modules/**/*.js',
+        'src': 'app/modules/**/*.js',
         'dest': 'build/js'
     },
 

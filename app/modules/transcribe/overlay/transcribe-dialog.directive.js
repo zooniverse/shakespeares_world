@@ -9,7 +9,7 @@ require('./overlay.module.js')
 // TODO: Find out what ngInject isn't working properly for transcribeDialogController
 
 // @ngInject
-function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory) {
+function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var directive = {
         link: transcribeDialogLink,
         controller: ['$scope', '$element', transcribeDialogController],
@@ -24,25 +24,17 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         $scope.active = false;
         $scope.data = {};
         $scope.transcription = '';
-        $scope.buttons = [
-            { name: 'Insertion', tag: 'insertion' },
-            { name: 'Deletion', tag: 'deletion' },
-            { name: 'Illegible', tag: 'illegible' },
-            { name: 'Foreign Language', tag: 'foreign' }
-        ];
-
         var textarea = $element.find('textarea').first();
-
         var vm = this;
         vm.close = closeDialog;
         vm.open = openDialog;
         vm.saveAndClose = saveAndCloseDialog;
-        vm.tag = tag;
 
         function closeDialog() {
             MarkingSurfaceFactory.enable();
             $scope.active = false;
             hotkeys.del('esc');
+            $rootScope.$broadcast('event:toggle');
         }
 
         function getFocus() {
@@ -61,36 +53,15 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             });
             $timeout(getFocus);
         }
+        closeDialog();
+    }
 
-        function saveAndCloseDialog() {
-            if ($scope.transcription !== $scope.data.text) {
-                $scope.data.text = $scope.transcription;
-                AnnotationsFactory.upsert($scope.data);
-            }
-            closeDialog();
+    function saveAndCloseDialog() {
+        if ($scope.transcription !== $scope.data.text) {
+            $scope.data.text = $scope.transcription;
+            AnnotationsFactory.upsert($scope.data);
         }
-
-        function tag(tagText) {
-            var startTag = '[' + tagText + ']';
-            var endTag = '[/' + tagText + ']';
-
-            var start = textarea.prop('selectionStart');
-            var end = textarea.prop('selectionEnd');
-            var text = textarea.val();
-            var textBefore = text.substring(0, start);
-            var textInBetween;
-            var textAfter;
-
-            if (start === end) {
-                textAfter = text.substring(start, text.length);
-                textarea.val(textBefore + startTag + endTag + textAfter);
-            } else {
-                textInBetween = text.substring(start, end);
-                textAfter = text.substring(end, text.length);
-                textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
-            }
-            getFocus();
-        }
+        closeDialog();
     }
 
     // @ngInject
@@ -107,6 +78,9 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
 
         // Events
         scope.$on('transcribeDialog:open', openDialog);
+        scope.toggleKeypad = function () {
+            $rootScope.$broadcast('event:toggle');
+        }
 
         // Methods
         function openDialog(event, data) {
@@ -141,7 +115,6 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             } else if ((position.left + dialog.width) > overlay.width) {
                 position.left = overlay.width - dialog.width - constant;
             }
-
             scope.position = position;
         }
     }
@@ -157,5 +130,5 @@ function getDimensions(element) {
         offset: element.offset(),
         height: element[0].getBoundingClientRect().height,
         width: element[0].getBoundingClientRect().width
-    };
+    }
 }

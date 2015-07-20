@@ -10,6 +10,8 @@ To install, clone the repo and run `npm install`
 
 To develop locally, run `gulp dev`. Your browser will automatically be opened and directed to the browser-sync proxy address, and the server will serve files from the `/build` directory. Any changes in the `/app` directory will be automatically processed by Gulp, and the changes injected to any open browsers pointed at the proxy address.
 
+To deploy to [http://preview.zooniverse.org/folgerdemo/](http://preview.zooniverse.org/folgerdemo/) run `gulp deploy-alpha`.
+
 ---
 
 ## Built using:

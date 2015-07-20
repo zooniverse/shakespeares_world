@@ -86,7 +86,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
                 .then(function (project) {
                     return zooAPI.type('subjects').get({
                         page: page,
-                        sort: 'cellect',
+                        sort: 'queued',
                         workflow_id: project.links.workflows[0]
                     });
                 })
