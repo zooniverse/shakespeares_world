@@ -8,7 +8,7 @@
 
         <div class="buttons">
             <div class="editing" role="group">
-                <button class="button" ng-bind-html="toTrustedHTML(abbreviation.name)" ng-click="" ng-repeat="abbreviation in abbreviations"></button>
+                <button class="button" ng-bind-html="toTrustedHTML(abbreviation.name)" ng-click="addTag(abbreviation.tag)" ng-repeat="abbreviation in abbreviations"></button>
             </div>
 
         </div>

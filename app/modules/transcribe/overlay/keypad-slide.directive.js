@@ -42,16 +42,14 @@ function keypadSlide(hotkeys, overlayConfig) {
                 textAfter = text.substring(end, text.length);
                 textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
             }
-            var pos = startTag.length;
+            var pos = startTag.length + text.length;
             console.log(pos);
             textarea.caret(pos);
         }
     }
 
     function keypadSlideLink(scope, elem, attrs, dialog) {
-
         scope.tag = dialog.tag;
-
         scope.$on('event:toggle', function () {
             elem.animate({
                 width: 'toggle'
