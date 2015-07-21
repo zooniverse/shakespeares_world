@@ -17,6 +17,9 @@ function keypadSlide(hotkeys, overlayConfig) {
     return directive;
 
     function keypadSlideController($scope, $element, $sce) {
+        $scope.dynamicPopover = {
+            templateUrl: 'overlay/keypad-img-popover.html',
+        };
         $scope.abbreviations = overlayConfig.abbrKeys;
         $scope.tags = overlayConfig.teiTags;
         var textarea = angular.element('textarea').first();
@@ -47,7 +50,6 @@ function keypadSlide(hotkeys, overlayConfig) {
     }
 
     function keypadSlideLink(scope, elem, attrs, dialog) {
-        //  scope.tag = dialog.tag;
         scope.$on('event:toggle', function () {
             elem.animate({
                 width: 'toggle'

@@ -27,7 +27,8 @@ var overlayConfig = {
             },
         {
             name: 'esq.',
-            tag: 'esquire'
+            tag: 'esquire',
+            imgPath: '/images/keypad/esquire.png'
             },
         {
             name: 'ex<sup>t</sup>, exaite',

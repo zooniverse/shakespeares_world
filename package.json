@@ -41,10 +41,11 @@
     "devDependencies": {
         "angular": "^1.3.15",
         "angular-animate": "^1.3.15",
-        "angular-bootstrap": "^0.12.0",
         "angular-hotkeys": "^1.4.5",
         "angular-local-storage": "^0.2.0",
         "angular-mocks": "^1.3.15",
+        "angular-sanitize": "^1.4.2",
+        "angular-bootstrap-npm": "^0.13.0",
         "angular-ui-router": "^0.2.13",
         "babelify": "^5.0.4",
         "bootstrap-styl": "^4.0.3",
@@ -81,6 +82,7 @@
         "imagemin-pngcrush": "^0.1.0",
         "install": "^0.1.8",
         "isparta": "git://github.com/douglasduteil/isparta",
+        "jquery-caret": "^1.3.5",
         "jshint-stylish": "^1.0.0",
         "karma": "^0.12.21",
         "karma-babel-preprocessor": "^4.0.1",
@@ -115,9 +117,9 @@
         "start": "./node_modules/.bin/gulp dev"
     },
     "browser": {
-        "./node_modules/angular-bootstrap/dist/ui-bootstrap-tpls.js": "angular-bootstrap"
+        "./node_modules/angular-bootstrap-npm/dist/angular-bootstrap.min.js": "angular-bootstrap-npm"
     },
     "browserify-shim": {
-        "angular-bootstrap": "angular-bootstrap"
+        "angular-bootstrap-npm": "angular-bootstrap-npm"
     }
 }

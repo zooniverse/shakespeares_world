@@ -5,12 +5,12 @@ var bulk = require('bulk-require');
 
 // Angular modules
 var appConfig = require('./app.config.js');
-require('angular-bootstrap');
-require('angular-local-storage');
-require('angular-ui-router');
-require('angular-hotkeys');
 require('angular-animate');
+require('angular-bootstrap-npm');
+require('angular-hotkeys');
+require('angular-local-storage');
 require('angular-sanitize');
+require('angular-ui-router');
 require('jquery-caret');
 
 // App modules

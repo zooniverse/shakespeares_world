@@ -8,13 +8,11 @@
 
         <div class="buttons">
             <div class="editing" role="group">
-                <button class="button" ng-bind-html="toTrustedHTML(abbreviation.name)" ng-click="addTag(abbreviation.tag)" ng-repeat="abbreviation in abbreviations"></button>
+                <button popover-trigger="mouseenter" popover-placement="left" popover-title="{{abbreviation.tag}}" popover-template="dynamicPopover.templateUrl" class="button" ng-bind-html="toTrustedHTML(abbreviation.name)" ng-click="addTag(abbreviation.tag)" ng-repeat="abbreviation in abbreviations">
+                </button>
             </div>
-
         </div>
-
     </div>
-
     <div class="heading">
         <h3 class="title">TEI tags</h3>
 
