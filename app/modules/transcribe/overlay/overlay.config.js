@@ -23,7 +23,8 @@ var overlayConfig = {
     abbrKeys: [
         {
             name: 'a<sup>o</sup>',
-            tag: 'anno'
+            tag: 'anno',
+            imgPath: '/images/keypad/anno.png'
             },
         {
             name: 'esq.',
@@ -32,67 +33,83 @@ var overlayConfig = {
             },
         {
             name: 'ex<sup>t</sup>, exaite',
-            tag: 'examinant'
+            tag: 'examinant',
+            imgPath: '/images/keypad/examinant.png'
             },
         {
             name: 'Ho:, hono<sup>ble</sup>',
-            tag: 'honorable'
+            tag: 'honorable',
+            imgPath: '/images/keypad/honorable.png'
             },
         {
             name: 'Imp, inp',
-            tag: 'imprimis'
+            tag: 'inprimis',
+            imgPath: '/images/keypad/inprimis.png'
             },
         {
             name: 'Itm, it',
-            tag: 'item'
+            tag: 'item',
+            imgPath: '/images/keypad/item.png'
             },
         {
             name: 'La:, La<sup>p</sup>',
-            tag: 'lady'
+            tag: 'lady',
+            imgPath: '/images/keypad/lady.png'
             },
         {
             name: 'M<sup>r</sup>',
-            tag: 'mister'
+            tag: 'mister',
+            imgPath: '/images/keypad/mister.png'
             },
         {
             name: 'M<sup>rs</sup>, M<sup>ris</sup>',
-            tag: 'mistress'
+            tag: 'mistress',
+            imgPath: '/images/keypad/mistress.png'
             },
         {
             name: 'o<sup>r</sup>',
-            tag: 'our'
+            tag: 'our',
+            imgPath: '/images/keypad/our.png'
             },
         {
             name: 'p<sup>d</sup>',
-            tag: 'paid'
+            tag: 'paid',
+            imgPath: '/images/keypad/paid.png'
             },
         {
             name: 's<sup>r</sup>',
-            tag: 'sir'
+            tag: 'sir',
+            imgPath: '/images/keypad/sir.png'
             },
         {
             name: 'w<sup>ch</sup>',
-            tag: 'which'
+            tag: 'which',
+            imgPath: '/images/keypad/which.png'
             },
         {
             name: 'w<sup>th</sup>, w<sup>t</sup>',
-            tag: 'with'
+            tag: 'with',
+            imgPath: '/images/keypad/with.png'
             },
         {
             name: 'y<sup>e</sup>',
-            tag: 'the'
+            tag: 'the',
+            imgPath: '/images/keypad/the.png'
             },
         {
             name: 'y<sup>t</sup>',
-            tag: 'That'
+            tag: 'that',
+            imgPath: '/images/keypad/that.png'
             },
         {
             name: 'yo<sup>r</sup>, y<sup>r</sup>',
-            tag: 'your'
+            tag: 'your',
+            imgPath: '/images/keypad/your.png'
             },
         {
             name: '-m<sup>t</sup>',
-            tag: '-ment'
+            tag: '-ment',
+            imgPath: '/images/keypad/ment-suf.png'
             }
 
         ]
