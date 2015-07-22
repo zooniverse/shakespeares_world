@@ -53,16 +53,17 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             });
             $timeout(getFocus);
         }
-        closeDialog();
+
+        function saveAndCloseDialog() {
+            if ($scope.transcription !== $scope.data.text) {
+                $scope.data.text = $scope.transcription;
+                AnnotationsFactory.upsert($scope.data);
+            }
+            closeDialog();
+        }
     }
 
-    function saveAndCloseDialog() {
-        if ($scope.transcription !== $scope.data.text) {
-            $scope.data.text = $scope.transcription;
-            AnnotationsFactory.upsert($scope.data);
-        }
-        closeDialog();
-    }
+
 
     // @ngInject
     function transcribeDialogLink(scope, element, attrs, dialog) {
