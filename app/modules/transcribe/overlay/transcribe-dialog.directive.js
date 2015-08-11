@@ -53,7 +53,6 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             });
             $timeout(getFocus);
         }
-        closeDialog();
     }
 
     function saveAndCloseDialog() {
