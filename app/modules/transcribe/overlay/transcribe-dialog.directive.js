@@ -34,7 +34,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             MarkingSurfaceFactory.enable();
             $scope.active = false;
             hotkeys.del('esc');
-            $rootScope.$broadcast('event:toggle');
+            $rootScope.$broadcast('event:close');
         }
 
         function getFocus() {
@@ -76,7 +76,6 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             containment: '.overlay',
             handle: '.heading'
         });
-
         // Events
         scope.$on('transcribeDialog:open', openDialog);
         scope.toggleKeypad = function () {

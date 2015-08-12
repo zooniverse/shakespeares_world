@@ -17,6 +17,7 @@ function keypadSlide(hotkeys, overlayConfig) {
     return directive;
 
     function keypadSlideController($scope, $element, $sce) {
+        $scope.open = false;
         $scope.dynamicPopover = {
             templateUrl: 'overlay/keypad-img-popover.html',
         };
@@ -49,11 +50,18 @@ function keypadSlide(hotkeys, overlayConfig) {
         }
     }
 
-    function keypadSlideLink(scope, elem, attrs, dialog) {
+    function keypadSlideLink(scope, elem, attrs) {
         scope.$on('event:toggle', function () {
             elem.animate({
                 width: 'toggle'
             });
+        });
+        scope.$on('event:close', function () {
+            if (elem.css('display') == 'block') {
+                elem.animate({
+                    width: 'toggle'
+                });
+            }
         });
     }
 }
