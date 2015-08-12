@@ -52,13 +52,10 @@ function keypadSlide(hotkeys, overlayConfig) {
 
     function keypadSlideLink(scope, elem, attrs) {
         scope.$on('event:toggle', function () {
-            //if (elem.css('display') == 'none') {
-                elem.animate({
-                    width: 'toggle'
-                });
-            //}
+            elem.animate({
+                width: 'toggle'
+            });
         });
-
         scope.$on('event:close', function () {
             if (elem.css('display') == 'block') {
                 elem.animate({
