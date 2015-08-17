@@ -5,7 +5,6 @@ require('./transcribe.module.js')
 
 // @ngInject
 function Routes($stateProvider) {
-
     $stateProvider
         .state('Transcribe', {
             url: '/transcribe',
@@ -16,6 +15,10 @@ function Routes($stateProvider) {
                     templateUrl: 'transcribe/transcribe.html',
                     controller: 'TranscribeController as vm'
                 }
+            },
+            params: {
+                hideHook: true,
+                smallFooter: true
             }
         });
 

@@ -1,0 +1,34 @@
+.footer-zooniverse
+    main = #39403e
+    highlight = #ffb03b
+    background-color: rgba(240,240,240,0.6)
+
+    > .container
+        text-align: center
+        padding-bottom: 30px
+        padding-top: 30px
+
+    > .container > svg
+        height: 55px
+        width: 59px
+        fill: highlight
+
+    > .container > p
+        color: main
+        font-size: 18px
+        font-weight: light
+        margin: 30px auto
+        max-width: 800px
+
+    > .container > .button
+        @extend .btn
+        button-variant(main, transparent, main)
+        border-width: 2px
+        display: inline-block
+        font-size: 14px
+        padding: 12px 48px
+
+        &:hover,
+        &:focus,
+        &:active
+            border-color: highlight
