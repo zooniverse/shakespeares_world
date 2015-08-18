@@ -88,7 +88,9 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
                         page: page,
                         sort: 'queued',
                         workflow_id: project.links.workflows[0]
+
                     });
+
                 })
                 .then(function (subjects) {
                     if (!subjects.length) {

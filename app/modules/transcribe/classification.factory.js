@@ -29,8 +29,6 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
             },
             links: {
                 subjects: [SubjectsFactory.current.data.id]
-                    //project: 376,
-                    //workflow: 205
             },
             annotations: []
         };
