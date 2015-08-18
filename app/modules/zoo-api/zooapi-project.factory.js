@@ -19,11 +19,10 @@ function zooAPIProject($q, localStorageService, zooAPIConfig, zooAPI) {
         if (cache) {
             return $q.when(cache);
         } else {
-            return zooAPI.type('projects').get({
-                    slug: zooAPIConfig.slug
-                })
+            return zooAPI.type('projects').get(zooAPIConfig.projectId)
                 .then(function (response) {
                     localStorageService.set('project', response[0]);
+                    console.log(response);
                     return response[0];
                 });
         }

@@ -84,11 +84,14 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
         function getPage(page) {
             return zooAPIProject.get()
                 .then(function (project) {
+                    console.log(project.links.workflows[0])
                     return zooAPI.type('subjects').get({
                         page: page,
                         sort: 'queued',
                         workflow_id: project.links.workflows[0]
+
                     });
+
                 })
                 .then(function (subjects) {
                     if (!subjects.length) {
