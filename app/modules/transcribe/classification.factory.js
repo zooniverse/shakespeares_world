@@ -34,6 +34,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
         };
         return zooAPIProject.get()
             .then(function (project) {
+                console.log(project.id)
                 classification.links.project = project.id;
                 classification.links.workflow = project.links.workflows[0];
                 return zooAPI.type('workflows').get(classification.links.workflow);
