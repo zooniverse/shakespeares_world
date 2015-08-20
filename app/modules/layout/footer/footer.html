@@ -1,6 +1,5 @@
 <footer class="app-footer" ng-class="{ '-small': smallFooter }">
 
-
     <section class="footer-zooniverse" ng-hide="smallFooter">
         <div class="container">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" viewBox="0 0 59 55">
@@ -18,7 +17,7 @@
                     <h4 ng-bind="area.title"></h4>
                     <ul>
                         <li ng-repeat="project in ::area.projects">
-                            <a href="{{ project.url }}" ng-bind="project.name"></a>
+                            <a href="{{project.url}}" ng-bind="project.name"></a>
                         </li>
                     </ul>
                 </section>
