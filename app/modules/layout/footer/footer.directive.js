@@ -9,13 +9,12 @@ function appFooter($state, FooterLinkConstants) {
         link: appFooterLink,
         restrict: 'A',
         replace: true,
-        templateUrl: 'footer/footer.html',
+        templateUrl: 'footer/footer.html'
     };
     return directive;
 
     function appFooterLink(scope) {
         scope.links = FooterLinkConstants;
-
         scope.$watch(function () {
             return $state.current.params;
         }, function (params) {

@@ -4,14 +4,8 @@ var appInfo = require('../../package.json');
 
 var appConfig = {
     appTitle: 'Shakespeare\'s World',
-    appDescription: 'Quisque laoreet, lectus et consectetur molestie, felis mi dignissim magna, at condimentum ipsum nisl id quam. Ut laoreet, ipsum mattis blandit feugiat, leo est sagittis dolor, ac luctus est leo id ex.'
+    appDescription: 'Shakespeare\'s World enables citizen humanists from around the globe to join the effort of transcribing and encoding thousands of early modern manuscripts pages from the Folger Shakespeare Library.'
 };
-
-// @ngInject
-function routes($locationProvider) {
-    $locationProvider.html5Mode(false);
-}
-
 // @ngInject
 function localStorage(localStorageServiceProvider) {
     localStorageServiceProvider
@@ -20,6 +14,5 @@ function localStorage(localStorageServiceProvider) {
 
 module.exports = {
     constants: appConfig,
-    routes: routes,
     localStorage: localStorage
 };

@@ -11,7 +11,7 @@ module.exports = {
     'deploy': {
         'production': {
             'Bucket': 'zooniverse-static',
-            'Prefix': 'anno.tate.org.uk/',
+            'Prefix': '',
         },
         'alpha': {
             'Bucket': 'zooniverse-static',

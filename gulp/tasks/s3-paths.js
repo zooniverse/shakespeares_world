@@ -16,19 +16,20 @@ gulp.task('s3Paths', function () {
         var dest = filename.substring(0, filename.lastIndexOf('/'));
         gulp.src(filename)
 
-            // Links
-            .pipe(replace(/(href=")(?![http|\/\/])/g, '$1' + prefix))
+        // Links
+        //Next line breaks links on S3 bucket, so commented out
+        //.pipe(replace(/(href=")(?![http|\/\/])/g, '$1' + prefix))
 
-            // Images
-            .pipe(replace(/(src=")(?![http|\/\/])/g, '$1' + prefix))
+        // Images
+        .pipe(replace(/(src=")(?![http|\/\/])/g, '$1' + prefix))
 
-            // CSS Urls
-            .pipe(replace(/(url\("\/)/g, '$1' + prefix.substring(1)))
+        // CSS Urls
+        .pipe(replace(/(url\("\/)/g, '$1' + prefix.substring(1)))
 
-            // Base tag, needed for ui-router
-            .pipe(replace('<base href="/">', '<base href="' + prefix + '">'))
+        // Base tag, needed for ui-router
+        .pipe(replace('<base href="/">', '<base href="' + prefix + '">'))
 
-            .pipe(gulp.dest(dest))
+        .pipe(gulp.dest(dest))
             .on('end', deferred.resolve)
             .on('error', deferred.reject);
         return deferred.promise;
@@ -42,4 +43,3 @@ gulp.task('s3Paths', function () {
 
     return Q.all(promises)
 });
-
