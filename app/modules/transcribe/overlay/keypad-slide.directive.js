@@ -9,15 +9,14 @@ require('./overlay.module.js')
 function keypadSlide(hotkeys, overlayConfig) {
     var directive = {
         link: keypadSlideLink,
-        controller: ['$scope', '$element', '$sce', keypadSlideController],
+        controller: ['$scope', '$q', '$element', '$sce', keypadSlideController],
         replace: true,
         scope: true,
         templateUrl: 'overlay/keypad-slide.html'
     };
     return directive;
 
-    function keypadSlideController($scope, $element, $sce) {
-        $scope.open = false;
+    function keypadSlideController($scope, $q, $element, $sce) {
         $scope.dynamicPopover = {
             templateUrl: 'overlay/keypad-img-popover.html',
         };
@@ -48,6 +47,25 @@ function keypadSlide(hotkeys, overlayConfig) {
             }
             textarea.caret(startTag.length + text.length);
         }
+
+        function preLoad() {
+            var deferred = $q.defer();
+            var imageArray = [];
+            for (var i = 0; i < $scope.abbreviations.length; i++) {
+                imageArray[i] = new Image();
+                imageArray[i].src = $scope.abbreviations[i].imgPath;
+            }
+            imageArray.forEach.onload = function () {
+                deferred.resolve();
+                console.log('Resolved');
+            }
+            imageArray.forEach.onerror = function () {
+                deferred.reject();
+                console.log('Rejected')
+            }
+            return deferred.promise;
+        }
+        preLoad();
     }
 
     function keypadSlideLink(scope, elem, attrs) {
@@ -63,5 +81,7 @@ function keypadSlide(hotkeys, overlayConfig) {
                 });
             }
         });
+
+
     }
 }
