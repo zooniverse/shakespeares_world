@@ -49,21 +49,19 @@ function keypadSlide(hotkeys, overlayConfig) {
         }
 
         function preLoad() {
-            var deferred = $q.defer();
             var imageArray = [];
+            var promises = imageArray.map(resolvePromises);
             for (var i = 0; i < $scope.abbreviations.length; i++) {
                 imageArray[i] = new Image();
                 imageArray[i].src = $scope.abbreviations[i].imgPath;
+            };
+
+            function resolvePromises(n) {
+                return $q.when(n);
             }
-            imageArray.forEach.onload = function () {
-                deferred.resolve();
-                console.log('Resolved');
-            }
-            imageArray.forEach.onerror = function () {
-                deferred.reject();
-                console.log('Rejected')
-            }
-            return deferred.promise;
+            $q.all(promises).then(function (results) {
+                console.log('array promises resolved with', results);
+            });
         }
         preLoad();
     }
