@@ -50,7 +50,7 @@ function keypadSlide(hotkeys, overlayConfig) {
 
         function preLoad() {
             var imageArray = [];
-            var promises = imageArray.map(resolvePromises);
+            var promises;
             for (var i = 0; i < $scope.abbreviations.length; i++) {
                 imageArray[i] = new Image();
                 imageArray[i].src = $scope.abbreviations[i].imgPath;
@@ -59,6 +59,7 @@ function keypadSlide(hotkeys, overlayConfig) {
             function resolvePromises(n) {
                 return $q.when(n);
             }
+            promises = imageArray.map(resolvePromises);
             $q.all(promises).then(function (results) {
                 console.log('array promises resolved with', results);
             });
