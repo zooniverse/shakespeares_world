@@ -17,13 +17,9 @@ function keypadSlide(hotkeys, overlayConfig) {
     return directive;
 
     function keypadSlideController($scope, $q, $element, $sce) {
-        $scope.dynamicPopover = {
-            templateUrl: 'overlay/keypad-img-popover.html',
-        };
         $scope.abbreviations = overlayConfig.abbrKeys;
         $scope.tags = overlayConfig.teiTags;
         var textarea = angular.element('textarea').first();
-
         $scope.toTrustedHTML = function (html) {
             return $sce.trustAsHtml(html);
         }
@@ -36,7 +32,6 @@ function keypadSlide(hotkeys, overlayConfig) {
             var textBefore = text.substring(0, start);
             var textInBetween;
             var textAfter;
-
             if (start === end) {
                 textAfter = text.substring(start, text.length);
                 textarea.val(textBefore + startTag + endTag + textAfter);
@@ -47,25 +42,33 @@ function keypadSlide(hotkeys, overlayConfig) {
             }
             textarea.caret(startTag.length + text.length);
         }
+        $scope.dynamicPopover = {
+            templateUrl: 'keypad-img.html'
+        };
 
         function preLoad() {
-            var imageArray = [];
-            var promises;
-            for (var i = 0; i < $scope.abbreviations.length; i++) {
-                imageArray[i] = new Image();
-                imageArray[i].src = $scope.abbreviations[i].imgPath;
-            };
-
-            function resolvePromises(n) {
-                return $q.when(n);
+            function loadImage(src) {
+                return $q(function (resolve, reject) {
+                    var image = new Image();
+                    image.onload = function () {
+                        resolve(image);
+                    };
+                    image.src = src;
+                    image.onerror = function (e) {
+                        reject(e);
+                    };
+                })
             }
-            promises = imageArray.map(resolvePromises);
-            $q.all(promises).then(function (results) {
-                console.log('array promises resolved with', results);
+            var promises = $scope.abbreviations.map(function (imgObj) {
+                return loadImage(imgObj.imgPath);
+            });
+            return $q.all(promises).then(function (results) {
+                $scope.results = results;
             });
         }
         preLoad();
     }
+
 
     function keypadSlideLink(scope, elem, attrs) {
         scope.$on('event:toggle', function () {
@@ -80,7 +83,10 @@ function keypadSlide(hotkeys, overlayConfig) {
                 });
             }
         });
-
-
+        scope.$watch('results', function (newVal, oldVal) {
+            console.log(newVal, oldVal);
+            if (!newVal) return;
+            elem.append(newVal)
+        });
     }
 }
