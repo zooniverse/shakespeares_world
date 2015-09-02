@@ -42,9 +42,6 @@ function keypadSlide(hotkeys, overlayConfig) {
             }
             textarea.caret(startTag.length + text.length);
         }
-        $scope.dynamicPopover = {
-            templateUrl: 'keypad-img.html'
-        };
 
         function preLoad() {
             function loadImage(src) {
@@ -54,6 +51,7 @@ function keypadSlide(hotkeys, overlayConfig) {
                         resolve(image);
                     };
                     image.src = src;
+                    console.log(src);
                     image.onerror = function (e) {
                         reject(e);
                     };
@@ -64,11 +62,13 @@ function keypadSlide(hotkeys, overlayConfig) {
             });
             return $q.all(promises).then(function (results) {
                 $scope.results = results;
+                $scope.dynamicPopover = {
+                    templateUrl: 'overlay/keypad-img.html',
+                }
             });
         }
         preLoad();
     }
-
 
     function keypadSlideLink(scope, elem, attrs) {
         scope.$on('event:toggle', function () {
