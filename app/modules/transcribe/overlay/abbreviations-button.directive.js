@@ -20,6 +20,8 @@ function abbreviationsButton($sce) {
     function keypadButtonLink(scope) {
         scope.html = $sce.trustAsHtml(scope.data.name);
         scope.popoverTemplate = 'overlay/popover.html'
+        var image = new Image();
+        image.src = scope.data.imgPath;
     }
 
 }
