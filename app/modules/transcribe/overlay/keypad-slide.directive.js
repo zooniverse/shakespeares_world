@@ -9,20 +9,18 @@ require('./overlay.module.js')
 function keypadSlide(hotkeys, overlayConfig) {
     var directive = {
         link: keypadSlideLink,
-        controller: ['$scope', '$q', '$element', '$sce', keypadSlideController],
+        controller: ['$scope', '$element', '$sce', keypadSlideController],
         replace: true,
         scope: true,
         templateUrl: 'overlay/keypad-slide.html'
     };
     return directive;
 
-    function keypadSlideController($scope, $q, $element, $sce) {
+    function keypadSlideController($scope, $element, $sce) {
         $scope.abbreviations = overlayConfig.abbrKeys;
         $scope.tags = overlayConfig.teiTags;
         var textarea = angular.element('textarea').first();
-        $scope.toTrustedHTML = function (html) {
-            return $sce.trustAsHtml(html);
-        }
+
         $scope.addTag = function (tagText) {
             var startTag = '<' + tagText + '>';
             var endTag = '</' + tagText + '>';
@@ -42,32 +40,6 @@ function keypadSlide(hotkeys, overlayConfig) {
             }
             textarea.caret(startTag.length + text.length);
         }
-
-        function preLoad() {
-            function loadImage(src) {
-                return $q(function (resolve, reject) {
-                    var image = new Image();
-                    image.onload = function () {
-                        resolve(image);
-                    };
-                    image.src = src;
-                    console.log(src);
-                    image.onerror = function (e) {
-                        reject(e);
-                    };
-                })
-            }
-            var promises = $scope.abbreviations.map(function (imgObj) {
-                return loadImage(imgObj.imgPath);
-            });
-            return $q.all(promises).then(function (results) {
-                $scope.results = results;
-                $scope.dynamicPopover = {
-                    templateUrl: 'overlay/keypad-img.html',
-                }
-            });
-        }
-        preLoad();
     }
 
     function keypadSlideLink(scope, elem, attrs) {
@@ -82,11 +54,6 @@ function keypadSlide(hotkeys, overlayConfig) {
                     width: 'toggle'
                 });
             }
-        });
-        scope.$watch('results', function (newVal, oldVal) {
-            console.log(newVal, oldVal);
-            if (!newVal) return;
-            elem.append(newVal)
         });
     }
 }

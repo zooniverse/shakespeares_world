@@ -8,8 +8,7 @@
 
         <div class="buttons">
             <div class="editing" role="group">
-                <button popover-trigger="mouseenter" popover-placement="left" popover-title="{{abbreviation.tag}}" popover-template="dynamicPopover.templateUrl" class="button" ng-bind-html="toTrustedHTML(abbreviation.name)" ng-click="addTag(abbreviation.tag)" ng-repeat="abbreviation in abbreviations">
-                </button>
+                <div ng-repeat="abbreviation in abbreviations" abbreviations-button data="abbreviation" ng-click="addTag(abbreviation.tag)"></div>
             </div>
         </div>
     </div>
