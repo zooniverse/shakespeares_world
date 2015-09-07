@@ -17,17 +17,10 @@ function keypadSlide(hotkeys, overlayConfig) {
     return directive;
 
     function keypadSlideController($scope, $element, $sce) {
-        $scope.open = false;
-        $scope.dynamicPopover = {
-            templateUrl: 'overlay/keypad-img-popover.html',
-        };
         $scope.abbreviations = overlayConfig.abbrKeys;
         $scope.tags = overlayConfig.teiTags;
         var textarea = angular.element('textarea').first();
 
-        $scope.toTrustedHTML = function (html) {
-            return $sce.trustAsHtml(html);
-        }
         $scope.addTag = function (tagText) {
             var startTag = '<' + tagText + '>';
             var endTag = '</' + tagText + '>';
@@ -37,7 +30,6 @@ function keypadSlide(hotkeys, overlayConfig) {
             var textBefore = text.substring(0, start);
             var textInBetween;
             var textAfter;
-
             if (start === end) {
                 textAfter = text.substring(start, text.length);
                 textarea.val(textBefore + startTag + endTag + textAfter);
