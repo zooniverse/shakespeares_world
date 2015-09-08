@@ -25,7 +25,6 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
         // Setup
         var hammerElement;
         hammerElement = new Hammer(element[0]);
-
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
@@ -33,14 +32,43 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
         // Methods
         function $destroy() {
             hammerElement.destroy();
+            var data = _.clone(scope.data, true);
+            $rootScope.$broadcast('annotation:delete', data);
         }
+        scope.$watch(function () {
+                return scope.data.complete;
+            },
+            function (newVal, oldVal) {
+                if (newVal && !oldVal) {
+                    openGraphicDialog();
+                }
+            });
 
         function openContextMenu(event) {
-            $rootScope.$broadcast('contextMenu:open', {
+            var contextMenuData = {
                 event: event,
-                menuOptions: [{ name: 'Delete', action: _.partial(AnnotationsFactory.destroy, scope.data) }]
+                menuOptions: [{
+                    name: 'Delete',
+                    action: _.partial(AnnotationsFactory.destroy, scope.data)
+                        }]
+            };
+
+            if (scope.data.type === 'image') {
+                contextMenuData.menuOptions.unshift({
+                    name: 'Edit',
+                    action: openGraphicDialog
+                });
+            }
+            $rootScope.$broadcast('contextMenu:open', contextMenuData);
+        }
+
+        function openGraphicDialog() {
+            $rootScope.$broadcast('graphicDialog:open', {
+                annotation: scope.data,
+                element: element
             });
         }
+
     }
 
 }

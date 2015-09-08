@@ -4,25 +4,27 @@ var angular = require('angular');
 var Draggabilly = require('draggabilly');
 
 require('./overlay.module.js')
-    .directive('transcribeDialog', transcribeDialog);
+    .directive('graphicDialog', graphicDialog);
+
+// TODO: Find out what ngInject isn't working properly for transcribeDialogController
 
 // @ngInject
-function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function graphicDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var directive = {
-        link: transcribeDialogLink,
-        controller: ['$scope', '$element', transcribeDialogController],
+        link: graphicDialogLink,
+        controller: ['$scope', '$element', graphicDialogController],
         replace: true,
         scope: true,
-        templateUrl: 'overlay/transcribe-dialog.html'
+        templateUrl: 'overlay/graphic-dialog.html'
     };
     return directive;
 
     // @ngInject
-    function transcribeDialogController($scope, $element) {
+    function graphicDialogController($scope, $element) {
         $scope.active = false;
         $scope.data = {};
         $scope.transcription = '';
-        var textarea = $element.find('textarea').first();
+        $scope.graphics = overlayConfig.graphics;
         var vm = this;
         vm.close = closeDialog;
         vm.open = openDialog;
@@ -35,23 +37,21 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             $rootScope.$broadcast('event:close');
         }
 
-        function getFocus() {
-            textarea[0].focus();
-        }
 
         function openDialog(data) {
             MarkingSurfaceFactory.disable();
             $scope.active = true;
             $scope.data = data.annotation;
+
+            ////////////////////////////////////////////////////
+            //what is the right way to access annotations here?/
             console.log(data.annotation);
-            $scope.transcription = data.annotation.text;
-            console.log(data.annotation.text);
+            $scope.transcription = data.annotation.image;
             hotkeys.add({
-                allowIn: ['TEXTAREA'],
                 callback: closeDialog,
                 combo: 'esc'
             });
-            $timeout(getFocus);
+            //$timeout(getFocus);
         }
 
         function saveAndCloseDialog() {
@@ -61,10 +61,14 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             }
             closeDialog();
         }
+        $scope.addTag = function (tagText) {
+            var tag = tagText;
+            console.log(tag);
+        }
     }
 
     // @ngInject
-    function transcribeDialogLink(scope, element, attrs, dialog) {
+    function graphicDialogLink(scope, element, attrs, dialog) {
 
         // Setup
         scope.close = dialog.close;
@@ -75,11 +79,8 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             handle: '.heading'
         });
         // Events
-        scope.$on('transcribeDialog:open', openDialog);
+        scope.$on('graphicDialog:open', openDialog);
         scope.$on('annotation:delete', closeDialogAfterDelete);
-        scope.toggleKeypad = function () {
-            $rootScope.$broadcast('event:toggle');
-        }
 
         // Methods
         function closeDialogAfterDelete(event, deleted) {

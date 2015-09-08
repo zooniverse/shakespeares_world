@@ -1,25 +1,6 @@
 'use strict';
 
 var overlayConfig = {
-
-    teiTags: [
-        {
-            name: 'Expansion',
-            tag: 'ex'
-            },
-        {
-            name: 'Insertion',
-            tag: 'ins'
-            },
-        {
-            name: 'Deletion',
-            tag: 'del'
-            },
-        {
-            name: 'Unclear, unsure',
-            tag: 'unclear'
-            }
-        ],
     abbrKeys: [
         {
             name: 'a<sup>o</sup>',
@@ -112,6 +93,66 @@ var overlayConfig = {
             imgPath: 'images/keypad/ment-suf.png'
             }
 
+        ],
+    teiTags: [
+        {
+            name: 'Expansion',
+            tag: 'ex'
+            },
+        {
+            name: 'Insertion',
+            tag: 'ins'
+            },
+        {
+            name: 'Deletion',
+            tag: 'del'
+            },
+        {
+            name: 'Unclear, unsure',
+            tag: 'unclear'
+            }
+        ],
+
+    graphics: [
+        {
+            name: 'Bookplate',
+            tag: '<graphic>bookplate<graphic/>'
+            },
+        {
+            name: 'Bookseller/Library Code',
+            tag: '<graphic>bookseller-library-code<graphic/>'
+
+            },
+        {
+            name: 'Book Owner Stamp',
+            tag: '<graphic>book-owner-stamp<graphic/>'
+
+            },
+        {
+            name: 'Coat of Arms',
+            tag: '<graphic>coat-of-arms<graphic/>'
+
+            },
+        {
+            name: 'Illustration',
+            tag: '<graphic>illustration<graphic/>'
+            },
+        {
+            name: 'Inhabited initial',
+            tag: '<graphic>inhabited-initial<graphic/>'
+            },
+        {
+            name: 'Map',
+            tag: '<graphic>map<graphic/>'
+            },
+        {
+            name: 'Manicule',
+            tag: '<graphic>manicule<graphic/>'
+            },
+        {
+            name: 'Trefoil/Quatrefoil',
+            tag: '<graphic>trefoil-quatrefoil<graphic/>'
+            }
         ]
 };
 
