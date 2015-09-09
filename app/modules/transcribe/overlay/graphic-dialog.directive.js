@@ -26,7 +26,6 @@ function graphicDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Markin
         $scope.graphics = overlayConfig.graphics;
         $scope.setType = function (graphic) {
             $scope.data.tag = graphic.tag;
-            console.log($scope.data.tag)
         }
         var vm = this;
         vm.close = closeDialog;
