@@ -28,7 +28,6 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-        console.log(scope.data.tag);
         if (!scope.data.tag) {
             openGraphicDialog();
         }
@@ -39,8 +38,6 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
             var data = _.clone(scope.data, true);
             $rootScope.$broadcast('annotation:delete', data);
         }
-
-
 
         function openContextMenu(event) {
             var contextMenuData = {
