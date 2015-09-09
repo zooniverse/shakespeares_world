@@ -43,9 +43,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             MarkingSurfaceFactory.disable();
             $scope.active = true;
             $scope.data = data.annotation;
-            console.log(data.annotation);
             $scope.transcription = data.annotation.text;
-            console.log(data.annotation.text);
             hotkeys.add({
                 allowIn: ['TEXTAREA'],
                 callback: closeDialog,

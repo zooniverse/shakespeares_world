@@ -23,12 +23,16 @@ function graphicDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Markin
     function graphicDialogController($scope, $element) {
         $scope.active = false;
         $scope.data = {};
-        $scope.transcription = '';
         $scope.graphics = overlayConfig.graphics;
+        $scope.setType = function (graphic) {
+            $scope.data.tag = graphic.tag;
+            console.log($scope.data.tag)
+        }
         var vm = this;
         vm.close = closeDialog;
         vm.open = openDialog;
         vm.saveAndClose = saveAndCloseDialog;
+
 
         function closeDialog() {
             MarkingSurfaceFactory.enable();
@@ -37,33 +41,19 @@ function graphicDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Markin
             $rootScope.$broadcast('event:close');
         }
 
-
         function openDialog(data) {
             MarkingSurfaceFactory.disable();
             $scope.active = true;
             $scope.data = data.annotation;
-
-            ////////////////////////////////////////////////////
-            //what is the right way to access annotations here?/
-            console.log(data.annotation);
-            $scope.transcription = data.annotation.image;
             hotkeys.add({
                 callback: closeDialog,
                 combo: 'esc'
             });
-            //$timeout(getFocus);
         }
 
         function saveAndCloseDialog() {
-            if ($scope.transcription !== $scope.data.text) {
-                $scope.data.text = $scope.transcription;
-                AnnotationsFactory.upsert($scope.data);
-            }
+            AnnotationsFactory.upsert($scope.data);
             closeDialog();
-        }
-        $scope.addTag = function (tagText) {
-            var tag = tagText;
-            console.log(tag);
         }
     }
 

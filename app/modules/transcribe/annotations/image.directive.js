@@ -35,14 +35,6 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
             var data = _.clone(scope.data, true);
             $rootScope.$broadcast('annotation:delete', data);
         }
-        scope.$watch(function () {
-                return scope.data.complete;
-            },
-            function (newVal, oldVal) {
-                if (newVal && !oldVal) {
-                    openGraphicDialog();
-                }
-            });
 
         function openContextMenu(event) {
             var contextMenuData = {

@@ -10,7 +10,6 @@
     width: 550px
     z-index: -1
 
-
     &.-active
         opacity: 1
         z-index: 2
@@ -63,6 +62,12 @@
 
     > .body > .buttons > .editing
         margin-bottom: 15px
+
+    > .body > .buttons > .editing > .button.-checked
+        @extend .btn
+        @extend .btn-default
+        background-color: light-grey
+        border-color: medium-grey
 
     > .body > .buttons > .editing > .button:not(:first-child):not(:last-child)
         border-radius: 0
