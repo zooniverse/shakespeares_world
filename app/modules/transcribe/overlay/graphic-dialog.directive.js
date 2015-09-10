@@ -10,49 +10,13 @@ require('./overlay.module.js')
 function graphicDialog() {
     var directive = {
         link: graphicDialogLink,
-        controller: ['$scope', '$element', graphicDialogController],
+        controllerAs: 'vm',
+        controller: graphicDialogController,
         replace: true,
         scope: true,
         templateUrl: 'overlay/graphic-dialog.html'
     };
     return directive;
-
-    // @ngInject
-    function graphicDialogController($scope, $element) {
-        $scope.active = false;
-        $scope.data = {};
-        $scope.graphics = overlayConfig.graphics;
-        $scope.setType = function (graphic) {
-            $scope.data.tag = graphic.tag;
-        }
-        var vm = this;
-        vm.close = closeDialog;
-        vm.open = openDialog;
-        vm.saveAndClose = saveAndCloseDialog;
-
-
-        function closeDialog() {
-            MarkingSurfaceFactory.enable();
-            $scope.active = false;
-            hotkeys.del('esc');
-            $rootScope.$broadcast('event:close');
-        }
-
-        function openDialog(data) {
-            MarkingSurfaceFactory.disable();
-            $scope.active = true;
-            $scope.data = data.annotation;
-            hotkeys.add({
-                callback: closeDialog,
-                combo: 'esc'
-            });
-        }
-
-        function saveAndCloseDialog() {
-            AnnotationsFactory.upsert($scope.data);
-            closeDialog();
-        }
-    }
 
     // @ngInject
     function graphicDialogLink(scope, element, attrs, dialog) {
@@ -110,6 +74,45 @@ function graphicDialog() {
             }
             scope.position = position;
         }
+    }
+}
+
+
+// @ngInject
+function graphicDialogController($scope, $rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+    var vm = this;
+    $scope.active = false;
+    $scope.data = {};
+    $scope.graphics = overlayConfig.graphics;
+    vm.setType = setType;
+    vm.close = closeDialog;
+    vm.open = openDialog;
+    vm.saveAndClose = saveAndCloseDialog;
+
+    function setType(graphic) {
+        $scope.data.tag = graphic.tag;
+    }
+
+    function closeDialog() {
+        MarkingSurfaceFactory.enable();
+        $scope.active = false;
+        hotkeys.del('esc');
+        $rootScope.$broadcast('event:close');
+    }
+
+    function openDialog(data) {
+        MarkingSurfaceFactory.disable();
+        $scope.active = true;
+        $scope.data = data.annotation;
+        hotkeys.add({
+            callback: closeDialog,
+            combo: 'esc'
+        });
+    }
+
+    function saveAndCloseDialog() {
+        AnnotationsFactory.upsert($scope.data);
+        closeDialog();
     }
 }
 
