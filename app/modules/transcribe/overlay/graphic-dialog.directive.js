@@ -9,7 +9,7 @@ require('./overlay.module.js')
 // TODO: Find out what ngInject isn't working properly for transcribeDialogController
 
 // @ngInject
-function graphicDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function graphicDialog() {
     var directive = {
         link: graphicDialogLink,
         controller: ['$scope', '$element', graphicDialogController],
