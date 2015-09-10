@@ -1,8 +1,8 @@
-<div aria-label="Graphic" aria-hidden="{{ !active }}" class="graphic-dialog" ng-class="{ '-active': active }" ng-style="position" role="dialog" tabindex="-1">
+<div aria-label="Graphic" aria-hidden="{{ !active }}" class="graphic-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1">
 
     <div class="heading">
         <h3 class="title">Select one of the following graphic tags</h3>
-        <button class="close" role="button" ng-click="close($event)">
+        <button class="close" role="button" ng-click="vm.close($event)">
             <span class="icon" aria-hidden="true"></span>
             <span class="text">Close</span>
         </button>
@@ -10,7 +10,7 @@
     <div class="body">
         <div class="buttons">
             <div class="editing" role="group">
-                <button class="button" ng-class="{'-checked': graphic.tag === data.tag}" ng-click="vm.setType(graphic)" ng-repeat="graphic in vm.graphics">{{graphic.name}}
+                <button class="button" ng-class="{'-checked': graphic.tag === vm.data.tag}" ng-click="vm.setType(graphic)" ng-repeat="graphic in vm.graphics">{{graphic.name}}
                 </button>
             </div>
         </div>

@@ -111,7 +111,7 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
     }
 
     function saveAndCloseDialog() {
-        AnnotationsFactory.upsert($scope.data);
+        AnnotationsFactory.upsert(vm.data);
         closeDialog();
     }
 }
