@@ -79,31 +79,31 @@ function graphicDialog() {
 
 
 // @ngInject
-function graphicDialogController($scope, $rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
-    $scope.active = false;
-    $scope.data = {};
-    $scope.graphics = overlayConfig.graphics;
+    vm.active = false;
+    vm.data = {};
+    vm.graphics = overlayConfig.graphics;
     vm.setType = setType;
     vm.close = closeDialog;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
 
     function setType(graphic) {
-        $scope.data.tag = graphic.tag;
+        vm.data.tag = graphic.tag;
     }
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
-        $scope.active = false;
+        vm.active = false;
         hotkeys.del('esc');
         $rootScope.$broadcast('event:close');
     }
 
     function openDialog(data) {
         MarkingSurfaceFactory.disable();
-        $scope.active = true;
-        $scope.data = data.annotation;
+        vm.active = true;
+        vm.data = data.annotation;
         hotkeys.add({
             callback: closeDialog,
             combo: 'esc'
