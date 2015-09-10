@@ -28,6 +28,7 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
+        // if tag is undefined open dialog
         if (!scope.data.tag) {
             openGraphicDialog();
         }
