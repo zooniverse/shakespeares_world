@@ -29,20 +29,20 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
         hammerElement = new Hammer(element[0]);
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-
+        scope.$watch(function () {
+                            return scope.data.complete;
+                        },
+                        function (newVal, oldVal) {
+                            if (newVal && !oldVal) {
+                                openTranscribeDialog();
+                            }
+                        });
         // Methods
         function $destroy() {
             hammerElement.destroy();
+            var data = _.clone(scope.data, true);
+            $rootScope.$broadcast('annotation:delete', data);
         }
-
-        scope.$watch(function () {
-                return scope.data.complete;
-            },
-            function (newVal, oldVal) {
-                if (newVal && !oldVal) {
-                    openTranscribeDialog();
-                }
-            });
 
         function openContextMenu(event) {
             var contextMenuData = {

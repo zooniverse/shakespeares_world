@@ -1,25 +1,6 @@
 'use strict';
 
 var overlayConfig = {
-
-    teiTags: [
-        {
-            name: 'Expansion',
-            tag: 'ex'
-            },
-        {
-            name: 'Insertion',
-            tag: 'ins'
-            },
-        {
-            name: 'Deletion',
-            tag: 'del'
-            },
-        {
-            name: 'Unclear, unsure',
-            tag: 'unclear'
-            }
-        ],
     abbrKeys: [
         {
             name: 'a<sup>o</sup>',
@@ -112,7 +93,67 @@ var overlayConfig = {
             imgPath: 'images/keypad/ment-suf.png'
             }
 
-        ]
+        ],
+    teiTags: [
+        {
+            name: 'Expansion',
+            tag: 'ex'
+            },
+        {
+            name: 'Insertion',
+            tag: 'ins'
+            },
+        {
+            name: 'Deletion',
+            tag: 'del'
+            },
+        {
+            name: 'Unclear, unsure',
+            tag: 'unclear'
+            }
+        ],
+
+    graphics: {
+        bookplate: {
+            name: 'Bookplate',
+            tag: '<graphic>bookplate<graphic/>'
+        },
+        booksellerLibrary: {
+            name: 'Bookseller/Library Code',
+            tag: '<graphic>bookseller-library-code<graphic/>'
+
+        },
+        bookOwnerStamp: {
+            name: 'Book Owner Stamp',
+            tag: '<graphic>book-owner-stamp<graphic/>'
+
+        },
+        coatOfArms: {
+            name: 'Coat of Arms',
+            tag: '<graphic>coat-of-arms<graphic/>'
+
+        },
+        illustration: {
+            name: 'Illustration',
+            tag: '<graphic>illustration<graphic/>'
+        },
+        initial: {
+            name: 'Inhabited initial',
+            tag: '<graphic>inhabited-initial<graphic/>'
+        },
+        map: {
+            name: 'Map',
+            tag: '<graphic>map<graphic/>'
+        },
+        manicule: {
+            name: 'Manicule',
+            tag: '<graphic>manicule<graphic/>'
+        },
+        treQuatrefoil: {
+            name: 'Trefoil/Quatrefoil',
+            tag: '<graphic>trefoil-quatrefoil<graphic/>'
+        }
+    }
 };
 
 module.exports = {

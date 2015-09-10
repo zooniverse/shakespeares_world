@@ -4,65 +4,22 @@ var angular = require('angular');
 var Draggabilly = require('draggabilly');
 
 require('./overlay.module.js')
-    .directive('transcribeDialog', transcribeDialog);
+    .directive('graphicDialog', graphicDialog);
 
 // @ngInject
-function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function graphicDialog() {
     var directive = {
-        link: transcribeDialogLink,
-        controller: ['$scope', '$element', transcribeDialogController],
+        link: graphicDialogLink,
+        controllerAs: 'vm',
+        controller: graphicDialogController,
         replace: true,
         scope: true,
-        templateUrl: 'overlay/transcribe-dialog.html'
+        templateUrl: 'overlay/graphic-dialog.html'
     };
     return directive;
 
     // @ngInject
-    function transcribeDialogController($scope, $element) {
-        $scope.active = false;
-        $scope.data = {};
-        $scope.transcription = '';
-        var textarea = $element.find('textarea').first();
-        var vm = this;
-        vm.close = closeDialog;
-        vm.open = openDialog;
-        vm.saveAndClose = saveAndCloseDialog;
-
-        function closeDialog() {
-            MarkingSurfaceFactory.enable();
-            $scope.active = false;
-            hotkeys.del('esc');
-            $rootScope.$broadcast('event:close');
-        }
-
-        function getFocus() {
-            textarea[0].focus();
-        }
-
-        function openDialog(data) {
-            MarkingSurfaceFactory.disable();
-            $scope.active = true;
-            $scope.data = data.annotation;
-            $scope.transcription = data.annotation.text;
-            hotkeys.add({
-                allowIn: ['TEXTAREA'],
-                callback: closeDialog,
-                combo: 'esc'
-            });
-            $timeout(getFocus);
-        }
-
-        function saveAndCloseDialog() {
-            if ($scope.transcription !== $scope.data.text) {
-                $scope.data.text = $scope.transcription;
-                AnnotationsFactory.upsert($scope.data);
-            }
-            closeDialog();
-        }
-    }
-
-    // @ngInject
-    function transcribeDialogLink(scope, element, attrs, dialog) {
+    function graphicDialogLink(scope, element, attrs, dialog) {
 
         // Setup
         scope.close = dialog.close;
@@ -73,11 +30,8 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             handle: '.heading'
         });
         // Events
-        scope.$on('transcribeDialog:open', openDialog);
+        scope.$on('graphicDialog:open', openDialog);
         scope.$on('annotation:delete', closeDialogAfterDelete);
-        scope.toggleKeypad = function () {
-            $rootScope.$broadcast('event:toggle');
-        }
 
         // Methods
         function closeDialogAfterDelete(event, deleted) {
@@ -120,6 +74,45 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
             }
             scope.position = position;
         }
+    }
+}
+
+
+// @ngInject
+function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+    var vm = this;
+    vm.active = false;
+    vm.data = {};
+    vm.graphics = overlayConfig.graphics;
+    vm.setType = setType;
+    vm.close = closeDialog;
+    vm.open = openDialog;
+    vm.saveAndClose = saveAndCloseDialog;
+
+    function setType(graphic) {
+        vm.data.tag = graphic.tag;
+    }
+
+    function closeDialog() {
+        MarkingSurfaceFactory.enable();
+        vm.active = false;
+        hotkeys.del('esc');
+        $rootScope.$broadcast('event:close');
+    }
+
+    function openDialog(data) {
+        MarkingSurfaceFactory.disable();
+        vm.active = true;
+        vm.data = data.annotation;
+        hotkeys.add({
+            callback: closeDialog,
+            combo: 'esc'
+        });
+    }
+
+    function saveAndCloseDialog() {
+        AnnotationsFactory.upsert(vm.data);
+        closeDialog();
     }
 }
 

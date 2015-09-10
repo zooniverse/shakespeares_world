@@ -20,6 +20,7 @@ function draggable($rootScope, AnnotationsFactory, MarkingSurfaceFactory) {
     };
     return directive;
 
+
 //     function draggableLink(scope, element, attrs) {
 
 //         // Setup
@@ -132,3 +133,4 @@ function draggable($rootScope, AnnotationsFactory, MarkingSurfaceFactory) {
 //     }
 
 }
+
