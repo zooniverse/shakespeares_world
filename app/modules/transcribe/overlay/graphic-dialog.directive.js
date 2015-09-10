@@ -6,8 +6,6 @@ var Draggabilly = require('draggabilly');
 require('./overlay.module.js')
     .directive('graphicDialog', graphicDialog);
 
-// TODO: Find out what ngInject isn't working properly for transcribeDialogController
-
 // @ngInject
 function graphicDialog() {
     var directive = {
