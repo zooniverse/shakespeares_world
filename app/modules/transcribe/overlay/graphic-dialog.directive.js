@@ -20,7 +20,6 @@ function graphicDialog() {
 
     // @ngInject
     function graphicDialogLink(scope, element, attrs, dialog) {
-
         // Setup
         scope.close = dialog.close;
         scope.saveAndClose = dialog.saveAndClose;
@@ -76,7 +75,6 @@ function graphicDialog() {
         }
     }
 }
-
 
 // @ngInject
 function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {

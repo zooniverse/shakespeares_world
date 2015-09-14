@@ -7,10 +7,11 @@ require('./overlay.module.js')
     .directive('transcribeDialog', transcribeDialog);
 
 // @ngInject
-function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function transcribeDialog() {
     var directive = {
         link: transcribeDialogLink,
-        controller: ['$scope', '$element', transcribeDialogController],
+        controllerAs: 'vm',
+        controller: transcribeDialogController,
         replace: true,
         scope: true,
         templateUrl: 'overlay/transcribe-dialog.html'
@@ -18,52 +19,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
     return directive;
 
     // @ngInject
-    function transcribeDialogController($scope, $element) {
-        $scope.active = false;
-        $scope.data = {};
-        $scope.transcription = '';
-        var textarea = $element.find('textarea').first();
-        var vm = this;
-        vm.close = closeDialog;
-        vm.open = openDialog;
-        vm.saveAndClose = saveAndCloseDialog;
-
-        function closeDialog() {
-            MarkingSurfaceFactory.enable();
-            $scope.active = false;
-            hotkeys.del('esc');
-            $rootScope.$broadcast('event:close');
-        }
-
-        function getFocus() {
-            textarea[0].focus();
-        }
-
-        function openDialog(data) {
-            MarkingSurfaceFactory.disable();
-            $scope.active = true;
-            $scope.data = data.annotation;
-            $scope.transcription = data.annotation.text;
-            hotkeys.add({
-                allowIn: ['TEXTAREA'],
-                callback: closeDialog,
-                combo: 'esc'
-            });
-            $timeout(getFocus);
-        }
-
-        function saveAndCloseDialog() {
-            if ($scope.transcription !== $scope.data.text) {
-                $scope.data.text = $scope.transcription;
-                AnnotationsFactory.upsert($scope.data);
-            }
-            closeDialog();
-        }
-    }
-
-    // @ngInject
     function transcribeDialogLink(scope, element, attrs, dialog) {
-
         // Setup
         scope.close = dialog.close;
         scope.saveAndClose = dialog.saveAndClose;
@@ -75,9 +31,7 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         // Events
         scope.$on('transcribeDialog:open', openDialog);
         scope.$on('annotation:delete', closeDialogAfterDelete);
-        scope.toggleKeypad = function () {
-            $rootScope.$broadcast('event:toggle');
-        }
+
 
         // Methods
         function closeDialogAfterDelete(event, deleted) {
@@ -122,6 +76,55 @@ function transcribeDialog($rootScope, $timeout, AnnotationsFactory, hotkeys, Mar
         }
     }
 }
+// @ngInject
+function transcribeDialogController($rootScope, $scope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+    var vm = this;
+    var textarea = $element.find('textarea').first();
+    vm.active = false;
+    vm.data = {};
+    vm.transcription = '';
+    vm.keypad = toggleKeypad;
+    vm.close = closeDialog;
+    vm.open = openDialog;
+    vm.saveAndClose = saveAndCloseDialog;
+
+    function toggleKeypad() {
+        $rootScope.$broadcast('event:toggle');
+    }
+
+    function closeDialog() {
+        MarkingSurfaceFactory.enable();
+        vm.active = false;
+        hotkeys.del('esc');
+        $rootScope.$broadcast('event:close');
+    }
+
+    function getFocus() {
+        textarea[0].focus();
+    }
+
+    function openDialog(data) {
+        MarkingSurfaceFactory.disable();
+        vm.active = true;
+        vm.data = data.annotation;
+        vm.transcription = data.annotation.text;
+        hotkeys.add({
+            allowIn: ['TEXTAREA'],
+            callback: closeDialog,
+            combo: 'esc'
+        });
+        $timeout(getFocus);
+    }
+
+    function saveAndCloseDialog() {
+        if (vm.transcription !== vm.data.text) {
+            vm.data.text = vm.transcription;
+            AnnotationsFactory.upsert(vm.data);
+        }
+        closeDialog();
+    }
+}
+
 
 // Utility function to derive dimensions and offsets for dialog positioning,
 // using getBoundingClientRect for SVG compatibility.
