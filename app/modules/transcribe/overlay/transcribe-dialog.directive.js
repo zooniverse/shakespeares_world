@@ -101,6 +101,7 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
     }
 
     function openDialog(data) {
+        $rootScope.$broadcast('event:toggle');
         MarkingSurfaceFactory.disable();
         vm.active = true;
         vm.data = data.annotation;

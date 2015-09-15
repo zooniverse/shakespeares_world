@@ -59,6 +59,7 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
         }
 
         function openTranscribeDialog() {
+
             $rootScope.$broadcast('transcribeDialog:open', {
                 annotation: scope.data,
                 element: element
