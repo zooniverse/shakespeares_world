@@ -71,7 +71,9 @@ function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactor
     }
 
     function _isLastAnnotationIncomplete() {
-        var last = _.filter(AnnotationsFactory.list(), { type: 'text' }).slice(-1)[0];
+        var last = _.filter(AnnotationsFactory.list(), {
+            type: 'text'
+        }).slice(-1)[0];
         return (_.isUndefined(last) || last.complete) ? false : last;
     }
 

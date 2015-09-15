@@ -112,8 +112,7 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
     }
 
     function _startRect(event) {
-
-        if (_enabled && event.target.nodeName === 'marginalia') {
+        if (_enabled && event.target.nodeName === 'image') {
             _hammer.on('panmove', _drawRect);
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);

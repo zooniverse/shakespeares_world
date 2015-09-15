@@ -23,5 +23,4 @@ function abbreviationsButton($sce) {
         var image = new Image();
         image.src = scope.data.imgPath;
     }
-
 }
