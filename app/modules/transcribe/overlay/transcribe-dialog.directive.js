@@ -118,11 +118,10 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
         if (vm.transcription !== vm.data.text) {
             if (vm.data.type === 'marginalia') {
                 vm.data.text = '<label>' + vm.transcription + '</label>';
-                AnnotationsFactory.upsert(vm.data);
             } else {
                 vm.data.text = vm.transcription;
-                AnnotationsFactory.upsert(vm.data);
             }
+            AnnotationsFactory.upsert(vm.data);
         }
         closeDialog();
     }
