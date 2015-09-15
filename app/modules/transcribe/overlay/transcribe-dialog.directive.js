@@ -30,16 +30,7 @@ function transcribeDialog() {
         });
         // Events
         scope.$on('transcribeDialog:open', openDialog);
-        scope.$on('annotation:delete', closeDialogAfterDelete);
-
-
         // Methods
-        function closeDialogAfterDelete(event, deleted) {
-            if (scope.data && scope.data.$$hashKey && deleted.$$hashKey === scope.data.$$hashKey) {
-                dialog.close();
-            }
-        }
-
         function openDialog(event, data) {
             dialog.open(data);
             positionDialog(event, data);
@@ -77,7 +68,7 @@ function transcribeDialog() {
     }
 }
 // @ngInject
-function transcribeDialogController($rootScope, $scope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function transcribeDialogController($rootScope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory) {
     var vm = this;
     var textarea = $element.find('textarea').first();
     vm.active = false;
@@ -87,6 +78,12 @@ function transcribeDialogController($rootScope, $scope, $element, $timeout, Anno
     vm.close = closeDialog;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
+
+    $rootScope.$on('annotation:delete', function (event, deleted) {
+        if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
+            closeDialog();
+        }
+    });
 
     function toggleKeypad() {
         $rootScope.$broadcast('event:toggle');
@@ -104,6 +101,7 @@ function transcribeDialogController($rootScope, $scope, $element, $timeout, Anno
     }
 
     function openDialog(data) {
+        $rootScope.$broadcast('event:toggle');
         MarkingSurfaceFactory.disable();
         vm.active = true;
         vm.data = data.annotation;

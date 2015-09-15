@@ -4,23 +4,22 @@ var _ = require('lodash');
 var Hammer = require('hammerjs');
 
 require('./annotations.module.js')
-    .directive('imageAnnotation', imageAnnotation);
+    .directive('graphicAnnotation', graphicAnnotation);
 
 // @ngInject
-function imageAnnotation($rootScope, AnnotationsFactory) {
+function graphicAnnotation($rootScope, AnnotationsFactory) {
     var directive = {
-        link: imageAnnotationLink,
+        link: graphicAnnotationLink,
         replace: true,
         restrict: 'A',
         scope: {
             data: '='
         },
-        templateUrl: 'annotations/image.html',
+        templateUrl: 'annotations/graphic.html',
     };
     return directive;
 
-    // @ngInject
-    function imageAnnotationLink(scope, element) {
+    function graphicAnnotationLink(scope, element) {
 
         // Setup
         var hammerElement;
@@ -49,7 +48,7 @@ function imageAnnotation($rootScope, AnnotationsFactory) {
                         }]
             };
 
-            if (scope.data.type === 'image') {
+            if (scope.data.type === 'graphic') {
                 contextMenuData.menuOptions.unshift({
                     name: 'Edit',
                     action: openGraphicDialog

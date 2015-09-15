@@ -4,38 +4,34 @@ var _ = require('lodash');
 var Hammer = require('hammerjs');
 
 require('./annotations.module.js')
-    .directive('textAnnotation', textAnnotation);
+    .directive('marginaliaAnnotation', marginaliaAnnotation);
 
 // @ngInject
-function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
+function marginaliaAnnotation($rootScope, AnnotationsFactory) {
     var directive = {
-        link: textAnnotationLink,
+        link: marginaliaAnnotationLink,
         replace: true,
         restrict: 'A',
         scope: {
             data: '='
         },
-        templateUrl: 'annotations/text.html'
+        templateUrl: 'annotations/marginalia.html',
     };
     return directive;
 
-    function textAnnotationLink(scope, element) {
+    function marginaliaAnnotationLink(scope, element) {
+
         // Setup
         var hammerElement;
-        scope.r = annotationsConfig.pointRadius;
-
-        // Events
         hammerElement = new Hammer(element[0]);
+        // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-        scope.$watch(function () {
-                return scope.data.complete;
-            },
-            function (newVal, oldVal) {
-                if (newVal && !oldVal) {
-                    openTranscribeDialog();
-                }
-            });
+        // if text is undefined open dialog
+        if (!scope.data.text) {
+            openTranscribeDialog();
+        }
+
         // Methods
         function $destroy() {
             hammerElement.destroy();
@@ -49,9 +45,10 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
                 menuOptions: [{
                     name: 'Delete',
                     action: _.partial(AnnotationsFactory.destroy, scope.data)
-                }]
+                        }]
             };
-            if (scope.data.complete) {
+
+            if (scope.data.type === 'marginalia') {
                 contextMenuData.menuOptions.unshift({
                     name: 'Edit',
                     action: openTranscribeDialog
@@ -61,11 +58,13 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
         }
 
         function openTranscribeDialog() {
+
             $rootScope.$broadcast('transcribeDialog:open', {
                 annotation: scope.data,
                 element: element
             });
         }
+
     }
 
 }
