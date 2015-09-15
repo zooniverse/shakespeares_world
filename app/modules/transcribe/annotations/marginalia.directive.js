@@ -28,10 +28,10 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-        // if tag is undefined open dialog
-        //        if (!scope.data.tag) {
-        //            openTranscribeDialog();
-        //        }
+        // if text is undefined open dialog
+        if (!scope.data.text) {
+            openTranscribeDialog();
+        }
 
         // Methods
         function $destroy() {
