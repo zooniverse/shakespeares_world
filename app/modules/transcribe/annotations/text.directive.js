@@ -20,7 +20,6 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
     return directive;
 
     function textAnnotationLink(scope, element) {
-
         // Setup
         var hammerElement;
         scope.r = annotationsConfig.pointRadius;
@@ -30,13 +29,13 @@ function textAnnotation($rootScope, annotationsConfig, AnnotationsFactory) {
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
         scope.$watch(function () {
-                            return scope.data.complete;
-                        },
-                        function (newVal, oldVal) {
-                            if (newVal && !oldVal) {
-                                openTranscribeDialog();
-                            }
-                        });
+                return scope.data.complete;
+            },
+            function (newVal, oldVal) {
+                if (newVal && !oldVal) {
+                    openTranscribeDialog();
+                }
+            });
         // Methods
         function $destroy() {
             hammerElement.destroy();

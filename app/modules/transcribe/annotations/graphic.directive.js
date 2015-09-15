@@ -19,7 +19,6 @@ function graphicAnnotation($rootScope, AnnotationsFactory) {
     };
     return directive;
 
-    // @ngInject
     function graphicAnnotationLink(scope, element) {
 
         // Setup

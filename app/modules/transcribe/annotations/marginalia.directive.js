@@ -19,7 +19,6 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
     };
     return directive;
 
-    // @ngInject
     function marginaliaAnnotationLink(scope, element) {
 
         // Setup
