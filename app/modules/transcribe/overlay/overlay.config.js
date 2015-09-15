@@ -3,66 +3,6 @@
 var overlayConfig = {
     abbrKeys: [
         {
-            name: 'a<sup>o</sup>',
-            tag: 'anno',
-            imgPath: 'images/keypad/anno.png'
-            },
-        {
-            name: 'esq.',
-            tag: 'esquire',
-            imgPath: 'images/keypad/esquire.png'
-            },
-        {
-            name: 'ex<sup>t</sup>, exaite',
-            tag: 'examinant',
-            imgPath: 'images/keypad/examinant.png'
-            },
-        {
-            name: 'Ho:, hono<sup>ble</sup>',
-            tag: 'honorable',
-            imgPath: 'images/keypad/honorable.png'
-            },
-        {
-            name: 'Imp, inp',
-            tag: 'inprimis',
-            imgPath: 'images/keypad/inprimis.png'
-            },
-        {
-            name: 'Itm, it',
-            tag: 'item',
-            imgPath: 'images/keypad/item.png'
-            },
-        {
-            name: 'La:, La<sup>p</sup>',
-            tag: 'lady',
-            imgPath: 'images/keypad/lady.png'
-            },
-        {
-            name: 'M<sup>r</sup>',
-            tag: 'mister',
-            imgPath: 'images/keypad/mister.png'
-            },
-        {
-            name: 'M<sup>rs</sup>, M<sup>ris</sup>',
-            tag: 'mistress',
-            imgPath: 'images/keypad/mistress.png'
-            },
-        {
-            name: 'o<sup>r</sup>',
-            tag: 'our',
-            imgPath: 'images/keypad/our.png'
-            },
-        {
-            name: 'p<sup>d</sup>',
-            tag: 'paid',
-            imgPath: 'images/keypad/paid.png'
-            },
-        {
-            name: 's<sup>r</sup>',
-            tag: 'sir',
-            imgPath: 'images/keypad/sir.png'
-            },
-        {
             name: 'w<sup>ch</sup>',
             tag: 'which',
             imgPath: 'images/keypad/which.png'
@@ -77,6 +17,7 @@ var overlayConfig = {
             tag: 'the',
             imgPath: 'images/keypad/the.png'
             },
+
         {
             name: 'y<sup>t</sup>',
             tag: 'that',
@@ -88,11 +29,75 @@ var overlayConfig = {
             imgPath: 'images/keypad/your.png'
             },
         {
+            name: 'Ma<sup>tie</sup>',
+            tag: 'maiestie',
+            imgPath: 'images/keypad/majesty.png'
+            },
+        {
+            name: 'Wor<sup>ll</sup>',
+            tag: 'worshipfull',
+            imgPath: 'images/keypad/worshipful.png'
+            },
+        {
+            name: 'La:, La<sup>p</sup>',
+            tag: 'lady',
+            imgPath: 'images/keypad/lady.png'
+            },
+        {
+            name: 'L:, L<sup>p</sup>',
+            tag: 'lord',
+            imgPath: 'images/keypad/lord.png'
+            },
+        {
+            name: 's<sup>r</sup>',
+            tag: 'sir',
+            imgPath: 'images/keypad/sir.png'
+            },
+        {
+            name: 'o<sup>r</sup>',
+            tag: 'our',
+            imgPath: 'images/keypad/our.png'
+            },
+        {
+            name: 'ex<sup>t</sup>, exaite',
+            tag: 'examinant',
+            imgPath: 'images/keypad/examinant.png'
+            },
+        {
+            name: 'Itm, it',
+            tag: 'item',
+            imgPath: 'images/keypad/item.png'
+            },
+        {
+            name: 'lre',
+            tag: 'letter',
+            imgPath: 'images/keypad/letter.png'
+            },
+        {
+            name: 'Ho:, hono<sup>ble</sup>',
+            tag: 'honorable',
+            imgPath: 'images/keypad/honorable.png'
+            },
+        {
+            name: 'esq.',
+            tag: 'esquire',
+            imgPath: 'images/keypad/esquire.png'
+            },
+        {
             name: '-m<sup>t</sup>',
             tag: '-ment',
             imgPath: 'images/keypad/ment-suf.png'
+            },
+        {
+            name: 'p<sup>d</sup>',
+            tag: 'paid',
+            imgPath: 'images/keypad/paid.png'
+            },
+        {
+            name: 'a<sup>o</sup>',
+            tag: 'anno',
+            imgPath: 'images/keypad/anno.png'
             }
-
         ],
     teiTags: [
         {
@@ -110,6 +115,10 @@ var overlayConfig = {
         {
             name: 'Unclear, unsure',
             tag: 'unclear'
+            },
+        {
+            name: 'Sup',
+            tag: 'sup'
             }
         ],
 
