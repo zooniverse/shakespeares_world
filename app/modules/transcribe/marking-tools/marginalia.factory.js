@@ -5,10 +5,10 @@ var angular = require('angular');
 var Hammer = require('hammerjs');
 
 require('./marking-tools.module.js')
-    .factory('margin', imageTool);
+    .factory('marginaliaTool', marginaliaTool);
 
 // @ngInject
-function imageTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
 
     var factory;
     var _enabled;
@@ -18,7 +18,7 @@ function imageTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFacto
     var _subject;
 
     factory = {
-        name: 'image',
+        name: 'marginalia',
         activate: activate,
         deactivate: deactivate
     };
@@ -30,11 +30,13 @@ function imageTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFacto
 
         if (_.isUndefined(_rect)) {
             _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
-                .attr('class', 'image-annotation -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.image-annotations'));
+                .attr('class', 'marginalia-annotation -temp')
+                .appendTo(MarkingSurfaceFactory.svg.find('.marginalia-annotations'));
         }
 
-        _hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+        _hammer.get('pan').set({
+            direction: Hammer.DIRECTION_ALL
+        });
         _hammer.on('panstart', _startRect);
         _enabled = true;
         MarkingSurfaceFactory.disable();
@@ -92,7 +94,7 @@ function imageTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFacto
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         AnnotationsFactory.upsert({
-            type: 'image',
+            type: 'marginalia',
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
@@ -110,7 +112,8 @@ function imageTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFacto
     }
 
     function _startRect(event) {
-        if (_enabled && event.target.nodeName === 'image') {
+
+        if (_enabled && event.target.nodeName === 'marginalia') {
             _hammer.on('panmove', _drawRect);
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);
