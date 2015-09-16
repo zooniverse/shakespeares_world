@@ -7,7 +7,7 @@ require('./overlay.module.js')
     .directive('graphicDialog', graphicDialog);
 
 // @ngInject
-function graphicDialog() {
+function graphicDialog($timeout) {
     var directive = {
         link: graphicDialogLink,
         controllerAs: 'vm',
@@ -46,17 +46,16 @@ function graphicDialog() {
             var constant = 10; // Used to give some space from the annotation
 
             var position = {
-                left: (group.offset.left + (group.width / 2)) - (dialog.width / 2),
-                top: group.offset.top - overlay.offset.top
+                left: group.left - (dialog.width / 2),
+                top: group.top - overlay.top
             };
 
-            var inTopHalf = (group.offset.top + group.height) < (overlay.height / 2) + overlay.offset.top;
+            var inTopHalf = (group.top + group.height) < (overlay.height / 2) + overlay.top;
             if (inTopHalf) {
-                position.top = position.top + group.height + constant;
+                position.top = position.top + group.height;
             } else {
                 position.top = position.top - group.height - dialog.height - constant;
             }
-
             // Sanity check - is it off the screen?
             if (position.left < 0) {
                 position.left = constant;
@@ -64,6 +63,16 @@ function graphicDialog() {
                 position.left = overlay.width - dialog.width - constant;
             }
             scope.position = position;
+            //logging
+            $timeout(function () {
+                console.log('data.element.context', data.element.context);
+                console.log('overlay', overlay);
+                console.log('group', group);
+                console.log('dialog', dialog);
+                console.log('position', position);
+                console.log('intophalf', inTopHalf);
+            });
+
         }
     }
 }
@@ -114,12 +123,15 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
 // Utility function to derive dimensions and offsets for dialog positioning,
 // using getBoundingClientRect for SVG compatibility.
 function getDimensions(element) {
+    console.log('element[0]', element[0])
+    var viewportOffset = element[0].getBoundingClientRect();
     if (!element.jquery) {
         element = angular.element(element);
     }
     return {
-        offset: element.offset(),
-        height: element[0].getBoundingClientRect().height,
-        width: element[0].getBoundingClientRect().width
+        left: viewportOffset.left,
+        height: viewportOffset.height,
+        top: viewportOffset.top,
+        width: viewportOffset.width
     }
 }
