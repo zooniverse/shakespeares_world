@@ -7,7 +7,7 @@ require('./overlay.module.js')
     .directive('graphicDialog', graphicDialog);
 
 // @ngInject
-function graphicDialog($timeout) {
+function graphicDialog() {
     var directive = {
         link: graphicDialogLink,
         controllerAs: 'vm',
@@ -41,21 +41,13 @@ function graphicDialog($timeout) {
             // time it's opened. We always use the left and top values, as
             // that's what Dragabilly uses to determine position.
             var overlay = getDimensions(angular.element('.overlay').first());
-            var group = getDimensions(data.element);
+            var rectDimensions = getDimensions(angular.element('.graphic').first());
             var dialog = getDimensions(element);
             var constant = 10; // Used to give some space from the annotation
-
             var position = {
-                left: group.left - (dialog.width / 2),
-                top: group.top - overlay.top
+                left: overlay.width / 2 - dialog.width / 2,
+                top: overlay.height / 10
             };
-
-            var inTopHalf = (group.top + group.height) < (overlay.height / 2) + overlay.top;
-            if (inTopHalf) {
-                position.top = position.top + group.height;
-            } else {
-                position.top = position.top - group.height - dialog.height - constant;
-            }
             // Sanity check - is it off the screen?
             if (position.left < 0) {
                 position.left = constant;
@@ -63,16 +55,6 @@ function graphicDialog($timeout) {
                 position.left = overlay.width - dialog.width - constant;
             }
             scope.position = position;
-            //logging
-            $timeout(function () {
-                console.log('data.element.context', data.element.context);
-                console.log('overlay', overlay);
-                console.log('group', group);
-                console.log('dialog', dialog);
-                console.log('position', position);
-                console.log('intophalf', inTopHalf);
-            });
-
         }
     }
 }
@@ -123,7 +105,6 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
 // Utility function to derive dimensions and offsets for dialog positioning,
 // using getBoundingClientRect for SVG compatibility.
 function getDimensions(element) {
-    console.log('element[0]', element[0])
     var viewportOffset = element[0].getBoundingClientRect();
     if (!element.jquery) {
         element = angular.element(element);

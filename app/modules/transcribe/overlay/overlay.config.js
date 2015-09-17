@@ -17,11 +17,15 @@ var overlayConfig = {
             tag: 'the',
             imgPath: 'images/keypad/the.png'
             },
-
         {
             name: 'y<sup>t</sup>',
             tag: 'that',
             imgPath: 'images/keypad/that.png'
+            },
+        {
+            name: 'y<sup>m</sup>',
+            tag: 'them',
+            imgPath: 'images/keypad/them.png'
             },
         {
             name: 'yo<sup>r</sup>, y<sup>r</sup>',

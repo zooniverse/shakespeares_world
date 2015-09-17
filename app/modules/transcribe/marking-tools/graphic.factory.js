@@ -104,6 +104,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
             width: 0,
             height: 0
         });
+        console.log('rect', _rect)
         $rootScope.$digest();
     }
 
