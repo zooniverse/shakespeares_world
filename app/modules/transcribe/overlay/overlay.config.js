@@ -24,6 +24,11 @@ var overlayConfig = {
             imgPath: 'images/keypad/that.png'
             },
         {
+            name: 'y<sup>m</sup>',
+            tag: 'them',
+            imgPath: 'images/keypad/them.png'
+            },
+        {
             name: 'yo<sup>r</sup>, y<sup>r</sup>',
             tag: 'your',
             imgPath: 'images/keypad/your.png'
@@ -117,7 +122,7 @@ var overlayConfig = {
             tag: 'unclear'
             },
         {
-            name: 'Sup',
+            name: 'Superscript',
             tag: 'sup'
             }
         ],
