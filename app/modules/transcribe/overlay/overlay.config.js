@@ -145,23 +145,30 @@ var overlayConfig = {
         coatOfArms: {
             name: 'Coat of Arms',
             tag: '<graphic>coat-of-arms<graphic/>'
-
+        },
+        flourish: {
+            name: 'Flourish',
+            tag: '<graphic>flourish<graphic/>'
         },
         illustration: {
             name: 'Illustration',
             tag: '<graphic>illustration<graphic/>'
         },
         initial: {
-            name: 'Inhabited initial',
-            tag: '<graphic>inhabited-initial<graphic/>'
+            name: 'Decorated initial',
+            tag: '<graphic>decorated-initial<graphic/>'
         },
-        map: {
-            name: 'Map',
-            tag: '<graphic>map<graphic/>'
+        line: {
+            name: 'Line',
+            tag: '<graphic>line<graphic/>'
         },
         manicule: {
             name: 'Manicule',
             tag: '<graphic>manicule<graphic/>'
+        },
+        seal: {
+            name: 'Seal',
+            tag: '<graphic>seal<graphic/>'
         },
         treQuatrefoil: {
             name: 'Trefoil/Quatrefoil',
