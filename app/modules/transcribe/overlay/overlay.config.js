@@ -89,6 +89,11 @@ var overlayConfig = {
             imgPath: 'images/keypad/esquire.png'
             },
         {
+            name: 'es',
+            tag: 'brev-es',
+            imgPath: 'images/keypad/graph-es.png'
+            },
+        {
             name: '-m<sup>t</sup>',
             tag: '-ment',
             imgPath: 'images/keypad/ment-suf.png'
