@@ -63,6 +63,11 @@ function transcribeDialog() {
             } else if ((position.left + dialog.width) > overlay.width) {
                 position.left = overlay.width - dialog.width - constant;
             }
+            if (position.top < 0) {
+                position.top = constant;
+            } else if ((position.top + dialog.height) > overlay.height) {
+                position.top = overlay.height - dialog.height - constant;
+            }
             scope.position = position;
         }
     }
