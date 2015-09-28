@@ -17,7 +17,6 @@ var overlayConfig = {
             tag: 'the',
             imgPath: 'images/keypad/the.png'
             },
-
         {
             name: 'y<sup>t</sup>',
             tag: 'that',
