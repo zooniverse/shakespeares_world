@@ -1,6 +1,7 @@
 <div aria-label="Transcribe line" aria-hidden="{{ !active }}" class="transcribe-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1">
 
     <div class="heading">
+        <h3 class="title" ng-bind="vm.title"></h3>
         <button class="close" role="button" ng-click="vm.close($event)">
             <span class="icon" aria-hidden="true"></span>
             <span class="text">Close</span>
@@ -8,9 +9,21 @@
     </div>
     <div class="body">
         <textarea placeholder="Transcribe here" class="transcribe" ng-model="vm.transcription" rows="1"></textarea>
+
+
         <div class="buttons">
-            <button type="button" class="button -keypad" ng-click="vm.keypad()">Keypad</button>
+            <div class="editing" role="group">
+                <div ng-repeat="abbreviation in vm.abbreviations" data="abbreviation" ng-click="vm.keyInput(abbreviation.tag)" abbreviations-button></div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <div class="editing" role="group">
+                <button class="button -tag" ng-bind="tag.name" ng-click="vm.keyInput(tag.tag)" ng-repeat="tag in vm.tags"></button>
+            </div>
+
+        </div>
+        <div class="buttons">
             <button class="button -save" ng-click="vm.saveAndClose()">Save Changes</button>
         </div>
     </div>
-</div>
