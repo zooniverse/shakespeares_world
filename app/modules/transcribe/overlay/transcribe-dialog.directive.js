@@ -73,32 +73,50 @@ function transcribeDialog() {
     }
 }
 // @ngInject
-function transcribeDialogController($rootScope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory) {
+function transcribeDialogController($rootScope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
     var textarea = $element.find('textarea').first();
+    vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
-    vm.data = {};
-    vm.transcription = '';
-    vm.keypad = toggleKeypad;
+    vm.keyInput = addTag;
     vm.close = closeDialog;
+    vm.data = {};
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
-
+    vm.tags = overlayConfig.teiTags;
+    vm.title = '';
+    vm.transcription = '';
     $rootScope.$on('annotation:delete', function (event, deleted) {
         if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
             closeDialog();
         }
     });
 
-    function toggleKeypad() {
-        $rootScope.$broadcast('event:toggle');
+    function addTag(tagText) {
+        console.log('function')
+        var startTag = '<' + tagText + '>';
+        var endTag = '</' + tagText + '>';
+        var start = textarea.prop('selectionStart');
+        var end = textarea.prop('selectionEnd');
+        var text = textarea.val();
+        var textBefore = text.substring(0, start);
+        var textInBetween;
+        var textAfter;
+        if (start === end) {
+            textAfter = text.substring(start, text.length);
+            textarea.val(textBefore + startTag + endTag + textAfter);
+        } else {
+            textInBetween = text.substring(start, end);
+            textAfter = text.substring(end, text.length);
+            textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
+        }
+        textarea.caret(startTag.length + text.length);
     }
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
         vm.active = false;
         hotkeys.del('esc');
-        $rootScope.$broadcast('event:close');
     }
 
     function getFocus() {
@@ -106,11 +124,15 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
     }
 
     function openDialog(data) {
-        $rootScope.$broadcast('event:toggle');
         MarkingSurfaceFactory.disable();
         vm.active = true;
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
+        if (vm.data.type === 'marginalia') {
+                vm.title = 'Transcribe marginalia';
+            } else {
+                vm.title = 'Transcribe text';
+            }
         hotkeys.add({
             allowIn: ['TEXTAREA'],
             callback: closeDialog,
