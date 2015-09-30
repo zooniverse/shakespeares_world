@@ -8,20 +8,19 @@
         </button>
     </div>
     <div class="body">
-        <textarea placeholder="Transcribe here" class="transcribe" ng-model="vm.transcription" rows="1"></textarea>
-
-
-        <div class="buttons">
-            <div class="editing" role="group">
-                <div ng-repeat="abbreviation in vm.abbreviations" data="abbreviation" ng-click="vm.keyInput(abbreviation.tag)" abbreviations-button></div>
-            </div>
-        </div>
+        <div id="#userInput" ng-model="vm.transcription" class="transcribe" contenteditable="true" placeholder="Transcribe here"></div>
+        <textarea placeholder="Transcribe here" class="transcribe" style="display:none" rows="1"></textarea>
 
         <div class="buttons">
             <div class="editing" role="group">
                 <button class="button -tag" ng-bind="tag.name" ng-click="vm.keyInput(tag.tag)" ng-repeat="tag in vm.tags"></button>
             </div>
 
+        </div>
+        <div class="buttons">
+            <div class="editing" role="group">
+                <div ng-repeat="abbreviation in vm.abbreviations" data="abbreviation" ng-click="vm.html(abbreviation.html)" abbreviations-button></div>
+            </div>
         </div>
         <div class="buttons">
             <button class="button -save" ng-click="vm.saveAndClose()">Save Changes</button>

@@ -44,6 +44,10 @@
         @extend .form-control
         @extend textarea.form-control
         margin-bottom: 15px
+    [contenteditable=true]:empty:before
+        content: attr(placeholder)
+        display: block
+
 
     > .body > .buttons
         display: flex

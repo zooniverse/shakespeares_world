@@ -28,8 +28,10 @@ function transcribeDialog() {
             containment: '.overlay',
             handle: '.heading'
         });
+
         // Events
         scope.$on('transcribeDialog:open', openDialog);
+
         // Methods
         function openDialog(event, data) {
             dialog.open(data);
@@ -73,14 +75,16 @@ function transcribeDialog() {
     }
 }
 // @ngInject
-function transcribeDialogController($rootScope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function transcribeDialogController($rootScope, $scope, $compile, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
+    var userInput = document.getElementById('#userInput');
     var textarea = $element.find('textarea').first();
     vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
-    vm.keyInput = addTag;
     vm.close = closeDialog;
     vm.data = {};
+    vm.html = addHtml;
+    vm.keyInput = addTag;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
     vm.tags = overlayConfig.teiTags;
@@ -92,8 +96,54 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
         }
     });
 
+    function addHtml(html) {
+        var prevSel = window.getSelection();
+        var prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null;
+        console.log(prevSel.toString());
+        userInput.focus();
+        var sel, range;
+        if (window.getSelection) {
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                range = sel.getRangeAt(0);
+                var appendToEnd = !angular.equals(range, prevRange);
+                range.deleteContents();
+
+                // Range.createContextualFragment() would be useful here but is
+                // non-standard and not supported in all browsers (IE9, for one)
+                var el = document.createElement("div");
+                el.innerHTML = html;
+                $compile(el)($scope);
+                var frag = document.createDocumentFragment(),
+                    node, lastNode;
+                while ((node = el.firstChild)) {
+                    lastNode = frag.appendChild(node);
+                }
+                if (appendToEnd) {
+                    userInput.appendChild(frag);
+                } else {
+                    range.insertNode(frag);
+                }
+                // Preserve the selection
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+        } else if (document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+        }
+
+        //        userInput.innerHTML = html;
+        //        userInput.caret(html + '');
+    }
+
     function addTag(tagText) {
-        console.log('function')
         var startTag = '<' + tagText + '>';
         var endTag = '</' + tagText + '>';
         var start = textarea.prop('selectionStart');
@@ -129,10 +179,10 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
         if (vm.data.type === 'marginalia') {
-                vm.title = 'Transcribe marginalia';
-            } else {
-                vm.title = 'Transcribe text';
-            }
+            vm.title = 'Transcribe marginalia';
+        } else {
+            vm.title = 'Transcribe text';
+        }
         hotkeys.add({
             allowIn: ['TEXTAREA'],
             callback: closeDialog,

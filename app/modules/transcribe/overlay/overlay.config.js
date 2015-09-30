@@ -3,109 +3,151 @@
 var overlayConfig = {
     abbrKeys: [
         {
+            html: 'w<i>hi</i>ch',
+            imgPath: 'images/keypad/which.png',
             name: 'w<sup>ch</sup>',
-            tag: 'which',
-            imgPath: 'images/keypad/which.png'
+            tag: 'w<ex>hi</ex><sl>ch</sl>',
+            title: 'Which'
             },
         {
+            html: 'w<i>hi</i>ch',
+            imgPath: 'images/keypad/with.png',
             name: 'w<sup>th</sup>, w<sup>t</sup>',
-            tag: 'with',
-            imgPath: 'images/keypad/with.png'
+            tag: 'w<ex>i</ex><sl>th</sl>',
+            title: 'With'
             },
         {
+            html: '<i>th</i>e',
+            imgPath: 'images/keypad/the.png',
             name: 'y<sup>e</sup>',
-            tag: 'the',
-            imgPath: 'images/keypad/the.png'
+            tag: '<brev-y>th</brev-y><sl>e</sl>',
+            title: 'The'
             },
         {
+            html: '<i>th</i>at',
+            imgPath: 'images/keypad/that.png',
             name: 'y<sup>t</sup>',
-            tag: 'that',
-            imgPath: 'images/keypad/that.png'
+            tag: '<brev-y>th</brev-y><ex>a</ex><sl>t</sl>',
+            title: 'That'
             },
         {
+            html: '<i>th</i>em',
+            imgPath: 'images/keypad/them.png',
             name: 'y<sup>m</sup>',
-            tag: 'them',
-            imgPath: 'images/keypad/them.png'
+            tag: '<brev-y>th</brev-y><ex>e</ex><sl>m</sl>',
+            title: 'Them'
             },
         {
+            html: 'y<i>uo</i>r',
+            imgPath: 'images/keypad/your.png',
             name: 'yo<sup>r</sup>, y<sup>r</sup>',
-            tag: 'your',
-            imgPath: 'images/keypad/your.png'
+            tag: 'y<ex>ou</ex><sl>r</sl>',
+            title: 'Your'
             },
         {
+            html: 'Ma<i>ies</i>tie',
+            imgPath: 'images/keypad/majesty.png',
             name: 'Ma<sup>tie</sup>',
-            tag: 'maiestie',
-            imgPath: 'images/keypad/majesty.png'
+            tag: 'Ma<ex>ies</ex><sl>tie</sl>',
+            title: 'Maiestie'
             },
         {
+            html: 'Wor<i>shipfu</i>ll',
+            imgPath: 'images/keypad/worshipful.png',
             name: 'Wor<sup>ll</sup>',
-            tag: 'worshipfull',
-            imgPath: 'images/keypad/worshipful.png'
+            tag: 'Wor<ex>shipfu</ex><sl>ll</sl>',
+            title: 'Worshipfull'
             },
         {
+            html: 'La<i>dy</i>',
+            imgPath: 'images/keypad/lady.png',
             name: 'La:, La<sup>p</sup>',
-            tag: 'lady',
-            imgPath: 'images/keypad/lady.png'
+            tag: 'La<ex>dy</ex>',
+            title: 'Lady'
             },
         {
+            html: 'L<i>ord</i>',
+            imgPath: 'images/keypad/lord.png',
             name: 'L:, L<sup>p</sup>',
-            tag: 'lord',
-            imgPath: 'images/keypad/lord.png'
+            tag: 'L<ex>ord</ex>',
+            title: 'Lord'
             },
         {
-            name: 's<sup>r</sup>',
-            tag: 'sir',
-            imgPath: 'images/keypad/sir.png'
+            html: 'S<i>i</i>r',
+            imgPath: 'images/keypad/sir.png',
+            name: 'S<sup>r</sup>',
+            tag: 'S<ex>i</ex><sl>r</sl>',
+            title: 'Sir'
             },
         {
+            html: 'O<i>u</i>r',
+            imgPath: 'images/keypad/our.png',
             name: 'o<sup>r</sup>',
-            tag: 'our',
-            imgPath: 'images/keypad/our.png'
+            tag: 'o<ex>u</ex><sl>r</sl>',
+            title: 'Our'
             },
         {
-            name: 'ex<sup>t</sup>, exaite',
-            tag: 'examinant',
-            imgPath: 'images/keypad/examinant.png'
+            html: 'Exa<i>m</i>i<i>nan</i>te',
+            imgPath: 'images/keypad/examinant.png',
+            name: 'Ex<sup>t</sup>, Exaite',
+            tag: 'Exa<ex>m</ex>i<ex>nan</ex>te',
+            title: 'Examinante'
             },
         {
+            html: 'It<i>e</i>m',
+            imgPath: 'images/keypad/item.png',
             name: 'Itm, it',
-            tag: 'item',
-            imgPath: 'images/keypad/item.png'
+            tag: 'It<ex>e</ex>m',
+            title: 'Item'
             },
         {
+            html: 'l<i>ett</i>re',
+            imgPath: 'images/keypad/letter.png',
             name: 'lre',
-            tag: 'letter',
-            imgPath: 'images/keypad/letter.png'
+            tag: 'l<ex>ett</ex>re',
+            title: 'Lettre'
             },
         {
+            html: 'Ho<i>norable</i>',
+            imgPath: 'images/keypad/honorable.png',
             name: 'Ho:, hono<sup>ble</sup>',
-            tag: 'honorable',
-            imgPath: 'images/keypad/honorable.png'
+            tag: 'Ho<ex>norable</ex>',
+            title: 'Honorable'
             },
         {
+            html: 'Esq<i>uire</i>',
+            imgPath: 'images/keypad/esquire.png',
             name: 'esq.',
-            tag: 'esquire',
-            imgPath: 'images/keypad/esquire.png'
+            tag: 'Esq<ex>uire</ex>',
+            title: 'Esquire'
             },
         {
+            html: '<i>es</i>',
+            imgPath: 'images/keypad/graph-es.png',
             name: 'es',
-            tag: 'brev-es',
-            imgPath: 'images/keypad/graph-es.png'
+            tag: '<brev-es>es</brev-es>',
+            title: 'Brev-es'
             },
         {
-            name: '-m<sup>t</sup>',
-            tag: '-ment',
-            imgPath: 'images/keypad/ment-suf.png'
+            html: 'm<i>en</i>t',
+            imgPath: 'images/keypad/ment-suf.png',
+            name: 'm<sup>t</sup>',
+            tag: 'm<ex>en</ex><sl>t</sl>',
+            title: 'Ment'
             },
         {
+            html: 'p<i>ai</i>d',
+            imgPath: 'images/keypad/paid.png',
             name: 'p<sup>d</sup>',
-            tag: 'paid',
-            imgPath: 'images/keypad/paid.png'
+            tag: 'p<ex>ai</ex><sl>d</sl>',
+            title: 'Paid'
             },
         {
-            name: 'a<sup>o</sup>',
-            tag: 'anno',
-            imgPath: 'images/keypad/anno.png'
+            html: 'A<i>nn</i><sl>o</sl>',
+            imgPath: 'images/keypad/anno.png',
+            name: 'A<sup>o</sup>',
+            tag: 'A<ex>nn</ex><sl>o</sl>',
+            title: 'Anno'
             }
         ],
     teiTags: [
