@@ -87,6 +87,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     vm.keyInput = addTag;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
+    vm.surround = surroundSelection;
     vm.tags = overlayConfig.teiTags;
     vm.title = '';
     vm.transcription = '';
@@ -96,27 +97,94 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     });
 
+
+    function surroundSelection(tagName) {
+        var span = document.createElement("span");
+        switch (tagName) {
+        case 'Expansion':
+            span.className += span.className ? ' -expansion' : '-expansion';
+            break;
+        case 'Insertion':
+            span.className += span.className ? ' -superscript' : '-superscript';
+            break;
+        case 'Superscript':
+            span.className += span.className ? ' -superscript' : '-superscript';
+            break;
+        case 'Deletion':
+            span.className += span.className ? ' -stikethrough' : '-stikethrough';
+            break;
+        case 'Unclear':
+            span.className += span.className ? ' -highlight' : '-highlight';
+            break;
+        }
+        if (window.getSelection) {
+            var sel = window.getSelection();
+            if (sel.rangeCount) {
+                var range = sel.getRangeAt(0).cloneRange();
+                var c = document.createTextNode('\u200B');
+                range.surroundContents(span);
+                range.collapse(false);
+                console.log(range);
+                range.insertNode(c);
+                range.selectNode(c);
+                range.collapse(false); //moves cursor to end of range
+                sel.removeAllRanges();
+                sel.addRange(range);
+                //cleanTags();
+            }
+        }
+    }
+
+    function cleanTags() {
+        var nodeAry = userInput.getElementsByTagName("*");
+        console.log(nodeAry);
+        for (var n = nodeAry.length - 1; n >= 0; n--) {
+            var node = nodeAry[n];
+            console.log(node.nodeName);
+            console.log(node.innerHTML.length)
+            if (node.nodeName == "SPAN" && node.innerHTML.length == 0) {
+                node.parentNode.removeChild(node);
+            } else if (node.nodeName == "SPAN") {
+                //var tag = node.getAttribute("class");
+                //console.log(tag);
+                //var innerNodes = node.getElementsByClassName(tag);
+                console.log(node);
+                console.log(nodeAry.length);
+                console.log(node.parentNode);
+                for (var m = nodeAry.length - 1; m >= 0; m--) {
+                    console.log(nodeAry[m].outerHTML);
+                    console.log(nodeAry[m].innerHTML);
+                    nodeAry[m].outerHTML = nodeAry[m].innerHTML;
+                }
+            }
+        }
+    }
+
     function addHtml(html) {
         var prevSel = window.getSelection();
         var prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null;
-        console.log(prevSel.toString());
+
         userInput.focus();
-        var sel, range;
+        var sel,
+            range;
         if (window.getSelection) {
             // IE9 and non-IE
             sel = window.getSelection();
             if (sel.getRangeAt && sel.rangeCount) {
                 range = sel.getRangeAt(0);
+                //Loggggggss
+                console.log('Range', range);
+                console.log('prevRange', prevRange);
                 var appendToEnd = !angular.equals(range, prevRange);
                 range.deleteContents();
-
                 // Range.createContextualFragment() would be useful here but is
                 // non-standard and not supported in all browsers (IE9, for one)
                 var el = document.createElement("div");
                 el.innerHTML = html;
                 $compile(el)($scope);
                 var frag = document.createDocumentFragment(),
-                    node, lastNode;
+                    node,
+                    lastNode;
                 while ((node = el.firstChild)) {
                     lastNode = frag.appendChild(node);
                 }
@@ -138,9 +206,6 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             // IE < 9
             document.selection.createRange().pasteHTML(html);
         }
-
-        //        userInput.innerHTML = html;
-        //        userInput.caret(html + '');
     }
 
     function addTag(tagText) {

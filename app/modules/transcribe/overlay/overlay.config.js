@@ -164,7 +164,7 @@ var overlayConfig = {
             tag: 'del'
             },
         {
-            name: 'Unclear, unsure',
+            name: 'Unclear',
             tag: 'unclear'
             },
         {
