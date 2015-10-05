@@ -97,31 +97,42 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     });
 
-    function surroundSelection(tagName) {
-        var span = document.createElement("span");
+
+    //    function createEl(tag) {
+    //
+    //        switch (tag) {
+    //        case 'ex':
+    //            document.createElement(tag);
+    //            break;
+    //        case 'ins':
+    //            document.createElement(tag);
+    //            break;
+    //        case 'Superscript':
+    //            span.className += span.className ? ' -superscript' : '-superscript';
+    //            break;
+    //        case 'Deletion':
+    //            span.className += span.className ? ' -deletion' : '-deletion';
+    //            break;
+    //        case 'Unclear':
+    //            span.className += span.className ? ' -unclear' : '-unclear';
+    //            break;
+    //        }
+    //
+    //
+    //
+    //    }
+
+
+
+    function surroundSelection(tag) {
+        var tagNode = document.createElement(tag);
         var sel = window.getSelection();
-        switch (tagName) {
-        case 'Expansion':
-            span.className += span.className ? ' -expansion' : '-expansion';
-            break;
-        case 'Insertion':
-            span.className += span.className ? ' -insertion' : '-insertion';
-            break;
-        case 'Superscript':
-            span.className += span.className ? ' -superscript' : '-superscript';
-            break;
-        case 'Deletion':
-            span.className += span.className ? ' -deletion' : '-deletion';
-            break;
-        case 'Unclear':
-            span.className += span.className ? ' -unclear' : '-unclear';
-            break;
-        }
         if (window.getSelection) {
             if (sel.rangeCount) {
                 var range = sel.getRangeAt(0).cloneRange();
                 var c = document.createTextNode('\u200B');
-                range.surroundContents(span);
+                console.log(tagNode);
+                range.surroundContents(tagNode);
                 range.collapse(false);
                 range.insertNode(c);
                 range.selectNode(c);
@@ -257,7 +268,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     function saveAndCloseDialog() {
         if (vm.transcription !== vm.data.text) {
             if (vm.data.type === 'marginalia') {
-                vm.data.text = '<label>' + vm.transcription + '</label>';
+                vm.data.text = '<sw-label>' + vm.transcription + '</sw-label>';
             } else {
                 vm.data.text = vm.transcription;
             }

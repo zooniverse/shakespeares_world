@@ -9,6 +9,7 @@ require('./overlay.module.js')
 function contentEditable() {
     var directive = {
         link: contentEditableLink,
+        restrict: 'A',
         require: '?ngModel'
     };
     return directive;
