@@ -78,13 +78,13 @@ function transcribeDialog() {
 function transcribeDialogController($rootScope, $scope, $compile, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
     var userInput = document.getElementById('#userInput');
-    var textarea = $element.find('textarea').first();
+    //var textarea = $element.find('textarea').first();
     vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
     vm.close = closeDialog;
     vm.data = {};
     vm.html = addHtml;
-    vm.keyInput = addTag;
+    //vm.keyInput = addTag;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
     vm.surround = surroundSelection;
@@ -97,37 +97,35 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     });
 
-
     function surroundSelection(tagName) {
         var span = document.createElement("span");
+        var sel = window.getSelection();
         switch (tagName) {
         case 'Expansion':
             span.className += span.className ? ' -expansion' : '-expansion';
             break;
         case 'Insertion':
-            span.className += span.className ? ' -superscript' : '-superscript';
+            span.className += span.className ? ' -insertion' : '-insertion';
             break;
         case 'Superscript':
             span.className += span.className ? ' -superscript' : '-superscript';
             break;
         case 'Deletion':
-            span.className += span.className ? ' -stikethrough' : '-stikethrough';
+            span.className += span.className ? ' -deletion' : '-deletion';
             break;
         case 'Unclear':
-            span.className += span.className ? ' -highlight' : '-highlight';
+            span.className += span.className ? ' -unclear' : '-unclear';
             break;
         }
         if (window.getSelection) {
-            var sel = window.getSelection();
             if (sel.rangeCount) {
                 var range = sel.getRangeAt(0).cloneRange();
                 var c = document.createTextNode('\u200B');
                 range.surroundContents(span);
                 range.collapse(false);
-                console.log(range);
                 range.insertNode(c);
                 range.selectNode(c);
-                range.collapse(false); //moves cursor to end of range
+                range.collapse(false);
                 sel.removeAllRanges();
                 sel.addRange(range);
                 //cleanTags();
@@ -208,25 +206,25 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     }
 
-    function addTag(tagText) {
-        var startTag = '<' + tagText + '>';
-        var endTag = '</' + tagText + '>';
-        var start = textarea.prop('selectionStart');
-        var end = textarea.prop('selectionEnd');
-        var text = textarea.val();
-        var textBefore = text.substring(0, start);
-        var textInBetween;
-        var textAfter;
-        if (start === end) {
-            textAfter = text.substring(start, text.length);
-            textarea.val(textBefore + startTag + endTag + textAfter);
-        } else {
-            textInBetween = text.substring(start, end);
-            textAfter = text.substring(end, text.length);
-            textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
-        }
-        textarea.caret(startTag.length + text.length);
-    }
+    //    function addTag(tagText) {
+    //        var startTag = '<' + tagText + '>';
+    //        var endTag = '</' + tagText + '>';
+    //        var start = textarea.prop('selectionStart');
+    //        var end = textarea.prop('selectionEnd');
+    //        var text = textarea.val();
+    //        var textBefore = text.substring(0, start);
+    //        var textInBetween;
+    //        var textAfter;
+    //        if (start === end) {
+    //            textAfter = text.substring(start, text.length);
+    //            textarea.val(textBefore + startTag + endTag + textAfter);
+    //        } else {
+    //            textInBetween = text.substring(start, end);
+    //            textAfter = text.substring(end, text.length);
+    //            textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
+    //        }
+    //        textarea.caret(startTag.length + text.length);
+    //    }
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
@@ -235,7 +233,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     }
 
     function getFocus() {
-        textarea[0].focus();
+        userInput.focus();
     }
 
     function openDialog(data) {
@@ -249,7 +247,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             vm.title = 'Transcribe text';
         }
         hotkeys.add({
-            allowIn: ['TEXTAREA'],
+            allowIn: userInput,
             callback: closeDialog,
             combo: 'esc'
         });

@@ -44,10 +44,27 @@
         @extend .form-control
         @extend textarea.form-control
         margin-bottom: 15px
+
+    > .body > .transcribe > .-expansion
+        font-style: italic
+
+    > .body > .transcribe > .-insertion
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > .-superscript
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > .-deletion
+        text-decoration: line-through
+
+    > .body > .transcribe > .-unclear
+        background: orange
+
     [contenteditable=true]:empty:before
         content: attr(placeholder)
         display: block
-
 
     > .body > .buttons
         display: flex
@@ -60,9 +77,6 @@
 
     > .body > .buttons .button.-save
         @extend .btn-success
-
-    > .body > .buttons .button.-keypad
-        @extend .btn-primary
 
     > .body > .buttons .button + .button
         margin-left: -1px
