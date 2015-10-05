@@ -153,23 +153,23 @@ var overlayConfig = {
     teiTags: [
         {
             name: 'Expansion',
-            tag: 'ex'
+            tag: 'sw-ex'
             },
         {
             name: 'Insertion',
-            tag: 'ins'
+            tag: 'sw-ins'
             },
         {
             name: 'Deletion',
-            tag: 'del'
+            tag: 'sw-del'
             },
         {
             name: 'Unclear',
-            tag: 'unclear'
+            tag: 'sw-unclear'
             },
         {
             name: 'Superscript',
-            tag: 'sup'
+            tag: 'sw-sup'
             }
         ],
 
