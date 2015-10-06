@@ -15,9 +15,7 @@ function contentEditable() {
     return directive;
     // @ngInject
     function contentEditableLink(scope, element, attrs, ngModel) {
-        console.log('ng-model: ', ngModel);
         if (!ngModel) return; // do nothing if no ng-model
-
         // Specify how UI should be updated
         ngModel.$render = function () {
             element.html(ngModel.$viewValue || '');

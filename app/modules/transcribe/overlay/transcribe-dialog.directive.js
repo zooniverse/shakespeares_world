@@ -78,13 +78,11 @@ function transcribeDialog() {
 function transcribeDialogController($rootScope, $scope, $compile, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
     var userInput = document.getElementById('#userInput');
-    //var textarea = $element.find('textarea').first();
     vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
     vm.close = closeDialog;
     vm.data = {};
     vm.html = addHtml;
-    //vm.keyInput = addTag;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
     vm.surround = surroundSelection;
@@ -97,41 +95,13 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     });
 
-
-    //    function createEl(tag) {
-    //
-    //        switch (tag) {
-    //        case 'ex':
-    //            document.createElement(tag);
-    //            break;
-    //        case 'ins':
-    //            document.createElement(tag);
-    //            break;
-    //        case 'Superscript':
-    //            span.className += span.className ? ' -superscript' : '-superscript';
-    //            break;
-    //        case 'Deletion':
-    //            span.className += span.className ? ' -deletion' : '-deletion';
-    //            break;
-    //        case 'Unclear':
-    //            span.className += span.className ? ' -unclear' : '-unclear';
-    //            break;
-    //        }
-    //
-    //
-    //
-    //    }
-
-
-
     function surroundSelection(tag) {
-        var tagNode = document.createElement(tag);
-        var sel = window.getSelection();
+        var tagNode = document.createElement(tag),
+            sel = window.getSelection();
         if (window.getSelection) {
             if (sel.rangeCount) {
                 var range = sel.getRangeAt(0).cloneRange();
                 var c = document.createTextNode('\u200B');
-                console.log(tagNode);
                 range.surroundContents(tagNode);
                 range.collapse(false);
                 range.insertNode(c);
@@ -139,74 +109,52 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
                 range.collapse(false);
                 sel.removeAllRanges();
                 sel.addRange(range);
-                //cleanTags();
-            }
-        }
-    }
-
-    function cleanTags() {
-        var nodeAry = userInput.getElementsByTagName("*");
-        console.log(nodeAry);
-        for (var n = nodeAry.length - 1; n >= 0; n--) {
-            var node = nodeAry[n];
-            console.log(node.nodeName);
-            console.log(node.innerHTML.length)
-            if (node.nodeName == "SPAN" && node.innerHTML.length == 0) {
-                node.parentNode.removeChild(node);
-            } else if (node.nodeName == "SPAN") {
-                //var tag = node.getAttribute("class");
-                //console.log(tag);
-                //var innerNodes = node.getElementsByClassName(tag);
-                console.log(node);
-                console.log(nodeAry.length);
-                console.log(node.parentNode);
-                for (var m = nodeAry.length - 1; m >= 0; m--) {
-                    console.log(nodeAry[m].outerHTML);
-                    console.log(nodeAry[m].innerHTML);
-                    nodeAry[m].outerHTML = nodeAry[m].innerHTML;
-                }
             }
         }
     }
 
     function addHtml(html) {
-        var prevSel = window.getSelection();
-        var prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null;
-
-        userInput.focus();
-        var sel,
+        var prevSel = window.getSelection(),
+            prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null,
+            sel,
             range;
         if (window.getSelection) {
             // IE9 and non-IE
             sel = window.getSelection();
             if (sel.getRangeAt && sel.rangeCount) {
                 range = sel.getRangeAt(0);
-                //Loggggggss
-                console.log('Range', range);
-                console.log('prevRange', prevRange);
                 var appendToEnd = !angular.equals(range, prevRange);
+                console.log(range);
                 range.deleteContents();
-                // Range.createContextualFragment() would be useful here but is
-                // non-standard and not supported in all browsers (IE9, for one)
-                var el = document.createElement("div");
+                var el = document.createElement('div');
+                var c = document.createTextNode('\u200B');
                 el.innerHTML = html;
                 $compile(el)($scope);
                 var frag = document.createDocumentFragment(),
                     node,
                     lastNode;
-                while ((node = el.firstChild)) {
+                while (node = el.firstChild) {
                     lastNode = frag.appendChild(node);
+                    range.collapse(false);
+                    range.insertNode(c);
+                    range.collapse(false);
                 }
                 if (appendToEnd) {
                     userInput.appendChild(frag);
+                    range.collapse(false);
+                    range.insertNode(c);
+                    range.collapse(false);
                 } else {
                     range.insertNode(frag);
+                    range.collapse(false);
+                    range.insertNode(c);
+                    range.collapse(false);
                 }
                 // Preserve the selection
                 if (lastNode) {
                     range = range.cloneRange();
                     range.setStartAfter(lastNode);
-                    range.collapse(true);
+                    range.collapse(false);
                     sel.removeAllRanges();
                     sel.addRange(range);
                 }
@@ -216,26 +164,6 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             document.selection.createRange().pasteHTML(html);
         }
     }
-
-    //    function addTag(tagText) {
-    //        var startTag = '<' + tagText + '>';
-    //        var endTag = '</' + tagText + '>';
-    //        var start = textarea.prop('selectionStart');
-    //        var end = textarea.prop('selectionEnd');
-    //        var text = textarea.val();
-    //        var textBefore = text.substring(0, start);
-    //        var textInBetween;
-    //        var textAfter;
-    //        if (start === end) {
-    //            textAfter = text.substring(start, text.length);
-    //            textarea.val(textBefore + startTag + endTag + textAfter);
-    //        } else {
-    //            textInBetween = text.substring(start, end);
-    //            textAfter = text.substring(end, text.length);
-    //            textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
-    //        }
-    //        textarea.caret(startTag.length + text.length);
-    //    }
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
