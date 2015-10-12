@@ -114,7 +114,8 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     }
 
     function addHtml(html) {
-        var prevSel = window.getSelection(),
+        var c = document.createTextNode('\u200B'),
+            prevSel = window.getSelection(),
             prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null,
             sel,
             range;
@@ -122,35 +123,33 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             // IE9 and non-IE
             sel = window.getSelection();
             if (sel.getRangeAt && sel.rangeCount) {
-                range = sel.getRangeAt(0);
-                var appendToEnd = !angular.equals(range, prevRange);
-                console.log(range);
-                range.deleteContents();
-                var el = document.createElement('div');
-                var c = document.createTextNode('\u200B');
-                el.innerHTML = html;
-                $compile(el)($scope);
                 var frag = document.createDocumentFragment(),
                     node,
                     lastNode;
+                range = sel.getRangeAt(0);
+                var appendToEnd = !angular.equals(range, prevRange);
+                range.deleteContents();
+                var el = document.createElement('div');
+                el.innerHTML = html;
+
+                $compile(el)($scope);
+
                 while (node = el.firstChild) {
                     lastNode = frag.appendChild(node);
-                    range.collapse(false);
-                    range.insertNode(c);
-                    range.collapse(false);
+                    insertZWS(range);
+
                 }
                 if (appendToEnd) {
                     userInput.appendChild(frag);
-                    range.collapse(false);
-                    range.insertNode(c);
-                    range.collapse(false);
+                    insertZWS(range);
+
                 } else {
                     range.insertNode(frag);
-                    range.collapse(false);
-                    range.insertNode(c);
-                    range.collapse(false);
+                    insertZWS(range);
+
                 }
                 // Preserve the selection
+                // to focus after input
                 if (lastNode) {
                     range = range.cloneRange();
                     range.setStartAfter(lastNode);
@@ -162,6 +161,12 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         } else if (document.selection && document.selection.type != "Control") {
             // IE < 9
             document.selection.createRange().pasteHTML(html);
+        };
+
+        function insertZWS(range) {
+            range.collapse(false);
+            range.insertNode(c);
+            range.collapse(false);
         }
     }
 
@@ -180,11 +185,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         vm.active = true;
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
-        if (vm.data.type === 'marginalia') {
-            vm.title = 'Transcribe marginalia';
-        } else {
-            vm.title = 'Transcribe text';
-        }
+        vm.title = (vm.data.type === 'marginalia') ? 'Transcribe marginalia' : 'Transcribe text';
         hotkeys.add({
             allowIn: userInput,
             callback: closeDialog,
