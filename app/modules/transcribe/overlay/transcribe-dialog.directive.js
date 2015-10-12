@@ -28,8 +28,10 @@ function transcribeDialog() {
             containment: '.overlay',
             handle: '.heading'
         });
+
         // Events
         scope.$on('transcribeDialog:open', openDialog);
+
         // Methods
         function openDialog(event, data) {
             dialog.open(data);
@@ -73,16 +75,17 @@ function transcribeDialog() {
     }
 }
 // @ngInject
-function transcribeDialogController($rootScope, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function transcribeDialogController($rootScope, $scope, $compile, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
-    var textarea = $element.find('textarea').first();
+    var userInput = document.getElementById('#userInput');
     vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
-    vm.keyInput = addTag;
     vm.close = closeDialog;
     vm.data = {};
+    vm.html = addHtml;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
+    vm.surround = surroundSelection;
     vm.tags = overlayConfig.teiTags;
     vm.title = '';
     vm.transcription = '';
@@ -92,25 +95,79 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
         }
     });
 
-    function addTag(tagText) {
-        console.log('function')
-        var startTag = '<' + tagText + '>';
-        var endTag = '</' + tagText + '>';
-        var start = textarea.prop('selectionStart');
-        var end = textarea.prop('selectionEnd');
-        var text = textarea.val();
-        var textBefore = text.substring(0, start);
-        var textInBetween;
-        var textAfter;
-        if (start === end) {
-            textAfter = text.substring(start, text.length);
-            textarea.val(textBefore + startTag + endTag + textAfter);
-        } else {
-            textInBetween = text.substring(start, end);
-            textAfter = text.substring(end, text.length);
-            textarea.val(textBefore + startTag + textInBetween + endTag + textAfter);
+    function surroundSelection(tag) {
+        var tagNode = document.createElement(tag),
+            sel = window.getSelection();
+        if (window.getSelection) {
+            if (sel.rangeCount) {
+                var range = sel.getRangeAt(0).cloneRange();
+                var c = document.createTextNode('\u200B');
+                range.surroundContents(tagNode);
+                range.collapse(false);
+                range.insertNode(c);
+                range.selectNode(c);
+                range.collapse(false);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
         }
-        textarea.caret(startTag.length + text.length);
+    }
+
+    function addHtml(html) {
+        var c = document.createTextNode('\u200B'),
+            prevSel = window.getSelection(),
+            prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null,
+            sel,
+            range;
+        if (window.getSelection) {
+            // IE9 and non-IE
+            sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                var frag = document.createDocumentFragment(),
+                    node,
+                    lastNode;
+                range = sel.getRangeAt(0);
+                var appendToEnd = !angular.equals(range, prevRange);
+                range.deleteContents();
+                var el = document.createElement('div');
+                el.innerHTML = html;
+
+                $compile(el)($scope);
+
+                while (node = el.firstChild) {
+                    lastNode = frag.appendChild(node);
+                    insertZWS(range);
+
+                }
+                if (appendToEnd) {
+                    userInput.appendChild(frag);
+                    insertZWS(range);
+
+                } else {
+                    range.insertNode(frag);
+                    insertZWS(range);
+
+                }
+                // Preserve the selection
+                // to focus after input
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(false);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+        } else if (document.selection && document.selection.type != "Control") {
+            // IE < 9
+            document.selection.createRange().pasteHTML(html);
+        };
+
+        function insertZWS(range) {
+            range.collapse(false);
+            range.insertNode(c);
+            range.collapse(false);
+        }
     }
 
     function closeDialog() {
@@ -120,7 +177,7 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
     }
 
     function getFocus() {
-        textarea[0].focus();
+        userInput.focus();
     }
 
     function openDialog(data) {
@@ -128,13 +185,9 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
         vm.active = true;
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
-        if (vm.data.type === 'marginalia') {
-                vm.title = 'Transcribe marginalia';
-            } else {
-                vm.title = 'Transcribe text';
-            }
+        vm.title = (vm.data.type === 'marginalia') ? 'Transcribe marginalia' : 'Transcribe text';
         hotkeys.add({
-            allowIn: ['TEXTAREA'],
+            allowIn: userInput,
             callback: closeDialog,
             combo: 'esc'
         });
@@ -144,7 +197,7 @@ function transcribeDialogController($rootScope, $element, $timeout, AnnotationsF
     function saveAndCloseDialog() {
         if (vm.transcription !== vm.data.text) {
             if (vm.data.type === 'marginalia') {
-                vm.data.text = '<label>' + vm.transcription + '</label>';
+                vm.data.text = '<sw-label>' + vm.transcription + '</sw-label>';
             } else {
                 vm.data.text = vm.transcription;
             }

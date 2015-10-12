@@ -45,6 +45,44 @@
         @extend textarea.form-control
         margin-bottom: 15px
 
+    > .body > .transcribe > sw-label > sw-ex
+        font-style: italic
+
+    > .body > .transcribe > sw-ex
+        font-style: italic
+
+    > .body > .transcribe > sw-label > sw-ins
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > sw-ins
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > sw-label > sw-sup
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > sw-sup
+        vertical-align: super
+        font-size: smaller
+
+    > .body > .transcribe > sw-label > sw-del
+        text-decoration: line-through
+
+    > .body > .transcribe > sw-del
+        text-decoration: line-through
+
+    > .body > .transcribe > sw-label > sw-unclear
+        background-color: orange
+
+    > .body > .transcribe > sw-unclear
+        background-color: orange
+
+    [contenteditable=true]:empty:before
+        content: attr(placeholder)
+        display: block
+
     > .body > .buttons
         display: flex
         justify-content: space-between
@@ -56,9 +94,6 @@
 
     > .body > .buttons .button.-save
         @extend .btn-success
-
-    > .body > .buttons .button.-keypad
-        @extend .btn-primary
 
     > .body > .buttons .button + .button
         margin-left: -1px
