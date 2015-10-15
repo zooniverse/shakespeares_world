@@ -4,9 +4,9 @@ require('./set-selector.module.js')
     .controller('GenreListController', GenreListController);
 
 // @ngInject
-function GenreListController($state, GenreFactory) {
+function GenreListController($state, GenresFactory) {
     var vm = this;
-    vm.genres = GenreFactory.list();
+    vm.genres = GenresFactory.list();
     vm.go = go;
 
     function go(genre) {
