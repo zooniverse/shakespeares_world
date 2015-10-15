@@ -15,7 +15,6 @@ function appHeader() {
 
     function HeaderController() {
         var vm = this;
-
         // TODO: reset this on resize
         vm.headerCollapse = true;
 
@@ -23,6 +22,10 @@ function appHeader() {
             {
                 label: 'Home',
                 state: 'Home'
+            },
+            {
+                label: 'Genres',
+                state: 'GenreList'
             },
             {
                 label: 'About',

@@ -1,0 +1,12 @@
+<div class="container">
+
+    <ul class="genre-list">
+        <li class="genre" ng-repeat="genre in vm.genres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+            <!--<img ng-src="{{ genre.image }}">-->
+            <div class="title">
+                <h4>{{ genre.name }}</h4>
+                <div>Explore genres</div>
+            </div>
+        </li>
+    </ul>
+</div>
