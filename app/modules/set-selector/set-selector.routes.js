@@ -8,7 +8,7 @@ function Routes($stateProvider) {
     $stateProvider
         .state('GenreList', {
             parent: 'Base',
-            title: 'Choose an genre',
+            title: 'Choose a genre',
             url: '/genres',
             views: {
                 'lower-header': {

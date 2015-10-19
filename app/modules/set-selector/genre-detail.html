@@ -23,7 +23,7 @@
     <div class="title">
         <div class="container">
             <div class="row">
-                <div class="name">Document Name</div>
+                <div class="name">Title-Description</div>
                 <div class="date">Date</div>
                 <div class="items">Pages</div>
             </div>
@@ -45,16 +45,15 @@
         </div>
     </div>
 </div>
-
-<div class="more-genres">
-    <h3>More Genres</h3>
-    <ul class="genre-list">
-        <li class="genre" ng-repeat="genre in vm.moreGenres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
-            <!--<img ng-src="{{ genre.image }}">-->
-            <div class="title">
-                <h4>{{ genre.name }}</h4>
-                <div>Explore genres</div>
-            </div>
-        </li>
-    </ul>
+<div class="container">
+    <div class="more-genres">
+        <h3>More Genres</h3>
+        <ul class="genre-list">
+            <li class="genre" ng-repeat="genre in vm.moreGenres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                <div class="title">
+                    <h4>{{ genre.name }}</h4>
+                </div>
+            </li>
+        </ul>
+    </div>
 </div>
