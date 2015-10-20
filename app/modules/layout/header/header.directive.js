@@ -24,10 +24,6 @@ function appHeader() {
                 state: 'Home'
             },
             {
-                label: 'Genres',
-                state: 'GenreList'
-            },
-            {
                 label: 'About',
                 state: 'About'
             },
