@@ -19,6 +19,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
     var factory;
     var _data = localStorageService.get('subjects');
     var _queue = [];
+    var _subjectSet = null;
 
     factory = {
         $advanceQueue: advanceQueue,
@@ -44,9 +45,15 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
         }
     }
 
-    function getData() {
+    function getData(subjectSet) {
         factory.loading = true;
-        if (_data.current) {
+        _subjectSet = (subjectSet) ? subjectSet : null;
+
+        if (_subjectSet) {
+            _queue.length = 0;
+            return advanceQueue()
+                .then(_createSubject);
+        } else if (_data.current) {
             return _createSubject();
         } else {
             return advanceQueue()
@@ -59,7 +66,6 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
             data: _data.current,
             image: false
         };
-        console.log(factory.current)
         return $q.when(factory.current.data)
             .then(_loadImage);
     }
@@ -84,11 +90,22 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
         function getPage(page) {
             return zooAPIProject.get()
                 .then(function (project) {
-                    return zooAPI.type('subjects').get({
-                        page: page,
-                        sort: 'queued',
-                        workflow_id: project.links.workflows[0]
-                    });
+                    if (_subjectSet) {
+                        return zooAPI.type('subjects').get({
+                            page: page,
+                            sort: 'queued',
+                            workflow_id: project.links.workflows[0],
+                            subject_set_id: _subjectSet,
+                            order: 'asc'
+                        });
+                    } else {
+                        return zooAPI.type('subjects').get({
+                            page: page,
+                            sort: 'queued',
+                            workflow_id: project.links.workflows[0],
+                            subject_set_id: _.sample(project.links.subject_sets)
+                        });
+                    }
                 })
                 .then(function (subjects) {
                     if (!subjects.length) {
