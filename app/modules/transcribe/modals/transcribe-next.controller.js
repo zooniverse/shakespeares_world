@@ -1,16 +1,17 @@
 'use strict';
-
+var jsPDF = require('jspdf-browserify');
 var _ = require('lodash');
+
 
 require('./modals.module.js')
     .controller('TranscribeNextController', TranscribeNextController);
 
 // @ngInject
-function TranscribeNextController($modalInstance, ClassificationFactory) {
-
+function TranscribeNextController($modalInstance, ClassificationFactory, AnnotationsFactory) {
+    var annotations = AnnotationsFactory.list();
     var vm = this;
     vm.cancel = cancel;
-
+    vm.viewAnnotations = viewAnnotations;
     vm.submitBlank = submitBlank;
     vm.submitComplete = submitComplete;
     vm.submitIncomplete = submitIncomplete;
@@ -42,4 +43,24 @@ function TranscribeNextController($modalInstance, ClassificationFactory) {
             .then(close, error);
     }
 
+    function viewAnnotations() {
+        if (annotations.length > 0) {
+            var i, doc = new jsPDF('p', 'mm', 'letter');
+            for (i = 0; i < annotations.length; i++) {
+                doc.setTextColor(255, 69, 0);
+                //ForEach is deprecated. Do it another way.
+                //doc.splitTextToSize method may be useful here.
+                annotations.forEach(function (annotation, a) {
+                    if (annotation.type != 'graphic') {
+                        doc.text(20, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Text: ' + annotation.text);
+                    } else {
+                        doc.text(20, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Tag: ' + annotation.tag);
+                    }
+                });
+            }
+            doc.save('AnnotationsTest.pdf');
+        } else {
+            alert('No transcription found');
+        }
+    }
 }
