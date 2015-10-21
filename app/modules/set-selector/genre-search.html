@@ -1,0 +1,12 @@
+<div class="genre-search">
+    <div class="row">
+        <div class="content">
+            <div class="input-group">
+                <input type="text" ng-model="selected" placeholder="Look up genres" typeahead="genre as genre.name for genre in vm.genres | filter:{name: $viewValue} | limitTo:8" typeahead-on-select="vm.go($item)" typeahead-loading="vm.loading" class="input">
+                <div class="input-group-addon" aria-hidden="true">
+                    <span class="icon"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

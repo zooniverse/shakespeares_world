@@ -33,6 +33,7 @@ function startApp() {
         'app.static',
         'app.404',
         'app.layout',
+        'app.setSelector',
         'app.transcribe',
         'app.zooapi'
     ];

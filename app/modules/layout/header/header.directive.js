@@ -15,7 +15,6 @@ function appHeader() {
 
     function HeaderController() {
         var vm = this;
-
         // TODO: reset this on resize
         vm.headerCollapse = true;
 

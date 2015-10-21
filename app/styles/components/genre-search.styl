@@ -1,0 +1,42 @@
+.genre-search
+    @extend .container
+    margin-bottom: 30px
+
+    > .row > .content
+        @extend .col-sm-8
+        @extend .col-sm-push-2
+
+    > .row > .content > .input-group > .input
+        @extend .form-control
+        box-shadow: none
+        border-radius: 0
+        border: 0
+        color: #757575
+        height: 40px
+        font-size: 16px
+
+    > .row > .content > .input-group > .input-group-addon
+        background: white
+        border: 0
+        border-radius: 0
+
+    > .row > .content > .input-group > .input-group-addon > .icon
+        @extend .glyphicon
+        @extend .glyphicon-search
+        font-size: 1.5em
+
+    > .row > .content > .input-group > .dropdown-menu
+        background-color: orange
+        border: 0
+        border-radius: 0
+        color: medium-grey
+        font-size: 20px
+        font-weight: light
+        margin: 0
+        width: 100%
+
+    > .row > .content > .input-group > .dropdown-menu > li > a
+        padding: 6px 10px
+
+    > .row > .content > .input-group > .dropdown-menu > li.active > a
+        background-color: medium-grey

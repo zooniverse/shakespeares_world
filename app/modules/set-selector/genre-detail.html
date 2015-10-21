@@ -1,0 +1,57 @@
+<div class="loading-message" ng-show="vm.loading">
+    <div class="message">
+        <div loading-spinner class="-genrelist"></div>
+        <p>Loading genres - this will take a few seconds...</p>
+    </div>
+</div>
+
+<div class="genre-detail" ng-show="!vm.loading">
+    <div class="container">
+        <div class="info">
+            <h1 ng-bind="vm.genre.name"></h1>
+            <p>
+                <a target="_blank" ng-href="#">Read more on the Folger website...</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="genre-items" ng-show="!vm.loading">
+    <div class="title">
+        <div class="container">
+            <div class="row">
+                <div class="name">Title-Description</div>
+                <div class="date">Date</div>
+                <div class="items">Pages</div>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="container">
+            <div class="row" ng-show="vm.genre.sets.length > 0" ng-repeat="set in vm.genre.sets">
+                <div class="name">{{ set.metadata.title || set.metadata.set_title }}</div>
+                <div class="date">{{ set.metadata.year }}</div>
+                <div class="items">{{ set.set_member_subjects_count }}</div>
+                <div class="action">
+                    <a class="link" ui-sref="TranscribeSubjectSet({ subjectSet: set.id })">Transcribe</a>
+                </div>
+            </div>
+            <div class="row" ng-show="!vm.genre.sets || vm.genre.sets.length === 0">
+                <div class="noitems">No items found for this genre</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="more-genres">
+    <div class="container">
+        <h3>More Genres</h3>
+        <ul class="genre-list">
+            <li class="genre" ng-repeat="genre in vm.moreGenres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                <div class="title">
+                    <h4>{{ genre.name }}</h4>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

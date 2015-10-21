@@ -1,0 +1,35 @@
+.genre-list
+    make-row()
+    list-style-type: none
+    margin-top: 60px
+    padding: 0
+
+    > .genre
+        @extend .col-xs-6
+        @extend .col-sm-4
+        @extend .col-sm-2
+        margin-bottom: 30px
+
+    > .genre > img
+        @extend .img-responsive
+
+    > .genre > .title
+        background-color: #39403e
+        border-radius: 50%
+        color: #fff
+        padding: 65px 0
+        text-align: center
+
+    > .genre > .title > h4
+        margin: 0
+        font-size: 18px
+
+    > .genre.-active
+        cursor: pointer
+
+    > .genre.-active > .wrap1 > .wrap2
+        background-color: orange
+
+    > .genre.-active > .title
+        background-color: orange
+        color: #39403e
