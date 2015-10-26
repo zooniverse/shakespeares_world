@@ -28,7 +28,7 @@ function GenresFactory($q, GenreListConstants, localStorageService, zooAPIConfig
     function _getSets(genre) {
         return zooAPI.type('subject_sets').get({
             'workflow_id': zooAPIConfig.workflow_id,
-            'metadata.genreId': parseInt(genre.genreId, 10),
+            'metadata.genreId': genre.genreId,
             'page_size': 150
         }).then(function (sets) {
             genre.sets = sets;

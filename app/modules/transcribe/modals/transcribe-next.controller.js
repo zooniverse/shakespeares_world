@@ -56,9 +56,7 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
                 doc.setFontSize(12);
                 doc.setLineWidth(10);
                 doc.margins = 50;
-                //ForEach is deprecated. Do it another way.
-                //doc.splitTextToSize method may be useful here.
-                annotations.forEach(function (annotation, a) {
+                annotations.map(function (annotation, a) {
                     if (annotation.type != 'graphic') {
                         doc.text(10, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Text: ' + annotation.text);
                     } else {
@@ -66,6 +64,7 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
                     }
                 });
             }
+
             doc.output('datauri');
             //doc.save('AnnotationsTest.pdf');
         } else {
