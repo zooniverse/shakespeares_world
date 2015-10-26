@@ -82,6 +82,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     vm.active = false;
     vm.close = closeDialog;
     vm.data = {};
+    vm.keyPress = onKeydown;
     vm.html = addHtml;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
@@ -186,12 +187,15 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
         vm.title = (vm.data.type === 'marginalia') ? 'Transcribe marginalia' : 'Transcribe text';
-        hotkeys.add({
-            allowIn: userInput,
-            callback: closeDialog,
-            combo: 'esc'
-        });
         $timeout(getFocus);
+    }
+
+    function onKeydown(event) {
+        console.log(event.which);
+        if (event.which === 13) { // enter key
+            event.preventDefault();
+            saveAndCloseDialog();
+        }
     }
 
     function saveAndCloseDialog() {
