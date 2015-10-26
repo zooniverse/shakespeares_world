@@ -49,24 +49,18 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
             for (i = 0; i < annotations.length; i++) {
                 doc.setProperties({
                     title: 'Your transcriptions',
-                    subject: 'transcriptions'
+                    subject: 'Transcriptions'
                 });
-                doc.setTextColor(255, 69, 0);
+                doc.setTextColor(18, 18, 18);
                 doc.setFont('times');
                 doc.setFontSize(12);
-                doc.setLineWidth(10);
-                doc.margins = 50;
-                annotations.map(function (annotation, a) {
-                    if (annotation.type != 'graphic') {
-                        doc.text(10, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Text: ' + annotation.text);
-                    } else {
-                        doc.text(10, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Tag: ' + annotation.tag);
-                    }
-                });
+                if (annotations[i].type != 'graphic') {
+                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Text: ' + annotations[i].text);
+                } else {
+                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Tag: ' + annotations[i].tag);
+                }
             }
-
             doc.output('datauri');
-            //doc.save('AnnotationsTest.pdf');
         } else {
             alert('No transcription found');
         }
