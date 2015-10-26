@@ -1,16 +1,17 @@
 'use strict';
-
+var jsPDF = require('jspdf-browserify');
 var _ = require('lodash');
+
 
 require('./modals.module.js')
     .controller('TranscribeNextController', TranscribeNextController);
 
 // @ngInject
-function TranscribeNextController($modalInstance, ClassificationFactory) {
-
+function TranscribeNextController($modalInstance, ClassificationFactory, AnnotationsFactory) {
+    var annotations = AnnotationsFactory.list();
     var vm = this;
     vm.cancel = cancel;
-
+    vm.viewAnnotations = viewAnnotations;
     vm.submitBlank = submitBlank;
     vm.submitComplete = submitComplete;
     vm.submitIncomplete = submitIncomplete;
@@ -42,4 +43,26 @@ function TranscribeNextController($modalInstance, ClassificationFactory) {
             .then(close, error);
     }
 
+    function viewAnnotations() {
+        if (annotations.length > 0) {
+            var i, doc = new jsPDF('p', 'mm');
+            for (i = 0; i < annotations.length; i++) {
+                doc.setProperties({
+                    title: 'Your transcriptions',
+                    subject: 'Transcriptions'
+                });
+                doc.setTextColor(18, 18, 18);
+                doc.setFont('times');
+                doc.setFontSize(12);
+                if (annotations[i].type != 'graphic') {
+                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Text: ' + annotations[i].text);
+                } else {
+                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Tag: ' + annotations[i].tag);
+                }
+            }
+            doc.output('datauri');
+        } else {
+            alert('No transcription found');
+        }
+    }
 }

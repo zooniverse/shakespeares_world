@@ -11,7 +11,6 @@ require('angular-hotkeys');
 require('angular-local-storage');
 require('angular-sanitize');
 require('angular-ui-router');
-require('jquery-caret');
 
 // App modules
 bulk(__dirname, ['./**/!(app.module).js']);

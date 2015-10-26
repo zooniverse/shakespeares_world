@@ -1,14 +1,22 @@
 <div class="modal-header">
-    <h3 class="modal-title">Next document</h3>
+    <h3 class="modal-title">View your work or move on</h3>
 </div>
 
 <div class="modal-body">
+    <p>
+        <button ng-click="vm.viewAnnotations()" class="btn btn-default">View work</button>
+    </p>
     <p>Did you transcribe everything?</p>
     <p>(Don't worry if not.)</p>
-
-    <p><button ng-click="vm.submitBlank()" class="btn btn-default">The page was blank</button></p>
-    <p><button ng-click="vm.submitComplete()" class="btn btn-default">Yes, everything is transcribed</button></p>
-    <p><button ng-click="vm.submitIncomplete()" class="btn btn-default">No, there are still things to transcribe</button></p>
+    <p>
+        <button ng-click="vm.submitBlank()" class="btn btn-default">The page was blank</button>
+    </p>
+    <p>
+        <button ng-click="vm.submitComplete()" class="btn btn-default">Yes, everything is transcribed</button>
+    </p>
+    <p>
+        <button ng-click="vm.submitIncomplete()" class="btn btn-default">No, there are still things to transcribe</button>
+    </p>
 
 </div>
 
