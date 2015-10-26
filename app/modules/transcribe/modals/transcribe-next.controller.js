@@ -45,20 +45,29 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
 
     function viewAnnotations() {
         if (annotations.length > 0) {
-            var i, doc = new jsPDF('p', 'mm', 'letter');
+            var i, doc = new jsPDF('p', 'mm');
             for (i = 0; i < annotations.length; i++) {
+                doc.setProperties({
+                    title: 'Your transcriptions',
+                    subject: 'transcriptions'
+                });
                 doc.setTextColor(255, 69, 0);
+                doc.setFont('times');
+                doc.setFontSize(12);
+                doc.setLineWidth(10);
+                doc.margins = 50;
                 //ForEach is deprecated. Do it another way.
                 //doc.splitTextToSize method may be useful here.
                 annotations.forEach(function (annotation, a) {
                     if (annotation.type != 'graphic') {
-                        doc.text(20, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Text: ' + annotation.text);
+                        doc.text(10, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Text: ' + annotation.text);
                     } else {
-                        doc.text(20, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Tag: ' + annotation.tag);
+                        doc.text(10, 20 + (2 * a * 10), 'Type: ' + annotation.type + '\n' + 'Tag: ' + annotation.tag);
                     }
                 });
             }
-            doc.save('AnnotationsTest.pdf');
+            doc.output('datauri');
+            //doc.save('AnnotationsTest.pdf');
         } else {
             alert('No transcription found');
         }
