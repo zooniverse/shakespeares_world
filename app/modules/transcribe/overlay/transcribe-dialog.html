@@ -1,4 +1,4 @@
-<div aria-label="Transcribe line" aria-hidden="{{ !active }}" class="transcribe-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1">
+<div aria-label="Transcribe line" aria-hidden="{{ !active }}" class="transcribe-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1" ng-keydown="vm.keyPress($event);">
 
     <div class="heading">
         <h3 class="title" ng-bind="vm.title"></h3>
@@ -24,3 +24,4 @@
             <button class="button -save" ng-click="vm.saveAndClose()">Save Changes</button>
         </div>
     </div>
+</div>
