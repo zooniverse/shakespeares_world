@@ -15,6 +15,7 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
     var _options;
     var _svgPanZoom;
     var _svgRotateElement;
+    var _isEnabled;
 
     factory = {
         $init: init
@@ -23,7 +24,7 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
     _extendedFactory = {
         disable: disable,
         enable: enable,
-        isEnabled: true,
+        isEnabled: isEnabled,
         getPoint: getPoint,
         resizeAndCentre: resizeAndCentre,
         rotate: rotate,
@@ -34,13 +35,13 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
     return factory;
 
     function disable() {
-        factory.isEnabled = false;
+        _isEnabled = false;
         _svgPanZoom.disablePan();
         _svgPanZoom.disableZoom();
     }
 
     function enable() {
-        factory.isEnabled = true;
+        _isEnabled = true;
         _svgPanZoom.enablePan();
         _svgPanZoom.enableZoom();
     }
@@ -73,6 +74,10 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
             svg: svgElement
         });
         return factory;
+    }
+
+    function isEnabled() {
+        return _isEnabled;
     }
 
     function rotate(theta) {
