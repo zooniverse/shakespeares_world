@@ -26,7 +26,9 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
         isEnabled: true,
         getPoint: getPoint,
         resizeAndCentre: resizeAndCentre,
-        rotate: rotate
+        rotate: rotate,
+        zoomIn: zoomIn,
+        zoomOut: zoomOut
     };
 
     return factory;
@@ -67,7 +69,9 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
         svgElement = element;
         _svgRotateElement = element.find('.rotate-container');
         _svgPanZoom = svgPanZoom(element[0], MarkingSurfaceConstants.svgPanZoom);
-        _.extend(factory, _extendedFactory, { svg: svgElement });
+        _.extend(factory, _extendedFactory, {
+            svg: svgElement
+        });
         return factory;
     }
 
@@ -92,5 +96,13 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
         _svgPanZoom.resize();
         _svgPanZoom.center();
         _svgPanZoom.fit();
+    }
+
+    function zoomIn() {
+        _svgPanZoom.zoomIn();
+    }
+
+    function zoomOut() {
+        _svgPanZoom.zoomOut();
     }
 }

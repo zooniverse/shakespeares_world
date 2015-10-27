@@ -1,11 +1,17 @@
 .navbar-transcribe
-    background-color: rgba(18,18,18,0.5)
+    background-color: offwhite
     border: 0
     margin-bottom: 0
     padding: 5px 0
     position: absolute
-    width: 180px
+    text-align: center
+    width: 182px
     z-index: 1
+
+    > .container-fluid > p
+        color: medium-grey
+        font-size: 14px
+        margin: 10px 0
 
     > .container-fluid > .controls
         display: inline-block
@@ -17,6 +23,7 @@
 
     > .container-fluid > .controls > .button.-tool
         @extend .btn-primary
+        color: dark-grey
 
     > .container-fluid > .controls > .button.-tool.-active
         button-variant($brand-primary, white, $brand-primary)
@@ -24,14 +31,17 @@
     > .container-fluid > .controls > .button.-next
         @extend .btn-success
 
+    > .container-fluid > .controls > .button.-markingsurface
+        @extend .btn-primary
+        padding: 5px 10px
+
     > .container-fluid > .controls > .button > .icon
         @extend .glyphicon
-        color: #909090
-        margin-right: 5px
+        color: dark-grey
 
     > .container-fluid > .controls > .button.-tool > .icon
     > .container-fluid > .controls > .button.-next > .icon
-        color: white
+        color: dark-grey
 
     > .container-fluid > .controls > .button.-tool.-active > .icon
         color: $brand-primary
@@ -51,6 +61,11 @@
 
     > .container-fluid > .controls > .button > .icon.-image
         @extend .glyphicon-picture
+
+    > .container-fluid > .controls > .button > .icon.-zoomin
+        @extend .glyphicon-plus
+    > .container-fluid > .controls > .button > .icon.-zoomout
+        @extend .glyphicon-minus
 
     > .container-fluid > .controls > .button > .icon.-next
         @extend .glyphicon-arrow-right
