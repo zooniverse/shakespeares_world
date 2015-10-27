@@ -1,5 +1,6 @@
 'use strict';
 
+var reactivateMarkingSurface;
 var _ = require('lodash');
 var angular = require('angular');
 var Hammer = require('hammerjs');
@@ -69,7 +70,9 @@ function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFacto
     // Methods
     function closeMenu() {
         $rootScope.$broadcast('markingTools:enable');
-        MarkingSurfaceFactory.enable();
+        if (reactivateMarkingSurface === true) {
+            MarkingSurfaceFactory.enable();
+        }
         vm.active = false;
         // Might be called by the event or the hotkey, so need to optionally run a digest
         $timeout(function () {
@@ -79,7 +82,10 @@ function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFacto
 
     function openMenu(data) {
         $rootScope.$broadcast('markingTools:disable');
-        MarkingSurfaceFactory.disable();
+        reactivateMarkingSurface = (MarkingSurfaceFactory.isEnabled()) ? true : false;
+        if (MarkingSurfaceFactory.isEnabled()) {
+            MarkingSurfaceFactory.disable();
+        }
         _positionMenu(data);
         vm.active = true;
         vm.menuOptions = data.menuOptions;

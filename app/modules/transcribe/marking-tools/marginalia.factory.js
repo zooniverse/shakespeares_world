@@ -35,10 +35,11 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
         }
 
         _hammer.get('pan').set({
-            direction: Hammer.DIRECTION_ALL
+            direction: Hammer.DIRECTION_ALL,
+            threshold: 0
         });
         _hammer.on('panstart', _startRect);
-        _enabled = true;
+        _enable();
         MarkingSurfaceFactory.disable();
     }
 
@@ -72,7 +73,9 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
     }
 
     function _disable() {
-        _enabled = false;
+        $timeout(function () {
+            _enabled = false;
+        });
     }
 
     function _drawRect(event) {
@@ -85,10 +88,9 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
     }
 
     function _enable() {
-        function setEnabled() {
+        $timeout(function () {
             _enabled = true;
-        }
-        $timeout(setEnabled);
+        });
     }
 
     function _endRect() {
