@@ -191,7 +191,6 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     }
 
     function onKeydown(event) {
-        console.log(event.which);
         if (event.which === 13) { // enter key
             event.preventDefault();
             saveAndCloseDialog();

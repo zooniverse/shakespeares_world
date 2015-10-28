@@ -13,6 +13,15 @@
         font-size: 14px
         margin: 10px 0
 
+    > .container-fluid > .title
+        border-top: 1px solid light-grey
+        color: medium-grey
+        font-size: 14px
+        font-weight: 700
+        margin: 10px 0
+        padding: 10px 0
+
+
     > .container-fluid > .controls
         display: inline-block
 
@@ -26,7 +35,7 @@
         color: dark-grey
 
     > .container-fluid > .controls > .button.-tool.-active
-        button-variant($brand-primary, white, $brand-primary)
+        button-variant($brand-primary, green, $brand-primary)
 
     > .container-fluid > .controls > .button.-next
         @extend .btn-success
@@ -37,7 +46,7 @@
 
     > .container-fluid > .controls > .button > .icon
         @extend .glyphicon
-        color: dark-grey
+        color: green
 
     > .container-fluid > .controls > .button.-tool > .icon
     > .container-fluid > .controls > .button.-next > .icon

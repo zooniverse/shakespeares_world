@@ -7,7 +7,7 @@ require('./modals.module.js')
     .controller('TranscribeNextController', TranscribeNextController);
 
 // @ngInject
-function TranscribeNextController($modalInstance, ClassificationFactory, AnnotationsFactory) {
+function TranscribeNextController($modalInstance, ClassificationFactory, AnnotationsFactory, SubjectsFactory) {
     var annotations = AnnotationsFactory.list();
     var vm = this;
     vm.cancel = cancel;
@@ -60,7 +60,7 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
                     doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Tag: ' + annotations[i].tag);
                 }
             }
-            doc.output('datauri');
+            doc.save('Subject-' + SubjectsFactory.current.data.id + '.pdf');
         } else {
             alert('No transcription found');
         }
