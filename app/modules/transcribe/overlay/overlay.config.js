@@ -174,23 +174,17 @@ var overlayConfig = {
         ],
 
     graphics: {
-        bookplate: {
-            name: 'Bookplate',
-            tag: '<graphic>bookplate<graphic/>'
-        },
-        booksellerLibrary: {
-            name: 'Bookseller/Library Code',
-            tag: '<graphic>bookseller-library-code<graphic/>'
-
-        },
-        bookOwnerStamp: {
-            name: 'Book Owner Stamp',
-            tag: '<graphic>book-owner-stamp<graphic/>'
-
-        },
         coatOfArms: {
             name: 'Coat of Arms',
             tag: '<graphic>coat-of-arms<graphic/>'
+        },
+        initial: {
+            name: 'Decorated initial',
+            tag: '<graphic>decorated-initial<graphic/>'
+        },
+        line: {
+            name: 'Dividing line',
+            tag: '<graphic>dividing-line<graphic/>'
         },
         flourish: {
             name: 'Flourish',
@@ -200,25 +194,21 @@ var overlayConfig = {
             name: 'Illustration',
             tag: '<graphic>illustration<graphic/>'
         },
-        initial: {
-            name: 'Decorated initial',
-            tag: '<graphic>decorated-initial<graphic/>'
-        },
-        line: {
-            name: 'Line',
-            tag: '<graphic>line<graphic/>'
-        },
         manicule: {
             name: 'Manicule',
             tag: '<graphic>manicule<graphic/>'
+        },
+        map: {
+            name: 'Map',
+            tag: '<graphic>map<graphic/>'
         },
         seal: {
             name: 'Seal',
             tag: '<graphic>seal<graphic/>'
         },
-        treQuatrefoil: {
-            name: 'Trefoil/Quatrefoil',
-            tag: '<graphic>trefoil-quatrefoil<graphic/>'
+        symbol: {
+            name: 'Symbol',
+            tag: '<graphic>symbol<graphic/>'
         }
     }
 };
