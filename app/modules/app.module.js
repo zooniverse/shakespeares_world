@@ -29,10 +29,10 @@ function startApp() {
         'ngAnimate',
         // App modules
         'app.core',
+        'app.home',
         'app.static',
         'app.404',
         'app.layout',
-        'app.setSelector',
         'app.transcribe',
         'app.zooapi'
     ];

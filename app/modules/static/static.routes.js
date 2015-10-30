@@ -7,16 +7,6 @@ require('./static.module.js')
 function Routes($stateProvider) {
 
     $stateProvider
-        .state('Home', {
-            parent: 'Base',
-            url: '/',
-            title: 'Home',
-            views: {
-                'main': {
-                    templateUrl: 'static/home.html'
-                }
-            }
-        })
         .state('About', {
             parent: 'Base',
             url: '/about',

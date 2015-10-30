@@ -1,6 +1,6 @@
 'use strict';
 
-require('./set-selector.module.js')
+require('./home.module.js')
     .controller('GenreDetailController', GenreDetailController);
 
 // @ngInject
