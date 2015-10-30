@@ -7,7 +7,6 @@ require('./home.module.js')
 function GenreListController($state, GenresFactory) {
     var vm = this;
     vm.genres = GenresFactory.list();
-    console.log('Dio cane?')
     vm.go = go;
 
     function go(genre) {
