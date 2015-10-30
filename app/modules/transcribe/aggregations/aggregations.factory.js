@@ -35,6 +35,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
     function _createParamsObject() {
         return zooAPIProject.get()
             .then(function (project) {
+                console.log('Current', SubjectsFactory.current)
                 return {
                     subject_id: SubjectsFactory.current.data.id,
                     workflow_id: project.links.workflows[0]

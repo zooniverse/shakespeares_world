@@ -21,7 +21,7 @@ function Routes($stateProvider) {
         .state('GenreDetail', {
             parent: 'Base',
             title: 'About the genre',
-            url: '/:genreId',
+            url: '/genre/:genreId',
             views: {
                 'main': {
                     controller: 'GenreDetailController as vm',
