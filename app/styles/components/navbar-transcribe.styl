@@ -1,5 +1,5 @@
 .navbar-transcribe
-    background-color: offwhite
+    background-color: offwhitergba
     border: 0
     margin-bottom: 0
     padding: 5px 0
@@ -21,7 +21,6 @@
         margin: 10px 0
         padding: 10px 0
 
-
     > .container-fluid > .controls
         display: inline-block
 
@@ -33,6 +32,7 @@
     > .container-fluid > .controls > .button.-tool
         @extend .btn-primary
         color: dark-grey
+        width: 90%
 
     > .container-fluid > .controls > .button.-tool.-active
         button-variant($brand-primary, green, $brand-primary)
@@ -49,7 +49,6 @@
         color: green
 
     > .container-fluid > .controls > .button.-tool > .icon
-    > .container-fluid > .controls > .button.-next > .icon
         color: dark-grey
 
     > .container-fluid > .controls > .button.-tool.-active > .icon
@@ -75,8 +74,3 @@
         @extend .glyphicon-plus
     > .container-fluid > .controls > .button > .icon.-zoomout
         @extend .glyphicon-minus
-
-    > .container-fluid > .controls > .button > .icon.-next
-        @extend .glyphicon-arrow-right
-        margin-right: 0
-        margin-left: 5px

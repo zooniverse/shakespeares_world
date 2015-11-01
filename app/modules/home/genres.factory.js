@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-require('./set-selector.module.js')
+require('./home.module.js')
     .factory('GenresFactory', GenresFactory);
 
 // @ngInject
