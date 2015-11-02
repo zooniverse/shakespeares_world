@@ -3,38 +3,28 @@
 require('./auth.module.js')
     .directive('authHeader', authHeader);
 
-// @ngInject
-function authHeader(authFactory) {
+function authHeader() {
     var directive = {
-        link: authHeaderLink,
+        controller: AuthHeaderController,
+        controllerAs: 'vm',
         replace: true,
         restrict: 'A',
         scope: true,
         templateUrl: 'auth/auth-header.html'
     };
     return directive;
+}
 
-    function authHeaderLink(scope, element) {
+// @ngInject
+function AuthHeaderController($scope, authFactory) {
+    var vm = this;
+    vm.signIn = authFactory.signIn;
+    vm.signOut = authFactory.signOut;
+    vm.user = authFactory.getUser();
 
-        // Setup
-        scope.user = authFactory.getUser();
-        scope.signIn = authFactory.signIn;
-        scope.signOut = authFactory.signOut;
-
-        // Events
-        element.find('.login-form').on('click', preventClose);
-        scope.$on('auth:signin', setUser);
-        scope.$on('auth:signout', setUser);
-
-        // Methods
-        function preventClose(event) {
-            event.stopPropagation();
+    $scope.$on('LocalStorageModule.notification.setitem', function (event, data) {
+        if (data.key === 'user') {
+            vm.user = authFactory.getUser();
         }
-
-        function setUser() {
-            scope.user = authFactory.getUser();
-        }
-
-    }
-
+    });
 }
