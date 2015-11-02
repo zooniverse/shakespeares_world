@@ -30,17 +30,12 @@ require('./home.module.js')
         {
             active: true,
             genreId: "6",
-            name: "Receipt Books"
+            name: "Recipe Books"
         },
         {
             active: true,
             genreId: "7",
-            name: "Religious Works"
-        },
-        {
-            active: true,
-            genreId: "8",
-            name: "Legal Papers"
+            name: "Sermons"
         },
         {
             active: true,
@@ -50,31 +45,12 @@ require('./home.module.js')
         {
             active: true,
             genreId: "10",
-            name: "Drama"
+            name: "Diplomatic Papers"
         },
         {
             active: true,
             genreId: "11",
-            name: "State Papers"
-        },
-        {
-            active: true,
-            genreId: "12",
-            name: "Account Books"
-        },
-        {
-            active: true,
-            genreId: "13",
             name: "Coats of Arms"
-        },
-        {
-            active: true,
-            genreId: "14",
-            name: "Horoscopes"
-        },
-        {
-            active: true,
-            genreId: "15",
-            name: "Illustrated Works"
         }
+
     ]);
