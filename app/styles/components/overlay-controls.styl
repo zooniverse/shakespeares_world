@@ -1,0 +1,40 @@
+.overlay-controls
+    @extend .btn-group
+    @extend .btn-group-vertical
+    right: 20px
+    position: absolute
+    top: 20px
+    z-index: 1
+
+    >.button
+        @extend .btn
+        display: block
+
+    >.button.-markingsurface
+        @extend .btn-primary
+        border-radius: 0
+        line-height: 1.5
+        padding: 10px 15px
+
+    >.button > .icon
+        @extend .glyphicon
+        color: green
+        font-size: 16px
+
+    >.button > .icon.-alphabet
+        @extend .glyphicon-italic
+
+    >.button > .icon.-cribsheet
+        @extend .glyphicon-th-list
+
+    >.button > .icon.-rotateright
+        @extend .glyphicon-share-alt
+
+    >.button > .icon.-centre
+        @extend .glyphicon-screenshot
+
+    >.button > .icon.-zoomin
+        @extend .glyphicon-zoom-in
+
+    >.button > .icon.-zoomout
+        @extend .glyphicon-zoom-out
