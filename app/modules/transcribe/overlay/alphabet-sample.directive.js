@@ -24,9 +24,7 @@ function alphabetSample() {
             });
         });
         var image = new Image();
-        console.log(scope.vm.samples)
         image.src = scope.vm.samples[0].imgPath;
-        console.log('path', image.src)
     }
 }
 

@@ -4,10 +4,8 @@
 
             <div class="bg"></div>
             <div class="text">
-                <h3>Folger Shakespeare Library Presents</h3>
-                <div class="separator"></div>
                 <h1>Shakespeare's <b>World</b></h1>
-                <p>Shakespeare's World enables citizen humanists from around the globe to join the effort of transcribing and encoding thousands of early modern manuscripts pages from the Folger Shakespeare Library.</p>
+                <p>Transcribe handwritten documents by Shakespeare’s contemporaries and help us understand his life and times.</p>
 
                 <a ui-sref="Transcribe" class="btn btn-success btn-lg">Get started</a>
                 <p>or</p>
@@ -15,7 +13,7 @@
                     <div class="row">
                         <div class="content">
                             <div class="input-group">
-                                <input type="text" ng-model="selected" placeholder="Try searching for a genre or scroll down" typeahead="genre as genre.name for genre in vm.genres | filter:{name: $viewValue} | limitTo:8" typeahead-on-select="vm.go($item)" typeahead-loading="vm.loading" class="input">
+                                <input type="text" ng-model="selected" placeholder="Try searching for a genre" typeahead="genre as genre.name for genre in vm.genres | filter:{name: $viewValue} | limitTo:8" typeahead-on-select="vm.go($item)" typeahead-loading="vm.loading" class="input">
                                 <div class="input-group-addon" aria-hidden="true">
                                     <span class="icon"></span>
                                 </div>
