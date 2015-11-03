@@ -33,13 +33,27 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
     }
 
     function _createParamsObject() {
-        return zooAPIProject.get()
-            .then(function (project) {
-                return {
-                    subject_id: SubjectsFactory.current.data.id,
-                    workflow_id: project.links.workflows[0]
-                };
-            });
+        var current = SubjectsFactory.current;
+        console.log('Current: ', current)
+        if (!current) {
+            return zooAPIProject.get()
+                .then(function (project) {
+                    console.log('Project(current is null): ', project)
+                    return {
+                        subject_id: SubjectsFactory.current.data.id,
+                        workflow_id: project.links.workflows[0]
+                    };
+                });
+        } else {
+            return zooAPIProject.get()
+                .then(function (project) {
+                    console.log('Project: ', project)
+                    return {
+                        subject_id: SubjectsFactory.current.data.id,
+                        workflow_id: project.links.workflows[0]
+                    };
+                });
+        }
     }
 
     function _getAggregations(params) {
