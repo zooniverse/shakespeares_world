@@ -1,11 +1,12 @@
-.keypad-slide
+.alphabet-sample
     @extend .panel
     @extend .panel-default
     background-color: rgba(245, 245, 245, 0.5)
     display: none
     position: absolute
     right: 0
-    width: 25%
+    width: 30%
+    height: 100%
     z-index: 1
 
 
@@ -23,7 +24,10 @@
 
     > .body
         @extend .panel-body
-
+        max-height: 100%
+        overflow: auto
+    > .body >img
+        max-width: 100%
     > .body > .buttons
         display: flex
         justify-content: space-between
