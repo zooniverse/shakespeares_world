@@ -170,6 +170,10 @@ var overlayConfig = {
         {
             name: 'Superscript',
             tag: 'sw-sup'
+            },
+        {
+            name: 'Marginalia',
+            tag: 'sw-label'
             }
         ],
     graphics: {
