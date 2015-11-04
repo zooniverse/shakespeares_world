@@ -35,10 +35,6 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
         var current = SubjectsFactory.current;
         return zooAPIProject.get()
             .then(function (project) {
-                console.log('SubID', zooAPI.type('subjects').get({
-                    workflow_id: project.links.workflows[0],
-                    subject_set_id: _.sample(project.links.subject_sets)
-                }))
                 return {
                     subject_id: SubjectsFactory.current.data.id,
                     workflow_id: project.links.workflows[0]
