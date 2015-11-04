@@ -15,15 +15,9 @@ function zooAPIProject($q, localStorageService, zooAPIConfig, zooAPI) {
     return factory;
 
     function get() {
-        var cache = localStorageService.get('project');
-        if (cache) {
-            return $q.when(cache);
-        } else {
-            return zooAPI.type('projects').get(zooAPIConfig.project_id)
-                .then(function (response) {
-                    localStorageService.set('project', response);
-                    return response;
-                });
-        }
+        return zooAPI.type('projects').get(zooAPIConfig.project_id)
+            .then(function (response) {
+                return response;
+            });
     }
 }

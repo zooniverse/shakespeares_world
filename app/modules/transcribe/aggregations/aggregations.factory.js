@@ -25,7 +25,6 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
             .then(function (newAggregations) {
                 _aggregations = _aggregations.concat(newAggregations);
             });
-
     }
 
     function list() {
@@ -34,26 +33,17 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
 
     function _createParamsObject() {
         var current = SubjectsFactory.current;
-        console.log('Current: ', current)
-        if (!current) {
-            return zooAPIProject.get()
-                .then(function (project) {
-                    console.log('Project(current is null): ', project)
-                    return {
-                        subject_id: SubjectsFactory.current.data.id,
-                        workflow_id: project.links.workflows[0]
-                    };
-                });
-        } else {
-            return zooAPIProject.get()
-                .then(function (project) {
-                    console.log('Project: ', project)
-                    return {
-                        subject_id: SubjectsFactory.current.data.id,
-                        workflow_id: project.links.workflows[0]
-                    };
-                });
-        }
+        return zooAPIProject.get()
+            .then(function (project) {
+                console.log('SubID', zooAPI.type('subjects').get({
+                    workflow_id: project.links.workflows[0],
+                    subject_set_id: _.sample(project.links.subject_sets)
+                }))
+                return {
+                    subject_id: SubjectsFactory.current.data.id,
+                    workflow_id: project.links.workflows[0]
+                };
+            });
     }
 
     function _getAggregations(params) {

@@ -94,19 +94,15 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
                             page: page,
                             sort: 'queued',
                             workflow_id: project.links.workflows[0],
-                            //FOR LAUNCH: change this value to '_subjectSet'
-                            subject_set_id: '2508',
+                            subject_set_id: _subjectSet,
                             order: 'asc'
                         });
                     } else {
-                        console.log('Random subject set: ', _.sample(project.links.subject_sets))
                         return zooAPI.type('subjects').get({
                             page: page,
                             sort: 'queued',
                             workflow_id: project.links.workflows[0],
-                            //FOR LAUNCH: change this value to _.sample(project.links.subject_sets)
-                            subject_set_id: '2508'
-
+                            subject_set_id: _.sample(project.links.subject_sets)
                         });
                     }
                 })
