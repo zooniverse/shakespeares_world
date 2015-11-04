@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
 require('./overlay.module.js')
     .directive('alphabetSample', alphabetSample);
 
@@ -32,5 +30,4 @@ function alphabetSample() {
 function alphabetSampleController($scope, overlayConfig) {
     var vm = this;
     vm.samples = overlayConfig.samples;
-
 }

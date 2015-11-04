@@ -70,7 +70,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
                 });
                 classification.annotations.push({
                     task: 'T2',
-                    value: angular.copy(AnnotationsFactory.list())
+                    value: _.clone(AnnotationsFactory.list())
                 });
                 classification.annotations.push({
                     task: 'T3',
@@ -90,7 +90,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
                 });
                 classification.annotations.push({
                     task: 'T2',
-                    value: angular.copy(AnnotationsFactory.list())
+                    value: _.clone(AnnotationsFactory.list())
                 });
                 classification.annotations.push({
                     task: 'T3',

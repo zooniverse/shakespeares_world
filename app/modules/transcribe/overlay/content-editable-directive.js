@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
 require('./overlay.module.js')
     .directive('contentEditable', contentEditable);
 
@@ -12,11 +10,16 @@ function contentEditable() {
         require: '?ngModel'
     };
     return directive;
+
     function contentEditableLink(scope, element, attrs, ngModel) {
-        if (!ngModel) return; // do nothing if no ng-model
+        if (!ngModel) {
+            return; // do nothing if no ng-model
+        }
+
         ngModel.$render = function () {
             element.html(ngModel.$viewValue || '');
         };
+
         // Listen for change events to enable binding
         element.on('blur keyup change', function () {
             scope.$evalAsync(read);
