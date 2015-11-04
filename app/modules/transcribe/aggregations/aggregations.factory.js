@@ -25,7 +25,6 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
             .then(function (newAggregations) {
                 _aggregations = _aggregations.concat(newAggregations);
             });
-
     }
 
     function list() {
@@ -33,6 +32,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
     }
 
     function _createParamsObject() {
+        var current = SubjectsFactory.current;
         return zooAPIProject.get()
             .then(function (project) {
                 return {
