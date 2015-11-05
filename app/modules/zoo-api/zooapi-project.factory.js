@@ -16,7 +16,6 @@ function zooAPIProject($q, localStorageService, zooAPIConfig, zooAPI) {
     return factory;
 
     function _getFromPanoptes() {
-        console.log('getting from panoptes')
         return zooAPI.type('projects').get(zooAPIConfig.project_id)
             .then(function (response) {
                 _data = response;

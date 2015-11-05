@@ -1,7 +1,5 @@
 'use strict';
 var jsPDF = require('jspdf-browserify');
-var _ = require('lodash');
-
 
 require('./modals.module.js')
     .controller('TranscribeNextController', TranscribeNextController);
@@ -54,7 +52,7 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
                 doc.setTextColor(18, 18, 18);
                 doc.setFont('times');
                 doc.setFontSize(12);
-                if (annotations[i].type != 'graphic') {
+                if (annotations[i].type !== 'graphic') {
                     doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Text: ' + annotations[i].text);
                 } else {
                     doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Tag: ' + annotations[i].tag);

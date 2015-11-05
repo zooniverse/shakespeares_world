@@ -7,7 +7,6 @@ require('./auth.module.js')
 function authFactory($interval, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig) {
 
     var factory;
-    console.log(zooAPI)
 
     if (localStorageService.get('user') === null) {
         localStorageService.set('user', null);
@@ -83,8 +82,6 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
 
     function signIn() {
         localStorageService.set('redirectOnSignIn', $location.absUrl());
-        console.log($location.absUrl());
-        console.log($window.location.href);
         $window.location.href = zooAPI.root.match(/^(.*)\/[^/]*$/)[1] +
             '/oauth/authorize' +
             '?response_type=token' +

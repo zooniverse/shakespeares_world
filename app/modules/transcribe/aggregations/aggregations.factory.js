@@ -32,7 +32,6 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
     }
 
     function _createParamsObject() {
-        var current = SubjectsFactory.current;
         return zooAPIProject.get()
             .then(function (project) {
                 return {

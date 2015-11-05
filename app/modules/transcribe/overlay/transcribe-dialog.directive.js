@@ -159,10 +159,10 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
                     sel.addRange(range);
                 }
             }
-        } else if (document.selection && document.selection.type != "Control") {
+        } else if (document.selection && document.selection.type !== 'Control') {
             // IE < 9
             document.selection.createRange().pasteHTML(html);
-        };
+        }
 
         function insertZWS(range) {
             range.collapse(false);
@@ -199,7 +199,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
 
     function saveAndCloseDialog() {
         if (vm.transcription !== vm.data.text) {
-            if (vm.data.type === 'marginalia' && (vm.transcription).indexOf('<sw-label>') == -1) {
+            if (vm.data.type === 'marginalia' && vm.transcription.indexOf('<sw-label>') === -1) {
                 vm.data.text = '<sw-label>' + vm.transcription + '</sw-label>';
             } else {
                 vm.data.text = vm.transcription;
@@ -221,5 +221,5 @@ function getDimensions(element) {
         offset: element.offset(),
         height: element[0].getBoundingClientRect().height,
         width: element[0].getBoundingClientRect().width
-    }
+    };
 }
