@@ -11,6 +11,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     vm.loading = SubjectsFactory.loading;
     vm.subject = SubjectsFactory.current;
     vm.$loadNext = loadNext;
+    vm.$openTutorial = openTutorial;
 
     // Watchers
     $scope.$watch(getLoadingStatus, setLoadingStatus);
@@ -20,6 +21,12 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
 
     // Functions / methods
     function activate() {
+
+        if (localStorageService.get('viewedTutorial') === null) {
+           localStorageService.set('viewedTutorial', true);
+            openTutorial();
+        }
+
         loadSubject()
             .then(function () {
                 vm.annotations = AnnotationsFactory.list();
@@ -52,6 +59,10 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         return SubjectsFactory.$getData($stateParams.subjectSet)
             .then(subjectLoaded, subjectLoadError)
             .then(loadAggregations);
+    }
+
+    function openTutorial() {
+        ModalsFactory.openTutorial();
     }
 
     function setLoadingStatus() {
