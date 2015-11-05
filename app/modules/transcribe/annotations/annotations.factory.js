@@ -73,13 +73,13 @@ function AnnotationsFactory(localStorageService, $http) {
             }).then(function successCallback(response) {
                 console.log('Success: ', response.status)
             }, function errorCallback(response) {
-                var url = response.config.url;
-                var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+                //var url = response.config.url;
+                //var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
                 _.extend(annotation, {
-                    variants: words
+                    variants: lemmas[i]
                 });
                 console.log('Annotation: ', annotation);
-                console.log('Words: ', words);
+                console.log('Words: ', lemmas[i]);
             })
         }
     }
