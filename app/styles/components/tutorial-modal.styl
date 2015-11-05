@@ -1,0 +1,27 @@
+.tutorial-modal .modal-content
+
+    > .modal-header
+        display: flex
+
+    > .modal-header > .modal-title
+        flex: 1
+
+    > .modal-body
+        font-size: 14px
+
+    > .modal-body > section > img
+        @extend .img-responsive
+        margin-bottom: 5px
+
+    > .modal-body > section > .copyright
+        font-size: 8px
+        color: #999
+
+
+    > .modal-footer > .button
+        @extend .btn
+        @extend .btn-default
+        border-radius: 0
+
+    > .modal-footer > .button.-start
+        @extend .btn-success

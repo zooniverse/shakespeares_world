@@ -1,0 +1,69 @@
+<div class="modal-body">
+
+    <section ng-show="vm.page === 1">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+
+        <p>1. Welcome to the beta test for ‘Shakespeare’s World’. When we launch you will be able to choose from the genres below, but for now please just click ‘get started’. Sign in for the best user experience.</p>
+    </section>
+
+    <section ng-show="vm.page === 2">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+
+        <p>2. You can zoom, rotate and re-center images using the buttons on the right hand side of the screen.</p>
+    </section>
+
+
+    <section ng-show="vm.page === 3">
+        <p>3. Important tip: <b>Preserve spelling, punctuation and capitalization in order for us to capture instances of new words or variants. Remember: spelling was fluid in this period and we are looking for unrecorded spellings in order to improve the Oxford English Dictionary. Modernization won’t help!</b></p>
+    </section>
+
+    <section ng-show="vm.page === 4">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+
+        <p>4. Every word helps! Click ‘Transcribe Text’ on the left and then click at the start and end of a word, a few words or an entire line that you want to transcribe. You don’t have to start at the beginning of a line, and you should only transcribe text that appears within the same line. Do as much or as little as you like! Dots appear when you click on the page. You can delete them by clicking one and selecting delete.</p>
+        <p>Many common abbreviations can be transcribed with buttons on the keyboard. Always use these when you can, in order to create consistent data. wch becomes which, yt becomes that etc.</p>
+    </section>
+
+    <section ng-show="vm.page === 5">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+
+        <p>5. Expansions: While many expansions are on the keyboard, some are not. If you can make an educated guess and expand a word, please do so by typing the visible letters, and then highlighting any implied ones with the 'expansion' button.</p>
+    </section>
+
+    <section ng-show="vm.page === 6">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+        <p>6. When you find deleted text, write out the word or words, highlight them with your cursor and then click on the delete button. You can also capture ‘unclear’ readings using the ‘unclear’ button. Just type what you can see (if anything) or use ???, highlight the confusing word(s) or ??? and press the ‘unclear’ button, which highlights the selection.</p>
+    </section>
+
+    <section ng-show="vm.page === 7">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+        <p>7. Dates and money are often represented with superscript letters, as in 3rd XIth, 4s and 3d. Please capture superscripts with the ‘Superscript’ button, type what you see, highlight it and click.</p>
+    </section>
+
+    <section ng-show="vm.page === 8">
+        <img ng-src="images/tutorial/step{{ vm.page }}.gif">
+        <p>8. Marginalia describes any text that appears in the margin of the page outside the main body text, such as labels, notes or speech prefixes, such as names of speakers in dramatic texts. <b>Transcribe marginalia as you would body text, but be sure to transcribe it separately from the body text.</b> Transcribe what you see, using any superscript, unclear, insertion, expansion or deletion tags as needed. Then highlight the text and click the ‘marginalia’ button on the main keypad.</p>
+    </section>
+
+    <section ng-show="vm.page === 9">
+        <img src="images/tutorial/step{{ vm.page }}.gif">
+        <p>9. Some pages have graphic features, including coats of arms, illustrated letters, beautiful drawings, wax seals, and fun flourishes. To capture these, click ‘Identify Graphic’ and click and drag to draw a rectangle around the feature, one at a time. Then select the relevant type from the list. See the field guide for examples and a glossary.</p>
+    </section>
+
+    <section ng-show="vm.page === 10">
+        <img src="images/tutorial/step{{ vm.page }}.gif">
+        <p>10. Deleting lines and graphics: If you want to edit or delete a transcription or graphic, just click on the relevant button on the left (‘Transcribe Text’ or ‘Identify Graphic’) and then click on the dot or box and select ‘edit’ or ‘delete’.</p>
+    </section>
+
+    <section ng-show="vm.page === 11">
+        <img src="images/tutorial/step{{ vm.page }}.gif">
+        <p>11. Helpful hints: When you mouse over the abbreviations on the keyboard, examples appear. Likewise, if you want to see some sample alphabets, click ‘A’ on the right hand side of the screen and scroll through the different letters. There are some tricky ones, so it’s good to consult the alphabet if you get stuck.</p>
+    </section>
+
+</div>
+
+<div class="modal-footer">
+    <button class="button -prev" ng-click="vm.page = vm.page - 1" ng-show="vm.page > 1">Previous</button>
+    <button class="button -next" ng-click="vm.page = vm.page + 1" ng-show="vm.page < 11">Next</button>
+    <button class="button -start" ng-click="vm.close()" ng-show="vm.page === 11">Get Started!</button>
+</div>
