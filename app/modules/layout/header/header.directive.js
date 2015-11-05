@@ -30,6 +30,10 @@ function appHeader() {
             {
                 label: 'The Team',
                 state: 'Team'
+            },
+            {
+                label: 'Guide',
+                state: 'GuideBase'
             }
         ];
     }

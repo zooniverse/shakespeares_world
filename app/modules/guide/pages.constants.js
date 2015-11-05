@@ -7,41 +7,27 @@ require('./guide.module.js')
             title: 'Overview'
         },
         {
-            slug: 'line-by-line',
-            title: 'Line by line transcription'
+            slug: 'general',
+            title: 'General guidelines'
         },
         {
-            slug: 'transcribing',
-            title: 'Annotating text'
+            slug: 'numbers',
+            title: 'Numbers and Currency'
         },
         {
-            slug: 'images',
-            title: 'Annotating images'
+            slug: 'text',
+            title: 'Text'
         },
         {
-            slug: 'already-transcribed',
-            title: 'Black dots / previously transcribed lines'
+            slug: 'graphics',
+            title: 'Graphics'
         },
         {
-            slug: 'blank',
-            title: 'Blank pages'
+            slug: 'counties',
+            title: 'English county names / abbreviations'
         },
         {
-            slug: 'insertion',
-            title: 'Inserted text'
-        },
-        {
-            slug: 'deletion',
-            title: 'Deleted text'
-        },
-        {
-            slug: 'illegible',
-            title: 'Illegible text'
-        },
-        {
-            slug: 'not-english',
-            title: 'Non-English languages'
+            slug: 'glossary',
+            title: 'Glossary'
         }
     ]);
-
-

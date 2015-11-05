@@ -1,0 +1,49 @@
+.guide-page
+    background-color: offwhite
+    flex: 1
+
+    dl > dt
+        margin-top: 24px
+
+
+    dl > dd
+        padding-left: 24px
+
+
+    > .content
+        @extend .container
+
+    > .content > .row
+        @extend .row
+
+    > .content > .row > .nav
+        @extend .col-xs-3
+        margin-top: 19px
+
+    > .content > .row > .nav > a
+        color: dark-grey
+        display: block
+        padding: $padding-base-vertical 0
+
+    > .content > .row > .nav > a.-active
+        font-weight: bold
+
+    > .content > .row > .page
+        @extend .col-xs-9
+        font-size: 16px
+
+    > .content > .row > .page a
+        color: dark-grey
+        text-decoration: underline
+
+    > .content > .row > .page a:hover
+        color: darken(green, 40%)
+
+    > .content > .row > .page img
+        margin-bottom: $padding-base-vertical
+
+    > .content > .row > .page .example
+        background: white
+        border-left: 3px solid green
+        font-family:  'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace
+        padding: $padding-base-vertical $padding-base-horizontal

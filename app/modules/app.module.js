@@ -29,6 +29,7 @@ function startApp() {
         'ngAnimate',
         // App modules
         'app.core',
+        'app.guide',
         'app.home',
         'app.static',
         'app.404',

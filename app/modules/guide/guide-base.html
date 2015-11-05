@@ -1,16 +1,20 @@
 <div class="guide-page">
 
-    <div class="row">
+    <div class="content">
 
-        <nav class="nav">
-            <a
-                ng-repeat="section in vm.sections"
-                ui-sref-active="-active"
-                ui-sref="GuidePage({ page: section.slug })"
-                >{{ section.title }}</a>
-        </nav>
+        <div class="row">
 
-        <div class="page" ui-view="page"></div>
+            <nav class="nav">
+                <a
+                    ng-repeat="section in vm.sections"
+                    ui-sref-active="-active"
+                    ui-sref="GuidePage({ page: section.slug })"
+                    >{{ section.title }}</a>
+            </nav>
+
+            <div class="page" ui-view="page"></div>
+
+        </div>
 
     </div>
 
