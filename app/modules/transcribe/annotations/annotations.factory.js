@@ -55,8 +55,8 @@ function AnnotationsFactory(localStorageService, $http) {
         } else {
             _annotations.push(annotation);
         }
-        updateCache();
         checkVariants(annotation);
+        updateCache();
         return annotation;
     }
 
@@ -64,24 +64,25 @@ function AnnotationsFactory(localStorageService, $http) {
     function checkVariants(annotation) {
         var lemmas = annotation.text.split(' ');
         var results = [];
-
         for (var i = 0; i < lemmas.length; ++i) {
             var urlLemmas = encodeURIComponent(lemmas[i]).toLowerCase();
-            console.log('urlLemmas: ' + urlLemmas);
             results.push(urlLemmas);
             $http({
                 method: 'GET',
                 url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + results[i] + '.txt'
             }).then(function successCallback(response) {
-                console.log('Success: ', response)
+                console.log('Success: ', response.status)
             }, function errorCallback(response) {
-                console.log('Error: ', response)
-            });
+                var url = response.config.url;
+                var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+                _.extend(annotation, {
+                    variants: words
+                });
+                console.log('Annotation: ', annotation);
+                console.log('Words: ', words);
+            })
         }
     }
-
-
-
 
 
     function updateCache() {
