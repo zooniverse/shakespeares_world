@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService) {
+function AnnotationsFactory(localStorageService, $http) {
 
     var factory;
     var _annotations;
@@ -47,18 +47,47 @@ function AnnotationsFactory(localStorageService) {
 
     // Update if an annotation exists, create if it doesn't
     function upsert(annotation) {
-        var inCollection = _.find(_annotations, { $$hashKey: annotation.$$hashKey });
+        var inCollection = _.find(_annotations, {
+            $$hashKey: annotation.$$hashKey
+        });
         if (inCollection) {
             inCollection = _.extend(inCollection, annotation);
         } else {
             _annotations.push(annotation);
         }
         updateCache();
+        checkVariants(annotation);
         return annotation;
     }
 
+
+    function checkVariants(annotation) {
+        var lemmas = annotation.text.split(' ');
+        var results = [];
+
+        for (var i = 0; i < lemmas.length; ++i) {
+            var urlLemmas = encodeURIComponent(lemmas[i]).toLowerCase();
+            console.log('urlLemmas: ' + urlLemmas);
+            results.push(urlLemmas);
+            $http({
+                method: 'GET',
+                url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + results[i] + '.txt'
+            }).then(function successCallback(response) {
+                console.log('Success: ', response)
+            }, function errorCallback(response) {
+                console.log('Error: ', response)
+            });
+        }
+    }
+
+
+
+
+
     function updateCache() {
-        var annotations = _.reject(_annotations, { complete: false });
+        var annotations = _.reject(_annotations, {
+            complete: false
+        });
         localStorageService.set('annotations', annotations);
     }
 
