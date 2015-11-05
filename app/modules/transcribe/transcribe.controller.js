@@ -4,7 +4,7 @@ require('./transcribe.module.js')
     .controller('TranscribeController', TranscribeController);
 
 // @ngInject
-function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, SubjectsFactory, ModalsFactory) {
+function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, SubjectsFactory, ModalsFactory, localStorageService) {
 
     // Setup controller
     var vm = this;
@@ -23,7 +23,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     function activate() {
 
         if (localStorageService.get('viewedTutorial') === null) {
-           localStorageService.set('viewedTutorial', true);
+            localStorageService.set('viewedTutorial', true);
             openTutorial();
         }
 
