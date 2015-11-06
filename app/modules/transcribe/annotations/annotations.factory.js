@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http) {
+function AnnotationsFactory(localStorageService, $http, $q) {
 
     var factory;
     var _annotations;
@@ -64,6 +64,7 @@ function AnnotationsFactory(localStorageService, $http) {
     function checkVariants(annotation) {
         var lemmas = annotation.text.split(' ');
         var results = [];
+        var oedVars = [];
         for (var i = 0; i < lemmas.length; ++i) {
             var urlLemmas = encodeURIComponent(lemmas[i]).toLowerCase();
             results.push(urlLemmas);
@@ -73,15 +74,15 @@ function AnnotationsFactory(localStorageService, $http) {
             }).then(function successCallback(response) {
                 console.log('Success: ', response.status)
             }, function errorCallback(response) {
-                //var url = response.config.url;
-                //var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+                var url = response.config.url;
+                var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+                oedVars.push(words);
                 _.extend(annotation, {
-                    variants: lemmas[i]
+                    variants: oedVars
                 });
-                console.log('Annotation: ', annotation);
-                console.log('Words: ', lemmas[i]);
             })
         }
+        console.log('Annotation: ', annotation);
     }
 
 
