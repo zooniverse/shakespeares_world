@@ -2,6 +2,13 @@
 
 require('./modals.module.js')
     .constant('ModalsConstants', {
+        expired: {
+            templateUrl: 'modals/expired.html',
+            controller: 'ExpiredController',
+            controllerAs: 'vm',
+            size: 'md',
+            windowClass: 'expired-modal'
+        },
         next: {
             templateUrl: 'modals/transcribe-next.html',
             controller: 'TranscribeNextController',
@@ -32,11 +39,11 @@ require('./modals.module.js')
             size: 'md',
             windowClass: 'tutorial-modal'
         },
-        expired: {
-            templateUrl: 'modals/expired.html',
-            controller: 'ExpiredController',
+        variants: {
+            templateUrl: 'modals/variants.html',
+            controller: 'VariantsController',
             controllerAs: 'vm',
             size: 'md',
-            windowClass: 'expired-modal'
+            windowClass: 'variants-modal'
         }
     });

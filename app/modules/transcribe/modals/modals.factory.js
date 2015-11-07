@@ -12,7 +12,8 @@ function ModalsFactory($modal, ModalsConstants) {
         openExpired: openExpired,
         openNext: openNext,
         openTutorial: openTutorial,
-        openTalk: openTalk
+        openTalk: openTalk,
+        openVariants: openVariants
     };
 
     return factory;
@@ -31,6 +32,10 @@ function ModalsFactory($modal, ModalsConstants) {
 
     function openTutorial() {
         return $modal.open(ModalsConstants.tutorial);
+    }
+
+    function openVariants() {
+        return $modal.open(ModalsConstants.variants);
     }
 
 }

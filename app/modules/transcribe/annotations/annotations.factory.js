@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http) {
+function AnnotationsFactory(localStorageService, $http, $rootScope) {
 
     var factory;
     var _annotations;
@@ -73,13 +73,14 @@ function AnnotationsFactory(localStorageService, $http) {
                 url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + results[i] + '.txt'
             }).then(function successCallback(response) {}, function errorCallback(response) {
                 var url = response.config.url;
-                var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+                var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
                 oedVars.push(words);
-                _.extend(annotation, {
+                upsert(_.extend(annotation, {
                     variants: oedVars
-                });
+                }));
             })
         }
+        return annotation;
     }
 
 
