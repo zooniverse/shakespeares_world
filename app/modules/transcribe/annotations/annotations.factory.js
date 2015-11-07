@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http, $q) {
+function AnnotationsFactory(localStorageService, $http) {
 
     var factory;
     var _annotations;
@@ -18,6 +18,7 @@ function AnnotationsFactory(localStorageService, $http, $q) {
     _annotations = localStorageService.get('annotations');
 
     factory = {
+        checkVariants: checkVariants,
         destroy: destroy,
         list: list,
         reset: reset,
@@ -55,7 +56,6 @@ function AnnotationsFactory(localStorageService, $http, $q) {
         } else {
             _annotations.push(annotation);
         }
-        checkVariants(annotation);
         updateCache();
         return annotation;
     }
@@ -71,9 +71,7 @@ function AnnotationsFactory(localStorageService, $http, $q) {
             $http({
                 method: 'GET',
                 url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + results[i] + '.txt'
-            }).then(function successCallback(response) {
-                console.log('Success: ', response.status)
-            }, function errorCallback(response) {
+            }).then(function successCallback(response) {}, function errorCallback(response) {
                 var url = response.config.url;
                 var words = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
                 oedVars.push(words);
@@ -82,7 +80,6 @@ function AnnotationsFactory(localStorageService, $http, $q) {
                 });
             })
         }
-        console.log('Annotation: ', annotation);
     }
 
 
