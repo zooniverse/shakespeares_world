@@ -204,7 +204,6 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             } else {
                 vm.data.text = vm.transcription;
             }
-            console.log('vm.data', vm.data)
             AnnotationsFactory.checkVariants(vm.data);
             AnnotationsFactory.upsert(vm.data);
         }

@@ -62,11 +62,13 @@ function AnnotationsFactory(localStorageService, $http, $rootScope) {
 
 
     function checkVariants(annotation) {
-        var lemmas = annotation.text.split(' ');
+        //splits string by whitespace (different encodings)
+        var lemmas = annotation.text.split(/\s|&nbsp;/g);
         var results = [];
         var oedVars = [];
         for (var i = 0; i < lemmas.length; ++i) {
-            var urlLemmas = encodeURIComponent(lemmas[i]).toLowerCase();
+            //uri encode and replace all <> tags
+            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').toLowerCase());
             results.push(urlLemmas);
             $http({
                 method: 'GET',
