@@ -217,27 +217,27 @@ var overlayConfig = {
     samples: [
         {
             name: 'maju1',
-            imgPath: 'images/samples/alphabet-sample-1.png'
-            },
-        {
-            name: 'maju2',
-            imgPath: 'images/samples/alphabet-sample-2.png'
-            },
-        {
-            name: 'maju3',
-            imgPath: 'images/samples/alphabet-sample-3.png'
-            },
-        {
-            name: 'minu1',
             imgPath: 'images/samples/alphabet-sample-4.png'
             },
         {
-            name: 'minu2',
+            name: 'maju2',
             imgPath: 'images/samples/alphabet-sample-5.png'
             },
         {
-            name: 'minu3',
+            name: 'maju3',
             imgPath: 'images/samples/alphabet-sample-6.png'
+            },
+        {
+            name: 'minu1',
+            imgPath: 'images/samples/alphabet-sample-1.png'
+            },
+        {
+            name: 'minu2',
+            imgPath: 'images/samples/alphabet-sample-2.png'
+            },
+        {
+            name: 'minu3',
+            imgPath: 'images/samples/alphabet-sample-3.png'
             }
     ]
 };
