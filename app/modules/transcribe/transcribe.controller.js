@@ -5,12 +5,12 @@ require('./transcribe.module.js')
 
 // @ngInject
 function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, SubjectsFactory, ModalsFactory, localStorageService) {
-
     // Setup controller
     var vm = this;
     vm.loading = SubjectsFactory.loading;
     vm.subject = SubjectsFactory.current;
     vm.$loadNext = loadNext;
+    vm.$variants = variantsFeedback;
     vm.$openTutorial = openTutorial;
 
     // Watchers
@@ -21,17 +21,14 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
 
     // Functions / methods
     function activate() {
-
         if (localStorageService.get('viewedTutorial') === null) {
             localStorageService.set('viewedTutorial', true);
             openTutorial();
         }
-
         loadSubject()
             .then(function () {
                 vm.annotations = AnnotationsFactory.list();
             });
-
     }
 
     function getLoadingStatus() {
@@ -45,6 +42,23 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
             });
     }
 
+    function variantsFeedback() {
+        var annotations = AnnotationsFactory.list();
+        var vArray = []
+        annotations.forEach(function (el) {
+            if (el.type === 'text' && el.variants) {
+                vArray.push(el.variants);
+            }
+        });
+        if (vArray.length) {
+            var variantsModal = ModalsFactory.openVariants();
+            variantsModal.result.then(function () {
+                loadNext();
+            })
+        } else {
+            loadNext();
+        }
+    }
 
     function loadNext() {
         var modal = ModalsFactory.openNext();

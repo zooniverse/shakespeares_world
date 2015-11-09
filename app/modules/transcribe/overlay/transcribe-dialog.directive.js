@@ -204,12 +204,12 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
             } else {
                 vm.data.text = vm.transcription;
             }
+            AnnotationsFactory.checkVariants(vm.data);
             AnnotationsFactory.upsert(vm.data);
         }
         closeDialog();
     }
 }
-
 
 // Utility function to derive dimensions and offsets for dialog positioning,
 // using getBoundingClientRect for SVG compatibility.

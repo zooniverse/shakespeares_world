@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService) {
+function AnnotationsFactory(localStorageService, $http) {
 
     var factory;
     var _annotations;
@@ -18,6 +18,7 @@ function AnnotationsFactory(localStorageService) {
     _annotations = localStorageService.get('annotations');
 
     factory = {
+        checkVariants: checkVariants,
         destroy: destroy,
         list: list,
         reset: reset,
@@ -47,7 +48,9 @@ function AnnotationsFactory(localStorageService) {
 
     // Update if an annotation exists, create if it doesn't
     function upsert(annotation) {
-        var inCollection = _.find(_annotations, { $$hashKey: annotation.$$hashKey });
+        var inCollection = _.find(_annotations, {
+            $$hashKey: annotation.$$hashKey
+        });
         if (inCollection) {
             inCollection = _.extend(inCollection, annotation);
         } else {
@@ -57,8 +60,33 @@ function AnnotationsFactory(localStorageService) {
         return annotation;
     }
 
+
+    function checkVariants(annotation) {
+        //splits string by whitespace (different encodings)
+        var lemmas = annotation.text.split(/\s|&nbsp;/g);
+        var oedVars = [];
+        for (var i = 0; i < lemmas.length; ++i) {
+            //uri encode, remove all <> tags, remove
+            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g,'').toLowerCase());
+            $http({
+                method: 'GET',
+                url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + urlLemmas + '.txt'
+            }).then(function successCallback(response) {}, function errorCallback(response) {
+                var url = response.config.url;
+                var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
+                oedVars.push(words);
+                upsert(_.extend(annotation, {
+                    variants: oedVars
+                }));
+            })
+        }
+        return annotation;
+    }
+
     function updateCache() {
-        var annotations = _.reject(_annotations, { complete: false });
+        var annotations = _.reject(_annotations, {
+            complete: false
+        });
         localStorageService.set('annotations', annotations);
     }
 
