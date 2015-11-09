@@ -6,7 +6,7 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http, $rootScope) {
+function AnnotationsFactory(localStorageService, $http) {
 
     var factory;
     var _annotations;
@@ -64,15 +64,13 @@ function AnnotationsFactory(localStorageService, $http, $rootScope) {
     function checkVariants(annotation) {
         //splits string by whitespace (different encodings)
         var lemmas = annotation.text.split(/\s|&nbsp;/g);
-        var results = [];
         var oedVars = [];
         for (var i = 0; i < lemmas.length; ++i) {
-            //uri encode and replace all <> tags
-            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').toLowerCase());
-            results.push(urlLemmas);
+            //uri encode, remove all <> tags, remove
+            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g,'').toLowerCase());
             $http({
                 method: 'GET',
-                url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + results[i] + '.txt'
+                url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + urlLemmas + '.txt'
             }).then(function successCallback(response) {}, function errorCallback(response) {
                 var url = response.config.url;
                 var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
@@ -84,7 +82,6 @@ function AnnotationsFactory(localStorageService, $http, $rootScope) {
         }
         return annotation;
     }
-
 
     function updateCache() {
         var annotations = _.reject(_annotations, {

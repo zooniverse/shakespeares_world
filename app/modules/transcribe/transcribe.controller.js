@@ -50,7 +50,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
                 vArray.push(el.variants);
             }
         });
-        if (vArray) {
+        if (vArray.length) {
             var variantsModal = ModalsFactory.openVariants();
             variantsModal.result.then(function () {
                 loadNext();
