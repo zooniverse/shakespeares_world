@@ -67,7 +67,7 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
 
     function init(element) {
         svgElement = element;
-        _svgRotateElement = element.find('.rotate-container');
+        _svgRotateElement = document.querySelectorAll('.rotate-container');
         _svgPanZoom = svgPanZoom(element[0], MarkingSurfaceConstants.svgPanZoom);
         _.extend(factory, _extendedFactory, {
             svg: svgElement
