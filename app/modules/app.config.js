@@ -4,7 +4,7 @@ var appInfo = require('../../package.json');
 
 var appConfig = {
     appTitle: 'Shakespeare\'s World',
-    appDescription: 'Shakespeare\'s World enables citizen humanists from around the globe to join the effort of transcribing and encoding thousands of early modern manuscripts pages from the Folger Shakespeare Library.'
+    appDescription: 'Transcribe handwritten documents by Shakespeare\'s contemporaries and help us understand his life and times. Along the way you\'ll find words that have yet to be recorded in the authoritative Oxford English Dictionary, and which will eventually be added to this important resource.'
 };
 // @ngInject
 function localStorage(localStorageServiceProvider) {
