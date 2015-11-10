@@ -29,5 +29,9 @@ require('./guide.module.js')
         {
             slug: 'glossary',
             title: 'Glossary'
+        },
+        {
+            slug: 'examples',
+            title: 'Example Translations'
         }
     ]);
