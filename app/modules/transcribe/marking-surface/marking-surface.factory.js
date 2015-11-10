@@ -51,7 +51,7 @@ function MarkingSurfaceFactory(MarkingSurfaceConstants) {
         var point;
         var result;
 
-        rotateContainer = svgElement.find('.rotate-container')[0];
+        rotateContainer = document.querySelector('.rotate-container');
         point = svgElement[0].createSVGPoint();
         event = (event.srcEvent) ? event.srcEvent : event;
         point.x = event.clientX;
