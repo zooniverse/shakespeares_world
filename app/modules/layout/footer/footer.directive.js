@@ -4,7 +4,7 @@ require('./footer.module.js')
     .directive('appFooter', appFooter);
 
 // @ngInject
-function appFooter($state, FooterLinkConstants) {
+function appFooter($state, FooterLinkConstants, $http) {
     var directive = {
         link: appFooterLink,
         restrict: 'A',
@@ -14,7 +14,18 @@ function appFooter($state, FooterLinkConstants) {
     return directive;
 
     function appFooterLink(scope) {
+
         scope.links = FooterLinkConstants;
+
+        $http({
+            method: 'GET',
+            url: 'https://static.zooniverse.org/zoo-footer/zoo-footer.json'
+        }).then(function (response) {
+            scope.footer = response.data;
+            scope.links = scope.footer.projectsList;
+            console.log(response)
+        });
+
         scope.$watch(function () {
             return $state.current.params;
         }, function (params) {
