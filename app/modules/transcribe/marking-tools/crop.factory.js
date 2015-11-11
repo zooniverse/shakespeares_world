@@ -5,10 +5,10 @@ var angular = require('angular');
 var Hammer = require('hammerjs');
 
 require('./marking-tools.module.js')
-    .factory('graphicTool', graphicTool);
+    .factory('cropTool', cropTool);
 
 // @ngInject
-function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function cropTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory, zooAPIPreferences) {
 
     var factory;
     var _enabled;
@@ -18,7 +18,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     var _subject;
 
     factory = {
-        name: 'graphic',
+        name: 'crop',
         activate: activate,
         deactivate: deactivate
     };
@@ -30,8 +30,8 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
 
         if (_.isUndefined(_rect)) {
             _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
-                .attr('class', 'graphic-annotation -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.graphic-annotations'));
+                .attr('class', 'crop-snippet -temp')
+                .appendTo(MarkingSurfaceFactory.svg.find('.crop-snippets'));
         }
 
         _hammer.get('pan').set({
@@ -96,7 +96,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         AnnotationsFactory.upsert({
-            type: 'graphic',
+            type: 'crop',
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),

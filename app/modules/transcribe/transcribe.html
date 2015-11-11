@@ -20,8 +20,8 @@
                     <g class="graphic-annotations">
                         <g graphic-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'graphic'}:true"></g>
                     </g>
-                    <g class="marginalia-annotations">
-                        <g marginalia-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'marginalia'}:true"></g>
+                    <g class="crop-snippets">
+                        <g crop-snippet data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'crop'}:true"></g>
                     </g>
                 </g>
 

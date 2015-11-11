@@ -16,7 +16,7 @@ function alphabetSample() {
     return directive;
 
     function alphabetSampleLink(scope, elem) {
-        scope.$on('event:toggle', function () {
+        scope.$on('event:toggleAlphabet', function () {
             elem.animate({
                 width: 'toggle'
             });
