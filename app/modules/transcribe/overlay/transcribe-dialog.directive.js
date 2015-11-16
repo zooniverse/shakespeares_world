@@ -199,11 +199,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
 
     function saveAndCloseDialog() {
         if (vm.transcription !== vm.data.text) {
-            if (vm.data.type === 'marginalia' && vm.transcription.indexOf('<sw-label>') === -1) {
-                vm.data.text = '<sw-label>' + vm.transcription + '</sw-label>';
-            } else {
-                vm.data.text = vm.transcription;
-            }
+            vm.data.text = vm.transcription;
             AnnotationsFactory.checkVariants(vm.data);
             AnnotationsFactory.upsert(vm.data);
         }

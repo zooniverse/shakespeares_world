@@ -4,22 +4,22 @@ var _ = require('lodash');
 var Hammer = require('hammerjs');
 
 require('./annotations.module.js')
-    .directive('marginaliaAnnotation', marginaliaAnnotation);
+    .directive('cropAnnotation', cropAnnotation);
 
 // @ngInject
-function marginaliaAnnotation($rootScope, AnnotationsFactory) {
+function cropAnnotation($rootScope, AnnotationsFactory) {
     var directive = {
-        link: marginaliaAnnotationLink,
+        link: cropAnnotationLink,
         replace: true,
         restrict: 'A',
         scope: {
             data: '='
         },
-        templateUrl: 'annotations/marginalia.html',
+        templateUrl: 'annotations/crop.html',
     };
     return directive;
 
-    function marginaliaAnnotationLink(scope, element) {
+    function cropAnnotationLink(scope, element) {
 
         // Setup
         var hammerElement;
@@ -29,7 +29,7 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
         scope.$on('$destroy', $destroy);
         // if text is undefined open dialog
         if (!scope.data.text) {
-            openTranscribeDialog();
+            openCropDialog();
         }
 
         // Methods
@@ -48,18 +48,18 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
                         }]
             };
 
-            if (scope.data.type === 'marginalia') {
+            if (scope.data.type === 'crop') {
                 contextMenuData.menuOptions.unshift({
                     name: 'Edit',
-                    action: openTranscribeDialog
+                    action: openCropDialog
                 });
             }
             $rootScope.$broadcast('contextMenu:open', contextMenuData);
         }
 
-        function openTranscribeDialog() {
+        function openCropDialog() {
 
-            $rootScope.$broadcast('transcribeDialog:open', {
+            $rootScope.$broadcast('cropDialog:open', {
                 annotation: scope.data,
                 element: element
             });
