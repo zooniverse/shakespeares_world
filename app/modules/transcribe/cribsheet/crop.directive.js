@@ -3,23 +3,23 @@
 var _ = require('lodash');
 var Hammer = require('hammerjs');
 
-require('./annotations.module.js')
-    .directive('cropAnnotation', cropAnnotation);
+require('./cribsheet.module.js')
+    .directive('cropSnippet', cropSnippet);
 
 // @ngInject
-function cropAnnotation($rootScope, AnnotationsFactory) {
+function cropSnippet($rootScope, CribsheetFactory) {
     var directive = {
-        link: cropAnnotationLink,
+        link: cropSnippetLink,
         replace: true,
         restrict: 'A',
         scope: {
             data: '='
         },
-        templateUrl: 'annotations/crop.html',
+        templateUrl: 'cribsheet/crop.html',
     };
     return directive;
 
-    function cropAnnotationLink(scope, element) {
+    function cropSnippetLink(scope, element) {
 
         // Setup
         var hammerElement;
@@ -27,16 +27,13 @@ function cropAnnotation($rootScope, AnnotationsFactory) {
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-        // if text is undefined open dialog
-        if (!scope.data.text) {
-            openCropDialog();
-        }
+        openCropDialog();
 
         // Methods
         function $destroy() {
             hammerElement.destroy();
             var data = _.clone(scope.data, true);
-            $rootScope.$broadcast('annotation:delete', data);
+            $rootScope.$broadcast('snippet:delete', data);
         }
 
         function openContextMenu(event) {
@@ -44,23 +41,16 @@ function cropAnnotation($rootScope, AnnotationsFactory) {
                 event: event,
                 menuOptions: [{
                     name: 'Delete',
-                    action: _.partial(AnnotationsFactory.destroy, scope.data)
+                    action: _.partial(CribsheetFactory.destroy, scope.data)
                         }]
             };
-
-            if (scope.data.type === 'crop') {
-                contextMenuData.menuOptions.unshift({
-                    name: 'Edit',
-                    action: openCropDialog
-                });
-            }
             $rootScope.$broadcast('contextMenu:open', contextMenuData);
         }
 
         function openCropDialog() {
 
             $rootScope.$broadcast('cropDialog:open', {
-                annotation: scope.data,
+                snippet: scope.data,
                 element: element
             });
         }

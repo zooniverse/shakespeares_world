@@ -6,12 +6,13 @@ require('./transcribe.module.js')
     .factory('PreferencesFactory', PreferencesFactory);
 
 // @ngInject
-function PreferencesFactory($q, AnnotationsFactory, appConfig, SubjectsFactory, zooAPI, zooAPIProject, zooAPIPreferences) {
+function PreferencesFactory($q, appConfig, SubjectsFactory, zooAPI, zooAPIProject, zooAPIPreferences) {
 
     var factory;
 
     factory = {
 
+        submitPreferences: submitToApi
     };
 
     return factory;
@@ -27,10 +28,19 @@ function PreferencesFactory($q, AnnotationsFactory, appConfig, SubjectsFactory, 
             },
             snippets: []
         };
-        return zooAPIPreferences.get();
+        return zooAPIProject.get()
+            .then(function (project) {
+                classification.links.project = project.id;
+                classification.links.workflow = project.links.workflows[0];
+                return zooAPI.type('workflows').get(classification.links.workflow);
+            })
+            .then(function (workflow) {
+                classification.metadata.workflow_version = workflow.version;
+                return classification;
+            });
     }
 
-    function _submitToApi() {
+    function submitToApi() {
         // get preference object, update and save
         var preference = zooAPIPreferences.get();
         preference.update = _updatePreference();

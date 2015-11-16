@@ -8,7 +8,7 @@ require('./marking-tools.module.js')
     .factory('cropTool', cropTool);
 
 // @ngInject
-function cropTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory, zooAPIPreferences) {
+function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory) {
 
     var factory;
     var _enabled;
@@ -95,8 +95,7 @@ function cropTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactor
 
     function _endRect() {
         _hammer.off('panmove', _drawRect);
-        AnnotationsFactory.upsert({
-            type: 'crop',
+        CribsheetFactory.upsert({
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),

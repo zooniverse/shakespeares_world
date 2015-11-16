@@ -73,37 +73,20 @@ function cropDialog() {
 }
 
 // @ngInject
-function cropDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, SubjectsFactory, localStorageService) {
+function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, hotkeys, localStorageService, MarkingSurfaceFactory, SubjectsFactory) {
     var vm = this;
     vm.active = false;
-    vm.close = closeDialog;
     vm.data = {};
+    vm.close = closeDialog;
     vm.keyPress = onKeydown;
     vm.open = openDialog;
-    vm.snippet = getSnippet();
+    //vm.snippet =
     vm.saveAndClose = saveAndCloseDialog;
     //    $rootScope.$on('annotation:delete', function (event, deleted) {
     //        if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
     //            closeDialog();
     //        }
     //    });
-
-    function getSnippet() {
-        var cropServer = 'https://imgproc.zooniverse.org/crop?';
-        var _subjects = localStorageService.get('subjects');
-        var _annotations = AnnotationsFactory.list();
-        var location = _subjects.current.locations[0]['image/jpeg'];
-        var striplocation = location.substr(location.indexOf('://') + 3);
-        var snippet;
-        _annotations.forEach(function (el) {
-            if (el.type === 'crop') {
-                snippet = cropServer + 'w=' + el.width + '&h=' + el.height + '&x=' + el.x + '&y=' + el.y + '&u=' + striplocation;
-                console.log(snippet)
-            }
-        });
-        console.log(snippet)
-        return snippet
-    }
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
@@ -115,7 +98,7 @@ function cropDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSu
     function openDialog(data) {
         MarkingSurfaceFactory.disable();
         vm.active = true;
-        vm.data = data.annotation;
+        vm.data = data.snippet;
         hotkeys.add({
             callback: closeDialog,
             combo: 'esc'
@@ -131,7 +114,8 @@ function cropDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSu
 
 
     function saveAndCloseDialog() {
-        AnnotationsFactory.upsert(vm.data);
+        CribsheetFactory.addUrl(vm.data);
+        CribsheetFactory.upsert(vm.data);
         closeDialog();
     }
 }

@@ -67,11 +67,11 @@ function AnnotationsFactory(localStorageService, $http) {
         var oedVars = [];
         for (var i = 0; i < lemmas.length; ++i) {
             //uri encode, remove all <> tags, remove
-            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g,'').toLowerCase());
+            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g, '').toLowerCase());
             $http({
                 method: 'GET',
                 url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + urlLemmas + '.txt'
-            }).then(function successCallback(response) {}, function errorCallback(response) {
+            }).then(function success(response) {}, function error(response) {
                 var url = response.config.url;
                 var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
                 oedVars.push(words);

@@ -186,7 +186,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         vm.active = true;
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
-        vm.title = (vm.data.type === 'marginalia') ? 'Transcribe marginalia' : 'Transcribe text';
+        vm.title = 'Transcribe text';
         $timeout(getFocus);
     }
 
