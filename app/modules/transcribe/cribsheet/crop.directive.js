@@ -48,7 +48,7 @@ function cropSnippet($rootScope, CribsheetFactory) {
         }
 
         function openCropDialog() {
-
+            console.log('crop.directive openCROPDIALOG!!!')
             $rootScope.$broadcast('cropDialog:open', {
                 snippet: scope.data,
                 element: element

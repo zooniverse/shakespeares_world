@@ -6,7 +6,7 @@ require('./cribsheet.module.js')
     .factory('CribsheetFactory', CribsheetFactory);
 
 // @ngInject
-function CribsheetFactory(localStorageService, $http) {
+function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
 
     var factory;
     var _snippets;
@@ -68,18 +68,18 @@ function CribsheetFactory(localStorageService, $http) {
     }
 
     function addCropUrl(snippet) {
-        var cropServer = 'https://imgproc.zooniverse.org/crop?';
         var subjects = localStorageService.get('subjects');
-        var snippets = list();
+        var cropServer = 'https://imgproc.zooniverse.org/crop?';
         var location = subjects.current.locations[0]['image/jpeg'];
+        var snippets = list();
         var striplocation = location.substr(location.indexOf('://') + 3);
-
         snippets.forEach(function (el) {
-            cropUrl = cropServer + 'w=' + el.width + '&h=' + el.height + '&x=' + el.x + '&y=' + el.y + '&u=' + striplocation;
-            console.log(snippet);
+            var cropUrl = cropServer + 'w=' + el.width + '&h=' + el.height + '&x=' + el.x + '&y=' + el.y + '&u=' + striplocation;
+
             upsert(_.extend(snippet, {
-                cropUrl: cropUrl
+                url: cropUrl
             }));
+            console.log('CropUrl', cropUrl)
         });
         return snippet;
     }

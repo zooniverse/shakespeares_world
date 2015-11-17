@@ -31,6 +31,7 @@ function cropDialog() {
         scope.$on('cropDialog:open', openDialog);
         // Methods
         function openDialog(event, data) {
+            console.log('DATA in link', data)
             dialog.open(data);
             positionDialog(event, data);
         }
@@ -73,20 +74,21 @@ function cropDialog() {
 }
 
 // @ngInject
-function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, hotkeys, localStorageService, MarkingSurfaceFactory, SubjectsFactory) {
+function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, hotkeys, localStorageService, MarkingSurfaceFactory, $timeout) {
     var vm = this;
+    var userInput = document.getElementById('#userInput');
     vm.active = false;
     vm.data = {};
     vm.close = closeDialog;
     vm.keyPress = onKeydown;
     vm.open = openDialog;
-    //vm.snippet =
+    vm.name = '';
     vm.saveAndClose = saveAndCloseDialog;
-    //    $rootScope.$on('annotation:delete', function (event, deleted) {
-    //        if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
-    //            closeDialog();
-    //        }
-    //    });
+    $rootScope.$on('snippet:delete', function (event, deleted) {
+        if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
+            closeDialog();
+        }
+    });
 
     function closeDialog() {
         MarkingSurfaceFactory.enable();
@@ -95,14 +97,24 @@ function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, 
         $rootScope.$broadcast('event:close');
     }
 
+    function getFocus() {
+        userInput.focus();
+    }
+
     function openDialog(data) {
+
         MarkingSurfaceFactory.disable();
         vm.active = true;
         vm.data = data.snippet;
+        vm.name = data.snippet.name;
         hotkeys.add({
             callback: closeDialog,
             combo: 'esc'
         });
+        CribsheetFactory.addUrl(vm.data);
+        vm.src = vm.data.url;
+        console.log('SRC', vm.src)
+        $timeout(getFocus);
     }
 
     function onKeydown(event) {
@@ -112,10 +124,12 @@ function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, 
         }
     }
 
-
     function saveAndCloseDialog() {
-        CribsheetFactory.addUrl(vm.data);
-        CribsheetFactory.upsert(vm.data);
+        if (vm.name !== vm.data.name) {
+            vm.data.name = vm.name;
+            CribsheetFactory.addUrl(vm.data);
+            CribsheetFactory.upsert(vm.data);
+        }
         closeDialog();
     }
 }

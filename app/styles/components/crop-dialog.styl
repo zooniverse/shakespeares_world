@@ -1,42 +1,37 @@
 .crop-dialog
     @extend .panel
     @extend .panel-default
-    border: 0
+    background-color: offwhitergba
     left: 0
     margin-bottom: 0
     opacity: 0
     position: absolute
     top: 0
-    width: 550px
+    width: 150px
     z-index: -1
 
     &.-active
         opacity: 1
-        z-index: 1
+        z-index: 2
 
     > .heading
         @extend .panel-heading
         @extend .panel-default > .panel-heading
-        background-color: green
-        border: 0
         cursor: move
         display: flex
 
     > .heading > .title
         @extend .panel-default > .panel-heading
         @extend .panel-title
-        background: none
-        color: #39403e
         flex: 1
-        font-weight: bold
         line-height: 23px
 
     > .heading > .close
-        cursor: pointer
+        position: relative
 
     > .heading > .close > .icon
         @extend .glyphicon
-        @extend .glyphicon-remove
+        @extend .glyphicon-remove-circle
 
     > .heading > .close > .text
         @extend $hide-text
@@ -44,37 +39,36 @@
     > .body
         @extend .panel-body
 
-    > .body > .transcribe
-        @extend .form-control
-        @extend textarea.form-control
-        margin-bottom: 7px
-        border: 0
-        box-shadow: none
-
-    > .body > .hint
-        color: #999
-        font-size: 11px
-
-    > .body .button
-        background-color: transparent
-        border: 0
-        display: block
-        font-weight: bold
-
-    > .body .button:hover span
-        border-bottom: 3px solid green
-
-    > .body .button.-save
-        border-top: 1px solid #39403e
-        border-bottom: 1px solid #39403e
-        font-size: 17px
+    >.body > img
         width: 100%
+        margin: 5px 0
 
-    > .body .button.-tag:not(:last-child)
-        border-right: 1px solid #39403e
+    > .body > .snippet-name
+        @extend .form-control
+        margin-bottom: 15px
 
-    > .body > .container-fluid > .editing
-        make-row()
+    > .body > .buttons
+        display: flex
+        justify-content: space-between
+        margin-bottom: 15px
 
-    > .body > .container-fluid > .editing > .button
-        @extend .col-xs-3
+    > .body > .buttons .button
+        @extend .btn
+        @extend .btn-default
+
+    > .body > .buttons .button.-save
+        @extend .btn-success
+
+    > .body > .buttons .button + .button
+        margin-left: -1px
+
+    > .body > .buttons > .editing > .button:not(:first-child):not(:last-child)
+        border-radius: 0
+
+    > .body > .buttons > .editing > .button:first-child
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+    > .body > .buttons > .editing > .button:last-child
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
