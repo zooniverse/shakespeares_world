@@ -1,6 +1,5 @@
 'use strict';
 
-var reactivateMarkingSurface;
 var _ = require('lodash');
 var angular = require('angular');
 var Hammer = require('hammerjs');
@@ -63,6 +62,7 @@ function contextMenu(hotkeys) {
 function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFactory) {
 
     // Setup
+    var reactivateMarkingSurface;
     var vm = this;
     vm.close = closeMenu;
     vm.open = openMenu;

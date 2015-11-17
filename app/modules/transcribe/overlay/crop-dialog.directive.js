@@ -31,7 +31,6 @@ function cropDialog() {
         scope.$on('cropDialog:open', openDialog);
         // Methods
         function openDialog(event, data) {
-            console.log('DATA in link', data)
             dialog.open(data);
             positionDialog(event, data);
         }
@@ -74,7 +73,7 @@ function cropDialog() {
 }
 
 // @ngInject
-function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, hotkeys, localStorageService, MarkingSurfaceFactory, $timeout) {
+function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, $timeout) {
     var vm = this;
     var userInput = document.getElementById('#userInput');
     vm.active = false;
@@ -102,7 +101,6 @@ function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, 
     }
 
     function openDialog(data) {
-
         MarkingSurfaceFactory.disable();
         vm.active = true;
         vm.data = data.snippet;
@@ -113,7 +111,7 @@ function cropDialogController($rootScope, AnnotationsFactory, CribsheetFactory, 
         });
         CribsheetFactory.addUrl(vm.data);
         vm.src = vm.data.url;
-        console.log('SRC', vm.src)
+
         $timeout(getFocus);
     }
 

@@ -101,7 +101,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
             width: _rect.attr('width'),
             height: _rect.attr('height')
         });
-                _rect.attr({
+        _rect.attr({
             width: 0,
             height: 0
         });

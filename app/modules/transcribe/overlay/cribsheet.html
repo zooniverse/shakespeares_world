@@ -5,6 +5,10 @@
 
     </div>
     <div class="body">
-        CRIBSHEET
+        <div class="example" ng-repeat="snippet in vm.snippets">
+            <div ng-bind="snippet.name"></div>
+            <img ng-src="{{snippet.url}}" />
+        </div>
+
     </div>
 </div>

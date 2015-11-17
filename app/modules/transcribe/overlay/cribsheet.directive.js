@@ -25,9 +25,9 @@ function cribsheet() {
 }
 
 // @ngInject
-function cribsheetController($scope, overlayConfig) {
+function cribsheetController($scope, CribsheetFactory) {
     var vm = this;
-
+    vm.snippets = CribsheetFactory.list();
 
 
 }
