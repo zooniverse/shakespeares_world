@@ -75,33 +75,42 @@ function graphicDialog() {
 
 // @ngInject
 function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+    var reactivateMarkingSurface;
     var vm = this;
     vm.active = false;
     vm.data = {};
     vm.graphics = overlayConfig.graphics;
-    vm.setType = setType;
+    vm.setAndSave = setTypeAndSave;
     vm.close = closeDialog;
     vm.open = openDialog;
-    vm.saveAndClose = saveAndCloseDialog;
+    //vm.saveAndClose = saveAndCloseDialog;
     $rootScope.$on('annotation:delete', function (event, deleted) {
         if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
             closeDialog();
         }
     });
 
-    function setType(graphic) {
+    function setTypeAndSave(graphic) {
         vm.data.tag = graphic.tag;
+        saveAndCloseDialog();
     }
 
     function closeDialog() {
-        MarkingSurfaceFactory.enable();
+        $rootScope.$broadcast('markingTools:enable');
+        if (reactivateMarkingSurface === true) {
+            MarkingSurfaceFactory.enable();
+        }
         vm.active = false;
         hotkeys.del('esc');
         $rootScope.$broadcast('event:close');
     }
 
     function openDialog(data) {
-        MarkingSurfaceFactory.disable();
+        $rootScope.$broadcast('markingTools:disable');
+        reactivateMarkingSurface = (MarkingSurfaceFactory.isEnabled()) ? true : false;
+        if (MarkingSurfaceFactory.isEnabled()) {
+            MarkingSurfaceFactory.disable();
+        }
         vm.active = true;
         vm.data = data.annotation;
         hotkeys.add({

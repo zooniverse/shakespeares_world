@@ -74,6 +74,7 @@ function cropDialog() {
 
 // @ngInject
 function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, $timeout) {
+    var reactivateMarkingSurface;
     var vm = this;
     var userInput = document.getElementById('#userInput');
     vm.active = false;
@@ -90,7 +91,10 @@ function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurf
     });
 
     function closeDialog() {
-        MarkingSurfaceFactory.enable();
+        $rootScope.$broadcast('markingTools:enable');
+        if (reactivateMarkingSurface === true) {
+            MarkingSurfaceFactory.enable();
+        }
         vm.active = false;
         hotkeys.del('esc');
         $rootScope.$broadcast('event:close');
@@ -101,7 +105,11 @@ function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurf
     }
 
     function openDialog(data) {
-        MarkingSurfaceFactory.disable();
+        $rootScope.$broadcast('markingTools:disable');
+        reactivateMarkingSurface = (MarkingSurfaceFactory.isEnabled()) ? true : false;
+        if (MarkingSurfaceFactory.isEnabled()) {
+            MarkingSurfaceFactory.disable();
+        }
         vm.active = true;
         vm.data = data.snippet;
         vm.name = data.snippet.name;
