@@ -16,11 +16,17 @@ function cribsheet(localStorageService) {
     };
     return directive;
 
-    function cribsheetLink(scope, elem, attrs) {
+    function cribsheetLink(scope, elem) {
         scope.$on('event:toggleCribsheet', function () {
-            elem.animate({
-                width: 'toggle'
-            });
+            var user = localStorageService.get('user');
+            if (!user) {
+                alert('You need to login to use the cribsheet')
+            } else {
+                elem.animate({
+                    width: 'toggle'
+                });
+            }
+
         });
     }
 }
