@@ -97,6 +97,7 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
         localStorageService.set('auth', null);
         localStorageService.set('user', null);
         zooAPI.auth.signOut();
+        $window.location.reload();
     }
 
     function _startTimer() {

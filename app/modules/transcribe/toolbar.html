@@ -3,7 +3,7 @@
         <p>What do you see? Transcribe as much as you can with the tools below.
         </p>
         <div class="controls">
-            <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.crop.active }" ng-click="vm.tools.crop.toggle()">
+            <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.crop.active, '-disabled': vm.tools.crop.disabled }" ng-click="vm.tools.crop.toggle()">
                 <span class="icon -text" aria-hidden="true"></span> Snapshot
             </button>
             <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.text.active }" ng-click="vm.tools.text.toggle()">

@@ -6,7 +6,7 @@ require('./marking-tools.module.js')
 var _ = require('lodash');
 
 // @ngInject
-function ToolsFactory($rootScope, textTool, graphicTool, cropTool) {
+function ToolsFactory($rootScope, textTool, graphicTool, cropTool, localStorageService) {
 
     var factory;
 
@@ -21,6 +21,8 @@ function ToolsFactory($rootScope, textTool, graphicTool, cropTool) {
     function Tool(toolFactory) {
         this.name = toolFactory.name;
         this.active = false;
+        this.disabled = anonymUser();
+        console.log('DISABLED', this.disabled)
         this.toggle = toggle;
         this.markingTool = toolFactory;
         this._activate = _activate;
@@ -49,6 +51,15 @@ function ToolsFactory($rootScope, textTool, graphicTool, cropTool) {
             this.markingTool.deactivate();
         }
 
+        function anonymUser() {
+            var user = localStorageService.get('user');
+            if (!user) {
+                return true;
+            } else {
+                return false
+            }
+
+        }
     }
 
 }

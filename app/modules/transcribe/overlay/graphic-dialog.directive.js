@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 var Draggabilly = require('draggabilly');
+var _ = require('lodash');
 
 require('./overlay.module.js')
     .directive('graphicDialog', graphicDialog);
@@ -83,7 +84,6 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
     vm.setAndSave = setTypeAndSave;
     vm.close = closeDialog;
     vm.open = openDialog;
-    //vm.saveAndClose = saveAndCloseDialog;
     $rootScope.$on('annotation:delete', function (event, deleted) {
         if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
             closeDialog();
@@ -120,7 +120,13 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
     }
 
     function saveAndCloseDialog() {
-        AnnotationsFactory.upsert(vm.data);
+        //var _annotations = AnnotationsFactory.list();
+        console.log('tag', vm.data.tag)
+
+        AnnotationsFactory.upsert(_.extend(vm.data, {
+            tag: vm.data.tag
+        }));
+        //AnnotationsFactory.upsert(vm.data);
         closeDialog();
     }
 }

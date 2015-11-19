@@ -51,9 +51,12 @@ function AnnotationsFactory(localStorageService, $http) {
         var inCollection = _.find(_annotations, {
             $$hashKey: annotation.$$hashKey
         });
+        console.log('COLLECTION', inCollection)
         if (inCollection) {
             inCollection = _.extend(inCollection, annotation);
         } else {
+            console.log('ANNOTATION', annotation)
+
             _annotations.push(annotation);
         }
         updateCache();

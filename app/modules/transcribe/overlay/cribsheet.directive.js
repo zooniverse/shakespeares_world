@@ -4,7 +4,7 @@ require('./overlay.module.js')
     .directive('cribsheet', cribsheet);
 
 // @ngInject
-function cribsheet() {
+function cribsheet(localStorageService) {
     var directive = {
         controllerAs: 'vm',
         controller: cribsheetController,
@@ -12,10 +12,11 @@ function cribsheet() {
         replace: true,
         scope: true,
         templateUrl: 'overlay/cribsheet.html'
+
     };
     return directive;
 
-    function cribsheetLink(scope, elem) {
+    function cribsheetLink(scope, elem, attrs) {
         scope.$on('event:toggleCribsheet', function () {
             elem.animate({
                 width: 'toggle'
@@ -28,6 +29,4 @@ function cribsheet() {
 function cribsheetController($scope, CribsheetFactory) {
     var vm = this;
     vm.snippets = CribsheetFactory.list();
-
-
 }

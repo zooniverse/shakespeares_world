@@ -95,18 +95,24 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
 
     function _endRect() {
         _hammer.off('panmove', _drawRect);
+        //var _data = _.clone(_rect);
         AnnotationsFactory.upsert({
             type: 'graphic',
             x: _rect.attr('x'),
+            //x: _data[0].attributes.x.nodeValue,
             y: _rect.attr('y'),
+            //y: _data[0].attributes.y.nodeValue,
             width: _rect.attr('width'),
+            //width: _data[0].attributes.width.nodeValue,
             height: _rect.attr('height')
+                //height: _data[0].attributes.height.nodeValue
         });
-        _rect.attr({
-            width: 0,
-            height: 0
+        $rootScope.$digest(function () {
+            _rect.attr({
+                width: 0,
+                height: 0
+            });
         });
-        $rootScope.$digest();
     }
 
     function _getPoint(event) {
