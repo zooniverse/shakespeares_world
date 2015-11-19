@@ -1,7 +1,5 @@
 'use strict';
 
-var reactivateMarkingSurface;
-var _ = require('lodash');
 var angular = require('angular');
 var Hammer = require('hammerjs');
 
@@ -64,6 +62,7 @@ function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFacto
 
     // Setup
     var vm = this;
+    var reactivateMarkingSurface;
     vm.close = closeMenu;
     vm.open = openMenu;
 
@@ -93,18 +92,10 @@ function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFacto
     }
 
     function _positionMenu(data) {
-        var click = data.event.srcEvent;
+        var click = data.event.center;
         vm.position = {
-            left: click.offsetX,
-            top: click.offsetY
+            left: click.x,
+            top: click.y - MarkingSurfaceFactory.svg[0].getBoundingClientRect().top
         };
-
-        // Firefox doesn't support offset, so we need to polyfill here.
-        if (_.isUndefined(click.offsetX) || _.isUndefined(click.offsetY)) {
-            vm.position = {
-                left: click.pageX - overlay.offset().left,
-                top: click.pageY - overlay.offset().top
-            };
-        }
     }
 }
