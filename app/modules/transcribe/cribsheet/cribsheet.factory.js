@@ -46,17 +46,20 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
         return _snippets;
     }
 
-    // Update if an annotation exists, create if it doesn't
+    // Update if an snippet exists, create if it doesn't
     function upsert(snippet) {
-        var inCollection = _.find(_snippets, {
-            $$hashKey: snippet.$$hashKey
-        });
-        if (inCollection) {
-            inCollection = _.extend(inCollection, snippet);
-        } else {
-            _snippets.push(snippet);
+        //Temporarily filtering by height/width to get round dupe issue
+        if (snippet.width !== '0' && snippet.height !== '0') {
+            var inCollection = _.find(_snippets, {
+                $$hashKey: snippet.$$hashKey
+            });
+            if (inCollection) {
+                inCollection = _.extend(inCollection, snippet);
+            } else {
+                _snippets.push(snippet);
+            }
+            updateCache();
         }
-        updateCache();
         return snippet;
     }
 
@@ -79,7 +82,7 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
             upsert(_.extend(snippet, {
                 url: cropUrl
             }));
-            console.log('CropUrl', cropUrl)
+
         });
         return snippet;
     }

@@ -107,12 +107,11 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
             height: _rect.attr('height')
                 //height: _data[0].attributes.height.nodeValue
         });
-        $rootScope.$digest(function () {
-            _rect.attr({
-                width: 0,
-                height: 0
-            });
+        _rect.attr({
+            width: 0,
+            height: 0
         });
+        $rootScope.$digest();
     }
 
     function _getPoint(event) {

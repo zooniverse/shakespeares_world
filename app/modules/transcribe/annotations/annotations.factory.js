@@ -48,18 +48,23 @@ function AnnotationsFactory(localStorageService, $http) {
 
     // Update if an annotation exists, create if it doesn't
     function upsert(annotation) {
-        var inCollection = _.find(_annotations, {
-            $$hashKey: annotation.$$hashKey
-        });
-        console.log('COLLECTION', inCollection)
-        if (inCollection) {
-            inCollection = _.extend(inCollection, annotation);
-        } else {
-            console.log('ANNOTATION', annotation)
+        //Temporarily filtering by height/width to get round dupe issue
+        if (annotation.width !== '0' && annotation.height !== '0') {
 
-            _annotations.push(annotation);
+            var inCollection = _.find(_annotations, {
+                $$hashKey: annotation.$$hashKey
+            });
+            console.log('COLLECTION', inCollection)
+            if (inCollection) {
+                inCollection = _.extend(inCollection, annotation);
+            } else {
+                console.log('ANNOTATION', annotation)
+
+                _annotations.push(annotation);
+            }
+            updateCache();
+
         }
-        updateCache();
         return annotation;
     }
 
