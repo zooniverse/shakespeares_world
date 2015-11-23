@@ -3,7 +3,7 @@
 require('./footer.module.js')
     .constant('FooterLinkConstants', [
         {
-            title: 'Space',
+            category: 'Space',
             projects: [
                 {
                     name: 'Galaxy Zoo',
@@ -40,7 +40,7 @@ require('./footer.module.js')
             ]
         },
         {
-            title: 'Climate',
+            category: 'Climate',
             projects: [
                 {
                     name: 'Old Weather',
@@ -53,7 +53,7 @@ require('./footer.module.js')
             ]
         },
         {
-            title: 'Nature',
+            category: 'Nature',
             projects: [
                 {
                     name: 'Whale FM',
@@ -82,7 +82,7 @@ require('./footer.module.js')
             ]
         },
         {
-            title: 'Humanities',
+            category: 'Humanities',
             projects: [
                 {
                     name: 'Operation War Diary',
@@ -95,7 +95,7 @@ require('./footer.module.js')
             ]
         },
         {
-            title: 'Biology',
+            category: 'Biology',
             projects: [
                 {
                     name: 'Cell Slider',
