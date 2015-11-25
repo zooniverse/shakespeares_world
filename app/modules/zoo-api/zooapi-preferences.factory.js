@@ -17,13 +17,15 @@ function zooAPIPreferences($q, localStorageService, zooAPIConfig, zooAPI) {
 
     function _getPreferences() {
         var user = localStorageService.get('user');
-        return zooAPI.type('projects_preferences').get({
+        return zooAPI.type('project_preferences').get({
                 'project_id': zooAPIConfig.project_id,
                 'user_id': user.id
             })
             .then(function (response) {
-                _data = response;
-                return response;
+                var _preferences = response[0].preferences
+                console.log('PREFERENCES', _preferences)
+                _data = _preferences;
+                return _preferences;
             });
     }
 

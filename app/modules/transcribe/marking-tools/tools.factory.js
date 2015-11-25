@@ -22,7 +22,6 @@ function ToolsFactory($rootScope, textTool, graphicTool, cropTool, localStorageS
         this.name = toolFactory.name;
         this.active = false;
         this.disabled = anonymUser();
-        console.log('DISABLED', this.disabled)
         this.toggle = toggle;
         this.markingTool = toolFactory;
         this._activate = _activate;

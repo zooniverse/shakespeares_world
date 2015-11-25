@@ -50,20 +50,16 @@ function AnnotationsFactory(localStorageService, $http) {
     function upsert(annotation) {
         //Temporarily filtering by height/width to get round dupe issue
         if (annotation.width !== '0' && annotation.height !== '0') {
-
             var inCollection = _.find(_annotations, {
                 $$hashKey: annotation.$$hashKey
             });
-            console.log('COLLECTION', inCollection)
             if (inCollection) {
                 inCollection = _.extend(inCollection, annotation);
             } else {
-                console.log('ANNOTATION', annotation)
 
                 _annotations.push(annotation);
             }
             updateCache();
-
         }
         return annotation;
     }

@@ -32,7 +32,17 @@ function cribsheet(localStorageService) {
 }
 
 // @ngInject
-function cribsheetController($scope, CribsheetFactory) {
+function cribsheetController($scope, CribsheetFactory, zooAPIPreferences) {
     var vm = this;
-    vm.snippets = CribsheetFactory.list();
+    vm.getSnippets = getSnippets();
+    //vm.snippets = getSnippets();
+    //CribsheetFactory.list();
+    function getSnippets() {
+        return zooAPIPreferences.get()
+            .then(function (response) {
+                console.log('RESPONSE', response.cribsheet)
+                vm.snippets = response.cribsheet;
+                console.log('VM.SNIPPETS', vm.snippets)
+            });
+    }
 }

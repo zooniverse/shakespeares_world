@@ -4,7 +4,7 @@ require('./transcribe.module.js')
     .controller('TranscribeController', TranscribeController);
 
 // @ngInject
-function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, CribsheetFactory, SubjectsFactory, ModalsFactory, localStorageService) {
+function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, CribsheetFactory, ModalsFactory, localStorageService, PreferencesFactory, SubjectsFactory) {
     // Setup controller
     var vm = this;
     vm.loading = SubjectsFactory.loading;
@@ -54,12 +54,22 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         if (vArray.length) {
             var variantsModal = ModalsFactory.openVariants();
             variantsModal.result.then(function () {
+                sendSnippetsToPreferences();
                 loadNext();
             })
         } else {
+            sendSnippetsToPreferences();
             loadNext();
         }
     }
+
+    function sendSnippetsToPreferences() {
+        console.log('TranscribeControler: sendSnippetsToPreferences')
+        var _snippets = CribsheetFactory.list();
+        PreferencesFactory.savePreferences(_snippets)
+
+    }
+
 
     function loadNext() {
         var modal = ModalsFactory.openNext();
