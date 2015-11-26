@@ -6,7 +6,7 @@ require('./transcribe.module.js')
 // TODO: check if I can replace link with a controller inheriting parent scope
 
 // @ngInject
-function transcribeToolbar(ToolsFactory) {
+function transcribeToolbar($timeout, localStorageService, SubjectsFactory, ToolsFactory) {
     var directive = {
         link: transcribeToolbarLink,
         restrict: 'A',
@@ -19,5 +19,12 @@ function transcribeToolbar(ToolsFactory) {
     function transcribeToolbarLink(scope) {
         var vm = scope.vm;
         vm.tools = ToolsFactory;
+        if (SubjectsFactory.current) {
+            vm.metadata = SubjectsFactory.current.data.metadata;
+            vm.author = vm.metadata.Author;
+            vm.genre = vm.metadata.Genre;
+            vm.original = vm.metadata['Luna URL'];
+            vm.title = vm.metadata.Title;
+        }
     }
 }

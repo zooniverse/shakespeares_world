@@ -13,7 +13,7 @@ function GenreDetailController($scope, $state, $stateParams, $timeout, GenresFac
         .then(function (genre) {
             $timeout(function () {
                 vm.genre = genre;
-                vm.moreGenres = GenresFactory.list(3);
+                vm.moreGenres = GenresFactory.list(1);
                 vm.loading = false;
             });
         });

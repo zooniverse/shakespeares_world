@@ -23,7 +23,6 @@ function appFooter($state, FooterLinkConstants, $http) {
         }).then(function (response) {
             scope.footer = response.data;
             scope.links = scope.footer.projectsList;
-            console.log(response)
         });
 
         scope.$watch(function () {
