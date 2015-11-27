@@ -1,42 +1,42 @@
 .genre-list
-    make-row()
+    background-color: dark-grey
     list-style-type: none
-    margin-top: 60px
+    margin-top: 120px
+    margin-bottom: 0
     padding: 0
-    > .genre
+    > .center-content
+        margin: 0 auto
+        width: 400px
+    > .center-content > .genre
         @extend .col-xs-6
-        @extend .col-sm-4
-        @extend .col-sm-2
         margin-bottom: 30px
 
-    > .genre > img
-        @extend .img-responsive
-
-    > .genre > .title
+    > .center-content > .genre > .title
         background-color: offwhite
         border-radius: 50%
         color: green
         padding: 65px 0
         text-align: center
 
-    > .genre > .title > h4
+    > .center-content > .genre > .title > h4
         margin: 0
         font-size: 18px
         font-weight: 200
 
 
-    > .genre.-active
+    > .center-content > .genre.-active
         cursor: pointer
 
-    > .genre.-active > .wrap1 > .wrap2
+    > .center-content > .genre.-active > .wrap1 > .wrap2
         background-color: green
 
-    > .genre.-active > .title
+    > .center-content > .genre.-active > .title
         background-color: green
         color: #fff
-.genre-list > h3
-    color: offwhite
-    font-weight: 200
-    margin-bottom: 60px
-    text-align: center
-    text-transform: uppercase
+
+    > h3
+        color: offwhite
+        font-weight: 200
+        margin-bottom: 60px
+        text-align: center
+        text-transform: uppercase

@@ -23,16 +23,16 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
-<div class="container">
-    <ul class="genre-list">
-        <h3>Choose a genre and start transcribing!</h3>
-        <li class="genre" ng-repeat="genre in vm.genres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+<ul class="genre-list">
+    <h3>Choose a genre and start transcribing!</h3>
+    <div class="center-content">
+        <div class="genre" ng-repeat="genre in vm.genres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
             <div class="title">
                 <h4>{{ genre.name }}</h4>
             </div>
-        </li>
-    </ul>
-</div>
+        </div>
+    </div>
+</ul>
