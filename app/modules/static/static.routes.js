@@ -17,16 +17,6 @@ function Routes($stateProvider) {
                 }
             }
         })
-        //        .state('Team', {
-        //            parent: 'Base',
-        //            url: '/team',
-        //            title: 'The Team',
-        //            views: {
-        //                'main': {
-        //                    templateUrl: 'static/team.html'
-        //                }
-        //            }
-        //        });
         .state('Team', {
             parent: 'Base',
             url: '/team',
