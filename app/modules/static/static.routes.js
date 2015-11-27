@@ -17,13 +17,29 @@ function Routes($stateProvider) {
                 }
             }
         })
+        //        .state('Team', {
+        //            parent: 'Base',
+        //            url: '/team',
+        //            title: 'The Team',
+        //            views: {
+        //                'main': {
+        //                    templateUrl: 'static/team.html'
+        //                }
+        //            }
+        //        });
         .state('Team', {
             parent: 'Base',
             url: '/team',
-            title: 'The Team',
+            title: 'Team',
             views: {
                 'main': {
-                    templateUrl: 'static/team.html'
+                    templateUrl: 'static/team.html',
+                    // @ngInject
+                    controller: function (TeamConstants) {
+                        var vm = this;
+                        vm.team = TeamConstants;
+                    },
+                    controllerAs: 'vm'
                 }
             }
         });
