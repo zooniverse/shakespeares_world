@@ -11,7 +11,7 @@ module.exports = {
     'deploy': {
         'production': {
             'Bucket': 'zooniverse-static',
-            'Prefix': '',
+            'Prefix': 'www.shakespearesworld.org/',
         },
         'alpha': {
             'Bucket': 'zooniverse-static',
