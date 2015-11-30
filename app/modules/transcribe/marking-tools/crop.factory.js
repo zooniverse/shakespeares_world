@@ -95,6 +95,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
 
     function _endRect() {
         _hammer.off('panmove', _drawRect);
+        _hammer.off('panend', _endRect);
         CribsheetFactory.upsert({
             x: _rect.attr('x'),
             y: _rect.attr('y'),

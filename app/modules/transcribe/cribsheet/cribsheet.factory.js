@@ -48,18 +48,15 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
 
     // Update if an snippet exists, create if it doesn't
     function upsert(snippet) {
-        //Temporarily filtering by height/width to get round dupe issue
-        if (snippet.width !== '0' && snippet.height !== '0') {
-            var inCollection = _.find(_snippets, {
-                $$hashKey: snippet.$$hashKey
-            });
-            if (inCollection) {
-                inCollection = _.extend(inCollection, snippet);
-            } else {
-                _snippets.push(snippet);
-            }
-            updateCache();
+        var inCollection = _.find(_snippets, {
+            $$hashKey: snippet.$$hashKey
+        });
+        if (inCollection) {
+            inCollection = _.extend(inCollection, snippet);
+        } else {
+            _snippets.push(snippet);
         }
+        updateCache();
         return snippet;
     }
 
