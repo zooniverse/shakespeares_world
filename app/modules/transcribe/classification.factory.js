@@ -68,7 +68,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                         console.log('Classification saved', response.id);
                     }, function (error) {
                         console.log('Error submitting classification:', error);
-                        rejectedClassifications.push(item);
+                        rejectedClassifications.push(newClassification);
                     });
             });
         }, $q().then(function () {
