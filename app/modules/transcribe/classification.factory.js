@@ -48,34 +48,30 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
             });
     }
 
+
     function _submitToApi(newClassification) {
 
         var rejectedClassifications = [];
 
         localStorageService.set('classificationsToSubmit', localStorageService.get('classificationsToSubmit').concat([newClassification]));
 
-        // We reduce over our list of classifications (which now includes the new
-        // classification), and save any failed ones back again. The technique is
-        // explained at http://taoofcode.net/promise-anti-patterns/#the-collection-kerfuffle:8f173b15e2d19515fdc8ce931ae539c0
-        //
-        // We could do this in parallel, but this is a non-blocking process and
-        // we don't need the time savings that the additional load would cause.
         localStorageService.get('classificationsToSubmit').reduce(function (promise, newClassification) {
-            return promise.then(function (response) {
-                var classification = zooAPI.type('classifications').create(newClassification);
-                return classification.save()
-                    .then(function (response) {
-                        console.log('Classification saved', response.id);
-                    }, function (error) {
-                        console.log('Error submitting classification:', error);
-                        rejectedClassifications.push(newClassification);
-                    });
-            });
-        }, $q.when().then(function () {
-            localStorageService.set('classificationsToSubmit', rejectedClassifications);
-        }));
-
+                return promise.then(function (response) {
+                    var classification = zooAPI.type('classifications').create(newClassification);
+                    return classification.save()
+                        .then(function (response) {
+                            console.log('Classification saved', response.id);
+                        }, function (error) {
+                            console.log('Error submitting classification:', error);
+                            rejectedClassifications.push(newClassification);
+                        });
+                });
+            },
+            $q.when().then(function () {
+                localStorageService.set('classificationsToSubmit', rejectedClassifications);
+            }));
     }
+
 
     function submitBlank() {
         return _createNewClassification()
