@@ -10,13 +10,10 @@ require('./transcribe.module.js')
 function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIProject) {
 
     var factory;
-    var _RejectedClassifications;
 
-    if (localStorageService.get('RejectedClassifications') === null) {
-        localStorageService.set('RejectedClassifications', []);
+    if (localStorageService.get('classificationsToSubmit') === null) {
+        localStorageService.set('classificationsToSubmit', []);
     }
-
-    _RejectedClassifications = localStorageService.get('RejectedClassifications');
 
     factory = {
         submitBlank: submitBlank,
@@ -52,31 +49,36 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
     }
 
     function _submitToApi(newClassification) {
-        if (!_RejectedClassifications.length == 0) {
-            var allClassifications = _RejectedClassifications.concat([newClassification]);
-            for (var classification in allClassifications) {
-                classification = zooAPI.type('classifications').create(newClassification);
+
+        var rejectedClassifications = [];
+
+        localStorageService.set('classificationsToSubmit', localStorageService.get('classificationsToSubmit').concat([newClassification]));
+
+        // We reduce over our list of classifications (which now includes the new
+        // classification), and save any failed ones back again. The technique is
+        // explained at http://taoofcode.net/promise-anti-patterns/#the-collection-kerfuffle:8f173b15e2d19515fdc8ce931ae539c0
+        //
+        // We could do this in parallel, but this is a non-blocking process and
+        // we don't need the time savings that the additional load would cause.
+        //
+        // Note $q.when() - with Q, we'd use the basic constructor Q(), but the
+        // Angular implementation (`$q()`) requires a resolver function we
+        // don't need.
+        localStorageService.get('classificationsToSubmit').reduce(function (promise, newClassification) {
+            return promise.then(function (response) {
+                var classification = zooAPI.type('lassifications').create(newClassification);
                 return classification.save()
-                    .then(function (fulfilled) {
-                        console.log('Classification saved', fulfilled.id);
-                        _RejectedClassifications.length = 0;
-                        updateCache();
-                        console.log('Rejected queue cleared', _RejectedClassifications);
-                    }, function (rejected) {
-                        console.error('Classification error: ', rejected);
-                        (_RejectedClassifications) ? localStorageService.set('RejectedClassifications', [newClassification]): _RejectedClassifications.concat([newClassification]);
-                    })
-            };
-        } else {
-            var classification = zooAPI.type('classifications').create(newClassification);
-            return classification.save()
-                .then(function (fulfilled) {
-                    console.log('Classification saved', fulfilled.id);
-                }, function (rejected) {
-                    console.error('Classification error: ', rejected);
-                    (_RejectedClassifications) ? localStorageService.set('RejectedClassifications', [newClassification]): _RejectedClassifications.concat([newClassification]);
-                });
-        }
+                    .then(function (response) {
+                        console.log('Classification saved', response.id);
+                    }, function (error) {
+                        console.log('Error submitting classification:', error);
+                        rejectedClassifications.push(newClassification);
+                    });
+            });
+        }, $q.when()).then(function () {
+            localStorageService.set('classificationsToSubmit', rejectedClassifications);
+        });
+
     }
 
     function submitBlank() {
@@ -129,12 +131,6 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                 return classification;
             })
             .then(_submitToApi);
-    }
-
-
-    function updateCache() {
-        var RejectedClassifications = _.reject(_RejectedClassifications);
-        localStorageService.set('RejectedClassifications', RejectedClassifications);
     }
 
 }
