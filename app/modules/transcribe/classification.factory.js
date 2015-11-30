@@ -7,16 +7,9 @@ require('./transcribe.module.js')
     .factory('ClassificationFactory', ClassificationFactory);
 
 // @ngInject
-function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIProject) {
+function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactory, zooAPI, zooAPIProject) {
 
     var factory;
-    var _RejectedClassifications;
-
-    if (localStorageService.get('RejectedClassifications') === null) {
-        localStorageService.set('RejectedClassifications', []);
-    }
-
-    _RejectedClassifications = localStorageService.get('RejectedClassifications');
 
     factory = {
         submitBlank: submitBlank,
@@ -51,32 +44,9 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
             });
     }
 
-    function _submitToApi(newClassification) {
-        if (!_RejectedClassifications.length == 0) {
-            var allClassifications = _RejectedClassifications.concat([newClassification]);
-            for (var classification in allClassifications) {
-                classification = zooAPI.type('classifications').create(newClassification);
-                return classification.save()
-                    .then(function (fulfilled) {
-                        console.log('Classification saved', fulfilled.id);
-                        _RejectedClassifications.length = 0;
-                        updateCache();
-                        console.log('Rejected queue cleared', _RejectedClassifications);
-                    }, function (rejected) {
-                        console.error('Classification error: ', rejected);
-                        (_RejectedClassifications) ? localStorageService.set('RejectedClassifications', [newClassification]): _RejectedClassifications.concat([newClassification]);
-                    })
-            };
-        } else {
-            var classification = zooAPI.type('classifications').create(newClassification);
-            return classification.save()
-                .then(function (fulfilled) {
-                    console.log('Classification saved', fulfilled.id);
-                }, function (rejected) {
-                    console.error('Classification error: ', rejected);
-                    (_RejectedClassifications) ? localStorageService.set('RejectedClassifications', [newClassification]): _RejectedClassifications.concat([newClassification]);
-                });
-        }
+    function _submitToApi(data) {
+        var classification = zooAPI.type('classifications').create(data);
+        return classification.save();
     }
 
     function submitBlank() {
@@ -129,12 +99,6 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                 return classification;
             })
             .then(_submitToApi);
-    }
-
-
-    function updateCache() {
-        var RejectedClassifications = _.reject(_RejectedClassifications);
-        localStorageService.set('RejectedClassifications', RejectedClassifications);
     }
 
 }
