@@ -71,7 +71,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                         rejectedClassifications.push(newClassification);
                     });
             });
-        }, $q().then(function () {
+        }, $q.when().then(function () {
             localStorageService.set('classificationsToSubmit', rejectedClassifications);
         }));
 
