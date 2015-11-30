@@ -21,7 +21,7 @@ function ToolUtilsFactory(MarkingSurfaceFactory) {
         var svg;
 
         svg = MarkingSurfaceFactory.svg;
-        rotateContainer = svg.find('.rotate-container')[0];
+        rotateContainer = document.querySelectorAll('.rotate-container')[0];
         point = svg[0].createSVGPoint();
         point.x = event.clientX;
         point.y = event.clientY;
