@@ -95,6 +95,8 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
 
     function _endRect() {
         _hammer.off('panmove', _drawRect);
+        _hammer.off('panend', _endRect);
+
         AnnotationsFactory.upsert({
             type: 'graphic',
             x: _rect.attr('x'),
