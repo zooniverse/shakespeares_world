@@ -7,5 +7,6 @@ module.exports = require('angular')
         'app.transcribe.markingSurface',
         'app.transcribe.markingTools',
         'app.transcribe.modals',
-        'app.transcribe.overlay'
+        'app.transcribe.overlay',
+        'app.favourites'
     ]);
