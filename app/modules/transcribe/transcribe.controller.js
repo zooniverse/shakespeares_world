@@ -10,7 +10,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     vm.loading = SubjectsFactory.loading;
     vm.subject = SubjectsFactory.current;
     vm.$loadNext = loadNext;
-    vm.$variants = variantsFeedback;
+    vm.$variantsAndNext = variantsFeedback;
     vm.$openTutorial = openTutorial;
 
     // Watchers
@@ -28,7 +28,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         loadSubject()
             .then(function () {
                 vm.annotations = AnnotationsFactory.list();
-                vm.snippets = CribsheetFactory.list();
+                //vm.snippets = CribsheetFactory.list();
             });
     }
 
@@ -54,20 +54,11 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         if (vArray.length) {
             var variantsModal = ModalsFactory.openVariants();
             variantsModal.result.then(function () {
-                sendSnippetsToPreferences();
                 loadNext();
             })
         } else {
-            sendSnippetsToPreferences();
             loadNext();
         }
-    }
-
-    function sendSnippetsToPreferences() {
-        console.log('TranscribeControler: sendSnippetsToPreferences')
-        var _snippets = CribsheetFactory.list();
-        PreferencesFactory.savePreferences(_snippets)
-
     }
 
 

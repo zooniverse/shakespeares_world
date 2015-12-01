@@ -100,8 +100,12 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
-            height: _rect.attr('height')
+            height: _rect.attr('height'),
+            name: '',
+            url: ''
         });
+        console.log('_rect.attr', _rect[0])
+        $rootScope.$broadcast('cropDialog:open', _rect[0]);
         _rect.attr({
             width: 0,
             height: 0

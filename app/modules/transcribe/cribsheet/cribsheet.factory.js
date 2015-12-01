@@ -75,11 +75,9 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
         var striplocation = location.substr(location.indexOf('://') + 3);
         snippets.forEach(function (el) {
             var cropUrl = cropServer + 'w=' + el.width + '&h=' + el.height + '&x=' + el.x + '&y=' + el.y + '&u=' + striplocation;
-
             upsert(_.extend(snippet, {
                 url: cropUrl
             }));
-
         });
         return snippet;
     }

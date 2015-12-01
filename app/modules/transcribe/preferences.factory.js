@@ -6,7 +6,7 @@ require('./transcribe.module.js')
     .factory('PreferencesFactory', PreferencesFactory);
 
 // @ngInject
-function PreferencesFactory($q, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIProject, zooAPIConfig, zooAPIPreferences) {
+function PreferencesFactory($q, appConfig, CribsheetFactory, localStorageService, SubjectsFactory, zooAPI, zooAPIProject, zooAPIConfig, zooAPIPreferences) {
 
     var factory;
     var _snippets;
@@ -20,8 +20,8 @@ function PreferencesFactory($q, appConfig, localStorageService, SubjectsFactory,
 
     return factory;
 
-    function _updatePreference(snippets) {
-        var _snippets = snippets;
+    function _updatePreference(snippet) {
+        var _newSnippet = snippet;
         var _preferences = {};
         var user = localStorageService.get('user');
         return zooAPI.type('project_preferences').get({
@@ -35,33 +35,31 @@ function PreferencesFactory($q, appConfig, localStorageService, SubjectsFactory,
                     console.log('EMPTY')
                     _preferences.update({
                         'preferences': {
-                            'cribsheet': _snippets
+                            'cribsheet': _newSnippet
                         }
                     });
                     _preferences.save();
+                    console.log('Preference', _preferences)
                 } else {
+                    var allSnippets = _snippets.concat([_newSnippet]);
                     console.log('NOT-EMPTY')
+                    console.log('ALL SNIPPETS', allSnippets)
                     _preferences.update({
                         'preferences': {
-                            'cribsheet': _snippets
+                            'cribsheet': allSnippets
                         }
                     });
                     _preferences.save();
+                    console.log('Preference', _preferences)
                 }
-                //updateCache();
             });
+
     }
 
-    //   var set;
-    //zooAPI.type('subject_sets').get('id').then(function (r) {set = r; });
-    //set.update({ metadata: { genre: 'whatever'} });
-    //set.save();
+    function deleteSnippet(snippet) {
+        CribsheetFactory.destroy(snippet);
 
-    function updateCache() {
-        var snippets = _.reject(_snippets, {
-            complete: false
-        });
-        localStorageService.set('snippets', snippets);
-        console.log('SNIPPETS', snippets);
+
     }
+
 }

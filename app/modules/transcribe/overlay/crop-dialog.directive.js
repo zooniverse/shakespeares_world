@@ -2,6 +2,7 @@
 
 var angular = require('angular');
 var Draggabilly = require('draggabilly');
+var Hammer = require('hammerjs');
 
 require('./overlay.module.js')
     .directive('cropDialog', cropDialog);
@@ -73,7 +74,7 @@ function cropDialog() {
 }
 
 // @ngInject
-function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, $timeout) {
+function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, PreferencesFactory, $timeout) {
     var reactivateMarkingSurface;
     var vm = this;
     var userInput = document.getElementById('#userInput');
@@ -105,6 +106,7 @@ function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurf
     }
 
     function openDialog(data) {
+        console.log('DATA: ', data)
         $rootScope.$broadcast('markingTools:disable');
         reactivateMarkingSurface = (MarkingSurfaceFactory.isEnabled()) ? true : false;
         if (MarkingSurfaceFactory.isEnabled()) {
@@ -119,7 +121,6 @@ function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurf
         });
         CribsheetFactory.addUrl(vm.data);
         vm.src = vm.data.url;
-
         $timeout(getFocus);
     }
 

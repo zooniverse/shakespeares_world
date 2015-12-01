@@ -22,10 +22,9 @@ function zooAPIPreferences($q, localStorageService, zooAPIConfig, zooAPI) {
                 'user_id': user.id
             })
             .then(function (response) {
-                var _preferences = response[0].preferences
-                console.log('PREFERENCES', _preferences)
-                _data = _preferences;
-                return _preferences;
+                _data = response[0].preferences
+                console.log('CRIBSHEET', _data.cribsheet)
+                return _data;
             });
     }
 
