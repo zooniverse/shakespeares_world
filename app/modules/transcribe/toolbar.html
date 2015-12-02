@@ -5,6 +5,9 @@
         <p><a ng-href="{{vm.catalogue}}" target="_blank">Catalogue</a></p>
         <p><a ng-href="{{vm.original}}" target="_blank">Original</a></p>
         <div class="controls">
+            <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.crop.active, '-disabled': vm.tools.crop.disabled }" ng-click="vm.tools.crop.toggle()">
+                <span class="icon -text" aria-hidden="true"></span> Snapshot
+            </button>
             <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.text.active }" ng-click="vm.tools.text.toggle()">
                 <span class="icon -text" aria-hidden="true"></span> Transcribe Text
             </button>
@@ -17,7 +20,7 @@
         </div>
         <div class="title">Remember, you're not required to transcribe the whole page!</div>
         <div class="controls">
-            <button type="button" class="button -next" ng-click="vm.$variants()">
+            <button type="button" class="button -next" ng-click="vm.$variantsAndNext()">
                 I'm done!
             </button>
         </div>

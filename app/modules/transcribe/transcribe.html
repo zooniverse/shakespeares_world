@@ -13,6 +13,10 @@
                 <g class="previous-lines">
                     <g previous-line data="line" ng-repeat="line in vm.aggregations"></g>
                 </g>
+                <g class="crop-snippets">
+    <g crop-snippet data="snippet" ng-repeat="snippet in vm.snippets"></g>
+</g>
+
                 <g class="annotations">
                     <g class="text-annotations">
                         <g text-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'text'}:true"></g>
@@ -20,14 +24,11 @@
                     <g class="graphic-annotations">
                         <g graphic-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'graphic'}:true"></g>
                     </g>
-                    <g class="marginalia-annotations">
-                        <g marginalia-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'marginalia'}:true"></g>
-                    </g>
+
                 </g>
 
             </g>
         </g>
-
     </svg>
 
 </div>

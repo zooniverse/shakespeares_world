@@ -5,10 +5,10 @@ var angular = require('angular');
 var Hammer = require('hammerjs');
 
 require('./marking-tools.module.js')
-    .factory('marginaliaTool', marginaliaTool);
+    .factory('cropTool', cropTool);
 
 // @ngInject
-function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory) {
 
     var factory;
     var _enabled;
@@ -18,7 +18,7 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
     var _subject;
 
     factory = {
-        name: 'marginalia',
+        name: 'crop',
         activate: activate,
         deactivate: deactivate
     };
@@ -30,8 +30,8 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
 
         if (_.isUndefined(_rect)) {
             _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
-                .attr('class', 'marginalia-annotation -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.marginalia-annotations'));
+                .attr('class', 'crop-snippet -temp')
+                .appendTo(MarkingSurfaceFactory.svg.find('.crop-snippets'));
         }
 
         _hammer.get('pan').set({
@@ -95,13 +95,17 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
 
     function _endRect() {
         _hammer.off('panmove', _drawRect);
-        AnnotationsFactory.upsert({
-            type: 'marginalia',
+        _hammer.off('panend', _endRect);
+        CribsheetFactory.upsert({
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
-            height: _rect.attr('height')
+            height: _rect.attr('height'),
+            name: '',
+            url: ''
         });
+        console.log('_rect.attr', _rect[0])
+        $rootScope.$broadcast('cropDialog:open', _rect[0]);
         _rect.attr({
             width: 0,
             height: 0
@@ -114,11 +118,14 @@ function marginaliaTool($rootScope, $timeout, AnnotationsFactory, MarkingSurface
     }
 
     function _startRect(event) {
+
         if (_enabled && event.target.nodeName === 'image') {
             _hammer.on('panmove', _drawRect);
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);
             _rect.attr(_origin);
+            //Not sure if this should be changed to
+            //document.querySelector('.subject') for IE
             _subject = MarkingSurfaceFactory.svg.find('.subject').first()[0].getBBox();
         }
     }

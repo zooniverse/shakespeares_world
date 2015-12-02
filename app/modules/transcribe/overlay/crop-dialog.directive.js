@@ -2,35 +2,34 @@
 
 var angular = require('angular');
 var Draggabilly = require('draggabilly');
-var _ = require('lodash');
+var Hammer = require('hammerjs');
 
 require('./overlay.module.js')
-    .directive('graphicDialog', graphicDialog);
+    .directive('cropDialog', cropDialog);
 
 // @ngInject
-function graphicDialog() {
+function cropDialog() {
     var directive = {
-        link: graphicDialogLink,
+        link: cropDialogLink,
         controllerAs: 'vm',
-        controller: graphicDialogController,
+        controller: cropDialogController,
         replace: true,
         scope: true,
-        templateUrl: 'overlay/graphic-dialog.html'
+        templateUrl: 'overlay/crop-dialog.html'
     };
     return directive;
 
     // @ngInject
-    function graphicDialogLink(scope, element, attrs, dialog) {
+    function cropDialogLink(scope, element, attrs, dialog) {
         // Setup
         scope.close = dialog.close;
         scope.saveAndClose = dialog.saveAndClose;
-        scope.tag = dialog.tag;
         new Draggabilly(element[0], {
             containment: '.overlay',
             handle: '.heading'
         });
         // Events
-        scope.$on('graphicDialog:open', openDialog);
+        scope.$on('cropDialog:open', openDialog);
         // Methods
         function openDialog(event, data) {
             dialog.open(data);
@@ -75,25 +74,22 @@ function graphicDialog() {
 }
 
 // @ngInject
-function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
+function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, PreferencesFactory, $timeout) {
     var reactivateMarkingSurface;
     var vm = this;
+    var userInput = document.getElementById('#userInput');
     vm.active = false;
     vm.data = {};
-    vm.graphics = overlayConfig.graphics;
-    vm.setAndSave = setTypeAndSave;
     vm.close = closeDialog;
+    vm.keyPress = onKeydown;
     vm.open = openDialog;
-    $rootScope.$on('annotation:delete', function (event, deleted) {
+    vm.name = '';
+    vm.saveAndClose = saveAndCloseDialog;
+    $rootScope.$on('snippet:delete', function (event, deleted) {
         if (vm.data && vm.data.$$hashKey && deleted.$$hashKey === vm.data.$$hashKey) {
             closeDialog();
         }
     });
-
-    function setTypeAndSave(graphic) {
-        vm.data.tag = graphic.tag;
-        saveAndCloseDialog();
-    }
 
     function closeDialog() {
         $rootScope.$broadcast('markingTools:enable');
@@ -105,28 +101,42 @@ function graphicDialogController($rootScope, AnnotationsFactory, hotkeys, Markin
         $rootScope.$broadcast('event:close');
     }
 
+    function getFocus() {
+        userInput.focus();
+    }
+
     function openDialog(data) {
+        console.log('DATA: ', data)
         $rootScope.$broadcast('markingTools:disable');
         reactivateMarkingSurface = (MarkingSurfaceFactory.isEnabled()) ? true : false;
         if (MarkingSurfaceFactory.isEnabled()) {
             MarkingSurfaceFactory.disable();
         }
         vm.active = true;
-        vm.data = data.annotation;
+        vm.data = data.snippet;
+        vm.name = data.snippet.name;
         hotkeys.add({
             callback: closeDialog,
             combo: 'esc'
         });
+        CribsheetFactory.addUrl(vm.data);
+        vm.src = vm.data.url;
+        $timeout(getFocus);
+    }
+
+    function onKeydown(event) {
+        if (event.which === 13) { // enter key
+            event.preventDefault();
+            saveAndCloseDialog();
+        }
     }
 
     function saveAndCloseDialog() {
-        //var _annotations = AnnotationsFactory.list();
-        console.log('tag', vm.data.tag)
-
-        AnnotationsFactory.upsert(_.extend(vm.data, {
-            tag: vm.data.tag
-        }));
-        //AnnotationsFactory.upsert(vm.data);
+        if (vm.name !== vm.data.name) {
+            vm.data.name = vm.name;
+            CribsheetFactory.addUrl(vm.data);
+            CribsheetFactory.upsert(vm.data);
+        }
         closeDialog();
     }
 }

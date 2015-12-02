@@ -3,8 +3,6 @@
 require('./transcribe.module.js')
     .directive('transcribeToolbar', transcribeToolbar);
 
-// TODO: check if I can replace link with a controller inheriting parent scope
-
 // @ngInject
 function transcribeToolbar($timeout, localStorageService, SubjectsFactory, ToolsFactory) {
     var directive = {

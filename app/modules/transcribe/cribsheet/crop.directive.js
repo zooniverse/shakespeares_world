@@ -3,23 +3,23 @@
 var _ = require('lodash');
 var Hammer = require('hammerjs');
 
-require('./annotations.module.js')
-    .directive('marginaliaAnnotation', marginaliaAnnotation);
+require('./cribsheet.module.js')
+    .directive('cropSnippet', cropSnippet);
 
 // @ngInject
-function marginaliaAnnotation($rootScope, AnnotationsFactory) {
+function cropSnippet($rootScope, CribsheetFactory) {
     var directive = {
-        link: marginaliaAnnotationLink,
+        link: cropSnippetLink,
         replace: true,
         restrict: 'A',
         scope: {
             data: '='
         },
-        templateUrl: 'annotations/marginalia.html',
+        templateUrl: 'cribsheet/crop.html',
     };
     return directive;
 
-    function marginaliaAnnotationLink(scope, element) {
+    function cropSnippetLink(scope, element) {
 
         // Setup
         var hammerElement;
@@ -27,16 +27,13 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
         // Events
         hammerElement.on('tap', openContextMenu);
         scope.$on('$destroy', $destroy);
-        // if text is undefined open dialog
-        if (!scope.data.text) {
-            openTranscribeDialog();
-        }
+        openCropDialog();
 
         // Methods
         function $destroy() {
             hammerElement.destroy();
             var data = _.clone(scope.data, true);
-            $rootScope.$broadcast('annotation:delete', data);
+            $rootScope.$broadcast('snippet:delete', data);
         }
 
         function openContextMenu(event) {
@@ -44,23 +41,15 @@ function marginaliaAnnotation($rootScope, AnnotationsFactory) {
                 event: event,
                 menuOptions: [{
                     name: 'Delete',
-                    action: _.partial(AnnotationsFactory.destroy, scope.data)
+                    action: _.partial(CribsheetFactory.destroy, scope.data)
                         }]
             };
-
-            if (scope.data.type === 'marginalia') {
-                contextMenuData.menuOptions.unshift({
-                    name: 'Edit',
-                    action: openTranscribeDialog
-                });
-            }
             $rootScope.$broadcast('contextMenu:open', contextMenuData);
         }
 
-        function openTranscribeDialog() {
-
-            $rootScope.$broadcast('transcribeDialog:open', {
-                annotation: scope.data,
+        function openCropDialog() {
+            $rootScope.$broadcast('cropDialog:open', {
+                snippet: scope.data,
                 element: element
             });
         }

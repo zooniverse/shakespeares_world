@@ -1,0 +1,62 @@
+.cribsheet
+    @extend .panel
+    @extend .panel-default
+    background-color: rgba(245,245,245,0.5)
+    display: none
+    position: absolute
+    right: 0
+    top: 0
+    width: 30%
+    height: 100%
+    z-index: 1
+
+    > .heading
+        @extend .panel-heading
+        @extend .panel-default > .panel-heading
+        cursor: move
+        display: flex
+
+    > .heading > .title
+        @extend .panel-default > .panel-heading
+        @extend .panel-title
+        flex: 1
+        line-height: 23px
+
+    > .body
+        @extend .panel-body
+        max-height: 100%
+        overflow: auto
+    > .body > .example
+        float: left
+        width: 18%
+
+    > .body > .example > img
+        width: 80px
+
+    > .body > .buttons
+        display: flex
+        justify-content: space-between
+
+    > .body > .buttons .button
+        @extend .btn
+        @extend .btn-default
+
+    > .body > .buttons .button.-save
+        @extend .btn-success
+
+    > .body > .buttons .button + .button
+        margin-left: -1px
+
+    > .body > .buttons > .editing > .button:not(:first-child):not(:last-child)
+        border-radius: 0
+
+    > .body > .buttons > .editing > .button:first-child
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+    > .body > .buttons > .editing > .button:last-child
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+
+
+

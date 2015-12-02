@@ -96,7 +96,10 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
         AnnotationsFactory.upsert({
             type: 'graphic',
             x: _rect.attr('x'),
@@ -122,9 +125,15 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);
             _rect.attr(_origin);
+<<<<<<< HEAD
+            //Not sure if this should be changed to
+            //document.querySelector('.subject') for IE
+            _subject = MarkingSurfaceFactory.svg.find('.subject').first()[0].getBBox();
+=======
             //native document.querySelector get the first matching element
             //which achieves the same as JQuery .first()
             _subject = document.querySelector('.subject').getBBox();
+>>>>>>> master
         }
     }
 }
