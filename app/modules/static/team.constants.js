@@ -16,7 +16,7 @@ require('./static.module.js')
                     name: 'Sarah Powell',
                     slug: 'sarah-powell',
                     bio: [
-                        'Sarah is the EMMO Paleographer at the Folger Shakespeare Library. She has a degree in Latin and Classical Civilization from Trinity College, University of Dublin. She subsequently trained as a teacher at King’s College, University of London where she earned a Post Graduate Cert in Education (PGCE) in Latin. Sarah worked as a teacher for over a decade. She likes her transcriptions served with a cup of Yorkshire tea.'
+                        'Sarah Powell is the Paleographer for Early Modern Manuscripts Online (EMMO) at the Folger Shakespeare Library. She earned her degree in Latin from Trinity College, Dublin. She has a PGCE (Post Graduate Cert in Education) in Latin with Classics from King’s College, London and worked as a teacher for over a decade.'
                     ]
                 },
                 {
