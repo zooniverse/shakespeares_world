@@ -24,6 +24,7 @@ function transcribeToolbar($timeout, localStorageService, SubjectsFactory, Tools
             vm.author = vm.metadata.Author;
             vm.genre = vm.metadata.Genre;
             vm.original = vm.metadata['Luna URL'];
+            vm.catalogue = vm.metadata['Hamnet URL'];
             vm.title = vm.metadata.Title;
         }
     }
