@@ -60,7 +60,7 @@ require('./static.module.js')
                     ]
                 },
                 {
-                    name: 'Victoria van Hyning',
+                    name: 'Victoria Van Hyning',
                     slug: 'victoria-vanhyning',
                     bio: [
                         'Victoria is the humanities PI of Zooniverse and an early modernist working on English Catholic women\'s autobiography in the period when it was illegal to practice Catholicism in England and parts of the British Isles (c.1535–1790s). She will use the Shakespeare\'s World data in her research, in order to look for examples of Catholic women\'s writing.'
