@@ -53,13 +53,6 @@ require('./static.module.js')
                     ]
                 },
                 {
-                    name: 'Philip Durkin',
-                    slug: 'philip-durkin',
-                    bio: [
-                        'Philip Durkin (@PhilipDurkin) is Deputy Chief Editor of the Oxford English Dictionary, and has led the dictionary\'s team of specialists in Etymology for the past sixteen years. He is the author of The Oxford Guide to Etymology (2009; paperback 2011), which has quickly become the standard work in the field, and of Borrowed Words: A History of Loanwords in English (OUP 2014; paperback 2015), and he is editor of The Oxford Handbook of Lexicography (2015).'
-                    ]
-                },
-                {
                     name: 'Chris Lintott',
                     slug: 'chris-lintott',
                     bio: [
@@ -71,6 +64,18 @@ require('./static.module.js')
                     slug: 'victoria-vanhyning',
                     bio: [
                         'Victoria is the humanities PI of Zooniverse and an early modernist working on English Catholic women\'s autobiography in the period when it was illegal to practice Catholicism in England and parts of the British Isles (c.1535–1790s). She will use the Shakespeare\'s World data in her research, in order to look for examples of Catholic women\'s writing.'
+                    ]
+                }
+            ]
+        },
+        {
+            title: 'Oxford English Dictinary',
+            members: [
+                {
+                    name: 'Philip Durkin',
+                    slug: 'philip-durkin',
+                    bio: [
+                        'Philip Durkin (@PhilipDurkin) is Deputy Chief Editor of the Oxford English Dictionary, and has led the dictionary\'s team of specialists in Etymology for the past sixteen years. He is the author of The Oxford Guide to Etymology (2009; paperback 2011), which has quickly become the standard work in the field, and of Borrowed Words: A History of Loanwords in English (OUP 2014; paperback 2015), and he is editor of The Oxford Handbook of Lexicography (2015).'
                     ]
                 },
                 {
