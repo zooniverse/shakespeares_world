@@ -26,12 +26,12 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     return factory;
 
     function activate() {
-        _hammer = new Hammer(MarkingSurfaceFactory.svg.find('.pan-zoom')[0]);
+        _hammer = new Hammer(document.querySelectorAll('.pan-zoom')[0]);
 
         if (_.isUndefined(_rect)) {
             _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
                 .attr('class', 'graphic-annotation -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.graphic-annotations'));
+                .appendTo(document.querySelectorAll('.graphic-annotations'));
         }
 
         _hammer.get('pan').set({
@@ -96,6 +96,10 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         AnnotationsFactory.upsert({
             type: 'graphic',
             x: _rect.attr('x'),
@@ -121,9 +125,15 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);
             _rect.attr(_origin);
+<<<<<<< HEAD
             //Not sure if this should be changed to
             //document.querySelector('.subject') for IE
             _subject = MarkingSurfaceFactory.svg.find('.subject').first()[0].getBBox();
+=======
+            //native document.querySelector get the first matching element
+            //which achieves the same as JQuery .first()
+            _subject = document.querySelector('.subject').getBBox();
+>>>>>>> master
         }
     }
 }

@@ -32,6 +32,6 @@ require('./guide.module.js')
         },
         {
             slug: 'examples',
-            title: 'Example Translations'
+            title: 'Example Transcriptions'
         }
     ]);

@@ -23,7 +23,7 @@ function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactor
     return factory;
 
     function activate() {
-        _panzoom = new Hammer(MarkingSurfaceFactory.svg.find('.pan-zoom')[0]);
+        _panzoom = new Hammer(document.querySelectorAll('.pan-zoom')[0]);
         _panzoom.on('tap', _clickHandler);
         _enabled = true;
     }

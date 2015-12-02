@@ -7,9 +7,13 @@ require('./transcribe.module.js')
     .factory('ClassificationFactory', ClassificationFactory);
 
 // @ngInject
-function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactory, zooAPI, zooAPIProject) {
+function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIProject) {
 
     var factory;
+
+    if (localStorageService.get('classificationsToSubmit') === null) {
+        localStorageService.set('classificationsToSubmit', []);
+    }
 
     factory = {
         submitBlank: submitBlank,
@@ -44,9 +48,26 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, SubjectsFactor
             });
     }
 
-    function _submitToApi(data) {
-        var classification = zooAPI.type('classifications').create(data);
-        return classification.save();
+    function _submitToApi(newClassification) {
+
+        var rejectedClassifications = [];
+
+        localStorageService.set('classificationsToSubmit', localStorageService.get('classificationsToSubmit').concat([newClassification]));
+        localStorageService.get('classificationsToSubmit').reduce(function (promise, newClassification) {
+            return promise.then(function (response) {
+                var classification = zooAPI.type('classifications').create(newClassification);
+                return classification.save()
+                    .then(function (response) {
+                        console.log('Classification saved', response.id);
+                    }, function (error) {
+                        console.log('Error submitting classification:', error);
+                        rejectedClassifications.push(newClassification);
+                    });
+            });
+        }, $q.when()).then(function () {
+            localStorageService.set('classificationsToSubmit', rejectedClassifications);
+        });
+
     }
 
     function submitBlank() {

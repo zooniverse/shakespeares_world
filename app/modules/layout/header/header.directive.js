@@ -28,7 +28,7 @@ function appHeader() {
                 state: 'About'
             },
             {
-                label: 'The Team',
+                label: 'Team',
                 state: 'Team'
             },
             {
