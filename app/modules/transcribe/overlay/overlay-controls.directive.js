@@ -4,7 +4,7 @@ require('./overlay.module.js')
     .directive('overlayControls', overlayControls);
 
 // @ngInject
-function overlayControls($interval, MarkingSurfaceFactory, $rootScope) {
+function overlayControls($interval, MarkingSurfaceFactory, $rootScope, FavouritesFactory, SubjectsFactory) {
     var directive = {
         link: overlayControlsLink,
         replace: true,
@@ -18,6 +18,8 @@ function overlayControls($interval, MarkingSurfaceFactory, $rootScope) {
         var vm = scope.vm;
         vm.alphabet = alphabetToggle;
         vm.centre = MarkingSurfaceFactory.resizeAndCentre;
+        console.log('OVERLAY-current', SubjectsFactory.current.data.id)
+        vm.favourite = FavouritesFactory.addToFavourites(SubjectsFactory.current.data.id)
         vm.rotate = MarkingSurfaceFactory.rotate;
         vm.zoomStart = zoomStart;
         vm.zoomStop = zoomStop;
