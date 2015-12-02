@@ -11,6 +11,20 @@ function FavouritesFactory($q, localStorageService, zooAPI, zooAPIProject) {
     factory = {
     };
 
+    _getFavourites()
+
     return factory;
+
+    function _getFavourites() {
+        return zooAPIProject.get()
+            .then(function (project) {
+                return zooAPI.type('project_preferences').get(project.id);
+            })
+            .then(function (preferences) {
+                console.log(preferences)
+            });
+    }
+
+    _getFavourites()
 
 }

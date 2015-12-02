@@ -35,7 +35,8 @@ function startApp() {
         'app.404',
         'app.layout',
         'app.transcribe',
-        'app.zooapi'
+        'app.zooapi',
+        'app.favourites'
     ];
 
     // Mount on window for testing

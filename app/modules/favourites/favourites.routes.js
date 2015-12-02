@@ -13,10 +13,7 @@ function Routes($stateProvider, $urlRouterProvider) {
             views: {
                 'main': {
                     templateUrl: 'favourites/favourites.html',
-                    controller: function () {
-                        var vm = this;
-                    },
-                    controllerAs: 'vm'
+                    controller: 'FavouritesController as vm'
                 }
             },
             params: {
