@@ -36,7 +36,7 @@ function startApp() {
         'app.layout',
         'app.transcribe',
         'app.zooapi',
-        'app.favourites'
+        'app.favorites'
     ];
 
     // Mount on window for testing

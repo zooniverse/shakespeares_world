@@ -1,19 +1,19 @@
 'use strict';
 
-require('./favourites.module.js')
+require('./favorites.module.js')
     .config(Routes);
 
 // @ngInject
 function Routes($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        .state('Favourites', {
+        .state('Favorites', {
             parent: 'Base',
-            url: '/favourites',
+            url: '/favorites',
             views: {
                 'main': {
-                    templateUrl: 'favourites/favourites.html',
-                    controller: 'FavouritesController as vm'
+                    templateUrl: 'favorites/favorites.html',
+                    controller: 'FavoritesController as vm'
                 }
             },
             params: {

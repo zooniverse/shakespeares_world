@@ -62,6 +62,7 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
             .then(function (response) {
                 response = response[0];
                 var user = {};
+                user.id = response.id;
                 user.display_name = response.display_name;
                 return response.get('avatar')
                     .then(function (response) {

@@ -4,7 +4,7 @@ require('./overlay.module.js')
     .directive('overlayControls', overlayControls);
 
 // @ngInject
-function overlayControls($interval, MarkingSurfaceFactory, $rootScope, FavouritesFactory, SubjectsFactory) {
+function overlayControls($interval, MarkingSurfaceFactory, $rootScope, FavoritesFactory, SubjectsFactory) {
     var directive = {
         link: overlayControlsLink,
         replace: true,
@@ -14,15 +14,18 @@ function overlayControls($interval, MarkingSurfaceFactory, $rootScope, Favourite
     return directive;
 
     function overlayControlsLink(scope) {
-        var promise;
-        var vm = scope.vm;
+        var promise,
+            vm = scope.vm;
         vm.alphabet = alphabetToggle;
         vm.centre = MarkingSurfaceFactory.resizeAndCentre;
-        console.log('OVERLAY-current', SubjectsFactory.current.data.id)
-        vm.favourite = FavouritesFactory.addToFavourites(SubjectsFactory.current.data.id)
+        vm.favorite = toggleFavorites;
         vm.rotate = MarkingSurfaceFactory.rotate;
         vm.zoomStart = zoomStart;
         vm.zoomStop = zoomStop;
+
+        function toggleFavorites() {
+            FavoritesFactory.toggleFavs();
+        }
 
         function alphabetToggle() {
             $rootScope.$broadcast('event:toggle');
