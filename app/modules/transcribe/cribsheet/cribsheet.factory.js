@@ -6,7 +6,7 @@ require('./cribsheet.module.js')
     .factory('CribsheetFactory', CribsheetFactory);
 
 // @ngInject
-function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
+function CribsheetFactory(localStorageService, SubjectsFactory) {
 
     var factory;
     var _snippets;
@@ -18,6 +18,7 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
     _snippets = localStorageService.get('snippets');
 
     factory = {
+        $getData: getData,
         addUrl: addCropUrl,
         destroy: destroy,
         list: list,
@@ -46,6 +47,10 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
         return _snippets;
     }
 
+    function getData() {
+
+    }
+
     // Update if an snippet exists, create if it doesn't
     function upsert(snippet) {
         var inCollection = _.find(_snippets, {
@@ -68,17 +73,16 @@ function CribsheetFactory(localStorageService, $http, SubjectsFactory) {
     }
 
     function addCropUrl(snippet) {
-        var subjects = localStorageService.get('subjects');
-        var cropServer = 'https://imgproc.zooniverse.org/crop?';
-        var location = subjects.current.locations[0]['image/jpeg'];
-        var snippets = list();
-        var striplocation = location.substr(location.indexOf('://') + 3);
-        snippets.forEach(function (el) {
-            var cropUrl = cropServer + 'w=' + el.width + '&h=' + el.height + '&x=' + el.x + '&y=' + el.y + '&u=' + striplocation;
-            upsert(_.extend(snippet, {
-                url: cropUrl
-            }));
+        // Data structures should be immutable, so we'll return a new object.
+        return _.extend({}, snippet, {
+            cropUrl: [
+                'https://imgproc.zooniverse.org/crop',
+                '?w=', snippet.width,
+                '&h=', snippet.height,
+                '&x=', snippet.x,
+                '&y=', snippet.y,
+                '&u=', snippet.original.location.substr(snippet.original.location.indexOf('://') + 3)
+            ].join('')
         });
-        return snippet;
     }
 }

@@ -8,7 +8,7 @@ require('./marking-tools.module.js')
     .factory('cropTool', cropTool);
 
 // @ngInject
-function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory) {
+function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory, ModalsFactory, SubjectsFactory) {
 
     var factory;
     var _enabled;
@@ -27,13 +27,6 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
 
     function activate() {
         _hammer = new Hammer(MarkingSurfaceFactory.svg.find('.pan-zoom')[0]);
-
-        if (_.isUndefined(_rect)) {
-            _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
-                .attr('class', 'crop-snippet -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.crop-snippets'));
-        }
-
         _hammer.get('pan').set({
             direction: Hammer.DIRECTION_ALL,
             threshold: 0
@@ -44,8 +37,10 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
     }
 
     function deactivate() {
+        console.log('snippet off')
         _hammer.destroy();
         MarkingSurfaceFactory.enable();
+        _reset();
     }
 
     function _checkOutOfBounds() {
@@ -79,7 +74,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
     }
 
     function _drawRect(event) {
-        var newPoint = _getPoint(event);
+        var newPoint = MarkingSurfaceFactory.getPoint(event.srcEvent);
         _rect.attr('x', (_origin.x < newPoint.x) ? _origin.x : newPoint.x);
         _rect.attr('y', (_origin.y < newPoint.y) ? _origin.y : newPoint.y);
         _rect.attr('width', (_origin.x < newPoint.x) ? newPoint.x - _rect.attr('x') : _origin.x - newPoint.x);
@@ -96,33 +91,41 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory)
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
-        CribsheetFactory.upsert({
+        var snippet = {
+            original: {
+                subject_id: SubjectsFactory.current.data.id,
+                location: SubjectsFactory.current.image.src
+            },
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
             height: _rect.attr('height'),
             name: '',
             url: ''
-        });
-        console.log('_rect.attr', _rect[0])
-        $rootScope.$broadcast('cropDialog:open', _rect[0]);
-        _rect.attr({
-            width: 0,
-            height: 0
-        });
-        $rootScope.$digest();
+        };
+        ModalsFactory.saveSnippet(snippet);
+        _reset();
     }
 
-    function _getPoint(event) {
-        return MarkingSurfaceFactory.getPoint(event.srcEvent);
+    function _reset() {
+        if (_rect) {
+            _rect.remove();
+            _rect = undefined;
+        }
     }
 
     function _startRect(event) {
 
+        if (_.isUndefined(_rect)) {
+            _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
+                .attr('class', 'crop-snippet -temp')
+                .appendTo(MarkingSurfaceFactory.svg.find('.rotate-container'));
+        }
+
         if (_enabled && event.target.nodeName === 'image') {
             _hammer.on('panmove', _drawRect);
             _hammer.on('panend', _endRect);
-            _origin = _getPoint(event);
+            _origin = MarkingSurfaceFactory.getPoint(event.srcEvent);
             _rect.attr(_origin);
             //Not sure if this should be changed to
             //document.querySelector('.subject') for IE

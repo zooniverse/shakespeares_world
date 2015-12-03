@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 require('./modals.module.js')
     .factory('ModalsFactory', ModalsFactory);
 
@@ -13,7 +15,8 @@ function ModalsFactory($modal, ModalsConstants) {
         openNext: openNext,
         openTutorial: openTutorial,
         openTalk: openTalk,
-        openVariants: openVariants
+        openVariants: openVariants,
+        saveSnippet: saveSnippet
     };
 
     return factory;
@@ -36,6 +39,16 @@ function ModalsFactory($modal, ModalsConstants) {
 
     function openVariants() {
         return $modal.open(ModalsConstants.variants);
+    }
+
+    function saveSnippet(snippetData) {
+        return $modal.open(_.extend({
+            resolve: {
+                data: function () {
+                    return snippetData;
+                }
+            }
+        }, ModalsConstants.snippet));
     }
 
 }

@@ -45,5 +45,12 @@ require('./modals.module.js')
             controllerAs: 'vm',
             size: 'md',
             windowClass: 'variants-modal'
+        },
+        snippet: {
+            templateUrl: 'modals/snippet.html',
+            controller: 'SnippetController',
+            controllerAs: 'vm',
+            size: 'md',
+            windowClass: 'snippet-modal'
         }
     });
