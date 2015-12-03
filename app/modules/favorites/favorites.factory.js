@@ -10,6 +10,7 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
     var favorited = false;
     var projectID = zooAPIConfig.project_id;
     var subjectID = SubjectsFactory.current.data.id;
+    var user = localStorageService.get('user');
 
     factory = {
         toggleFavs: toggleFavorites
@@ -19,47 +20,43 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
 
     function _createFavorites() {
         console.log('_createFavorites');
-        var display_name = 'Favorites ShaxWorld',
-            subjects = [subjectID],
-            favorite = true,
-            links = {
-                subjects
-            },
-            collection = {
-                favorite, display_name, links
-            };
+        var collection = {
+            'favorite': true,
+            'display_name': 'Favorites ShaxWorld',
+            'links': {
+                'subjects': [subjectID],
+                'project': projectID
+            }
+        };
         zooAPI.type('collections').create(collection).save()
             .then(function (collection) {
                 favorited = true;
                 console.log('_createFavorites: COLLECTION', collection);
             })
+        console.log('SAVED');
     }
 
     function _getSubjectInCollection(favorites) {
-        console.log('_getSubjectInCollection:');
+        console.log('_getSubjectInCollection');
         if (favorites) {
-            console.log(favorites);
-            console.log(subjectID);
-            //favorites.get('subjects', subjectID)
             zooAPI.type('subjects').get(subjectID)
                 .then(function (subject) {
-                    console.log('_getSubjectInCollection: SUBJECT', subject);
-                    subject ? favorited = true : null;
+                    console.log('_getSubjectInCollection: SUBJECT', subject.id);
+                    subject.id ? favorited = true : null;
                 });
         }
     }
 
     function getFavorites() {
         console.log('getFavorites');
-        var user = localStorageService.get('user');
         return zooAPI.type('collections').get({
                 'project_id': projectID,
                 'favorite': true,
-                'owner': user.id
+                'owner': user.login
             })
             .then(function (favorites) {
                 var _favs = favorites ? favorites : null;
-                console.log('FAVS: ', _favs);
+                console.log('getFavorites: FAVS: ', _favs);
                 return _getSubjectInCollection(_favs);
             });
 
@@ -91,6 +88,7 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
         console.log('toggleFavorites');
         getFavorites()
             .then(function (favorites) {
+                console.log('toggleFavorites: FAVORITES:', favorites)
                 if (!favorites) {
                     _createFavorites();
                 } else if (favorited) {

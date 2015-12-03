@@ -4,7 +4,7 @@ require('./overlay.module.js')
     .directive('overlayControls', overlayControls);
 
 // @ngInject
-function overlayControls($interval, MarkingSurfaceFactory, $rootScope, FavoritesFactory, SubjectsFactory) {
+function overlayControls($interval, localStorageService, MarkingSurfaceFactory, $rootScope, FavoritesFactory, SubjectsFactory) {
     var directive = {
         link: overlayControlsLink,
         replace: true,
@@ -24,7 +24,12 @@ function overlayControls($interval, MarkingSurfaceFactory, $rootScope, Favorites
         vm.zoomStop = zoomStop;
 
         function toggleFavorites() {
-            FavoritesFactory.toggleFavs();
+            var user = localStorageService.get('user');
+            if (!user) {
+                alert('You need to login to use this feature')
+            } else {
+                FavoritesFactory.toggleFavs();
+            }
         }
 
         function alphabetToggle() {
