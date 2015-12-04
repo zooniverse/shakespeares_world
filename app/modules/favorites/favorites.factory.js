@@ -37,9 +37,9 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
             })
     }
 
-    function _getSubjectInCollection(favorites) {
+    function _isSubjectInCollection(favorites) {
         var favSubjects = favorites[0].links.subjects;
-        console.log('_getSubjectInCollection: FAVSUBJECTS: ', favorites[0].links.subjects);
+        console.log('_isSubjectInCollection: FAVSUBJECTS: ', favorites[0].links.subjects);
         if (favSubjects.length > 0) {
             _.some(favSubjects, function (id) {
                 return factory.favorited = id === subjectID;
@@ -60,7 +60,7 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
                 if (!_favs) {
                     _createFavoriteCollection();
                 } else {
-                    _getSubjectInCollection(_favs);
+                    _isSubjectInCollection(_favs);
                     if (factory.favorited) {
                         console.log('REMOVE', subjectID);
                         favorites[0].removeLink('subjects', [subjectID])
