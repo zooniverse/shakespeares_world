@@ -18,7 +18,7 @@ function overlayControls($interval, localStorageService, MarkingSurfaceFactory, 
             vm = scope.vm;
         vm.alphabet = alphabetToggle;
         vm.centre = MarkingSurfaceFactory.resizeAndCentre;
-        vm.favorite = toggleFavorites;
+        vm.toggleFav = toggleFavorites;
         vm.rotate = MarkingSurfaceFactory.rotate;
         vm.zoomStart = zoomStart;
         vm.zoomStop = zoomStop;
@@ -28,7 +28,11 @@ function overlayControls($interval, localStorageService, MarkingSurfaceFactory, 
             if (!user) {
                 alert('You need to login to use this feature')
             } else {
-                FavoritesFactory.toggleFavs();
+                FavoritesFactory.toggleFavs()
+                    .then(function (response) {
+                        console.log('overlayControlsLink:RESPONSE', response);
+                        return response;
+                    })
             }
         }
 

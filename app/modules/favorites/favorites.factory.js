@@ -8,14 +8,14 @@ require('./favorites.module.js')
 // @ngInject
 function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooAPIConfig) {
 
-    var factory;
-    var favorited;
-    var projectID = zooAPIConfig.project_id;
-    var subjectID = SubjectsFactory.current.data.id;
-    var user = localStorageService.get('user');
+    var factory,
+        favorited,
+        projectID = zooAPIConfig.project_id,
+        subjectID = localStorageService.get('subjects').current.id,
+        user = localStorageService.get('user');
 
     factory = {
-        favorited: false,
+        list: list,
         toggleFavs: toggleFavorites
     };
 
@@ -32,7 +32,7 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
         };
         zooAPI.type('collections').create(collection).save()
             .then(function (collection) {
-                factory.favorited = true;
+                favorited = true;
                 console.log('_createFavoriteCollection', collection);
             })
     }
@@ -42,14 +42,14 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
         console.log('_isSubjectInCollection: FAVSUBJECTS: ', favorites[0].links.subjects);
         if (favSubjects.length > 0) {
             _.some(favSubjects, function (id) {
-                return factory.favorited = id === subjectID;
+                return favorited = id === subjectID;
             });
-            console.log('FAVORITED', factory.favorited);
-            return factory.favorited;
+            console.log('_isSubjectInCollection:FAVORITED', favorited);
+            return favorited;
         }
     }
 
-    function getFavorites() {
+    function toggleFavorites() {
         return zooAPI.type('collections').get({
                 'project_id': projectID,
                 'favorite': true,
@@ -61,20 +61,32 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
                     _createFavoriteCollection();
                 } else {
                     _isSubjectInCollection(_favs);
-                    if (factory.favorited) {
+                    if (favorited) {
                         console.log('REMOVE', subjectID);
-                        favorites[0].removeLink('subjects', [subjectID])
+                        favorites[0].removeLink('subjects', [subjectID]);
+                        favorited = false;
                     } else {
                         console.log('ADD', subjectID);
                         favorites[0].addLink('subjects', [subjectID]);
+                        favorited = true;
                     }
                 }
+                console.log('getFavorites:FAVORITED: ', favorited);
+                return favorited;
             });
     }
 
-    function toggleFavorites() {
-        console.log('toggleFavorites');
-        getFavorites();
+    function list() {
+        return zooAPI.type('collections').get({
+                'project_id': projectID,
+                'favorite': true,
+                'owner': user.login
+            })
+            .then(function (collection) {
+                var favSubjects = collection[0].links.subjects;
+                console.log('FAVFACTORY:Collection: ', favSubjects);
+                return favSubjects;
+            })
     }
 
 }
