@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+
 require('./favorites.module.js')
     .factory('FavoritesFactory', FavoritesFactory);
 
@@ -7,48 +9,47 @@ require('./favorites.module.js')
 function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooAPIConfig) {
 
     var factory;
-    var favorited = false;
+    var favorited;
     var projectID = zooAPIConfig.project_id;
     var subjectID = SubjectsFactory.current.data.id;
     var user = localStorageService.get('user');
 
     factory = {
+        favorited: false,
         toggleFavs: toggleFavorites
     };
 
     return factory;
 
-    function _createFavorites() {
-        console.log('_createFavorites');
+    function _createFavoriteCollection() {
         var collection = {
             'favorite': true,
             'display_name': 'Favorites ShaxWorld',
             'links': {
                 'subjects': [subjectID],
-                'project': projectID
+                'projects': [projectID]
             }
         };
         zooAPI.type('collections').create(collection).save()
             .then(function (collection) {
-                favorited = true;
-                console.log('_createFavorites: COLLECTION', collection);
+                factory.favorited = true;
+                console.log('_createFavoriteCollection', collection);
             })
-        console.log('SAVED');
     }
 
     function _getSubjectInCollection(favorites) {
-        console.log('_getSubjectInCollection');
-        if (favorites) {
-            zooAPI.type('subjects').get(subjectID)
-                .then(function (subject) {
-                    console.log('_getSubjectInCollection: SUBJECT', subject.id);
-                    subject.id ? favorited = true : null;
-                });
+        var favSubjects = favorites[0].links.subjects;
+        console.log('_getSubjectInCollection: FAVSUBJECTS: ', favorites[0].links.subjects);
+        if (favSubjects.length > 0) {
+            _.some(favSubjects, function (id) {
+                return factory.favorited = id === subjectID;
+            });
+            console.log('FAVORITED', factory.favorited);
+            return factory.favorited;
         }
     }
 
     function getFavorites() {
-        console.log('getFavorites');
         return zooAPI.type('collections').get({
                 'project_id': projectID,
                 'favorite': true,
@@ -56,47 +57,24 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
             })
             .then(function (favorites) {
                 var _favs = favorites ? favorites : null;
-                console.log('getFavorites: FAVS: ', _favs);
-                return _getSubjectInCollection(_favs);
+                if (!_favs) {
+                    _createFavoriteCollection();
+                } else {
+                    _getSubjectInCollection(_favs);
+                    if (factory.favorited) {
+                        console.log('REMOVE', subjectID);
+                        favorites[0].removeLink('subjects', [subjectID])
+                    } else {
+                        console.log('ADD', subjectID);
+                        favorites[0].addLink('subjects', [subjectID]);
+                    }
+                }
             });
-
-    }
-
-    function removeSubject() {
-        console.log('removeSubject');
-        getFavorites().then(function (favorites) {
-            favorites.removeLink('subjects', [subjectID.toString()])
-                .then(function (response) {
-                    console.log('removeSubject: RESPONSE', response);
-                    favorited = false;
-                });
-        });
-    }
-
-    function addSubject() {
-        console.log('addSubject');
-        getFavorites().then(function (favorites) {
-            favorites.addLink('subjects', [subjectID.toString()])
-                .then(function (response) {
-                    console.log('addSubject: RESPONSE', response);
-                    favorited = true;
-                })
-        });
     }
 
     function toggleFavorites() {
         console.log('toggleFavorites');
-        getFavorites()
-            .then(function (favorites) {
-                console.log('toggleFavorites: FAVORITES:', favorites)
-                if (!favorites) {
-                    _createFavorites();
-                } else if (favorited) {
-                    removeSubject();
-                } else {
-                    addSubject();
-                }
-            });
+        getFavorites();
     }
 
 }
