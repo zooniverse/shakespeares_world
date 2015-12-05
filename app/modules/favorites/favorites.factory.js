@@ -6,16 +6,17 @@ require('./favorites.module.js')
     .factory('FavoritesFactory', FavoritesFactory);
 
 // @ngInject
-function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooAPIConfig) {
+function FavoritesFactory($q, authFactory, SubjectsFactory, zooAPI, zooAPIConfig) {
 
     var factory,
         favorited,
         projectID = zooAPIConfig.project_id,
-        subjectID = localStorageService.get('subjects').current.id,
-        user = localStorageService.get('user');
+        subjectID = SubjectsFactory.current.data.id,
+        user = authFactory.getUser();
 
     factory = {
         list: list,
+        remove: remove,
         toggleFavs: toggleFavorites
     };
 
@@ -35,6 +36,24 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
                 favorited = true;
                 console.log('_createFavoriteCollection', collection);
             })
+    }
+
+    function add(subject) {
+        console.log('ADD', subject);
+        list().then(function (collection) {
+            collection.addLink('subjects', [subject]);
+            console.log('ADD:collection: ', collection);
+            favorited = true;
+        });
+    }
+
+    function remove(subject) {
+        console.log('REMOVE', subject);
+        list().then(function (collection) {
+            collection.removeLink('subjects', [subject]);
+            console.log('REMOVE:collection: ', collection);
+            favorited = false;
+        });
     }
 
     function _isSubjectInCollection(favorites) {
@@ -62,13 +81,12 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
                 } else {
                     _isSubjectInCollection(_favs);
                     if (favorited) {
-                        console.log('REMOVE', subjectID);
-                        favorites[0].removeLink('subjects', [subjectID]);
-                        favorited = false;
+                        remove(subjectID);
                     } else {
-                        console.log('ADD', subjectID);
-                        favorites[0].addLink('subjects', [subjectID]);
-                        favorited = true;
+                        add(subjectID);
+                        //                        console.log('ADD', subjectID);
+                        //                        favorites[0].addLink('subjects', [subjectID]);
+                        //                        favorited = true;
                     }
                 }
                 console.log('getFavorites:FAVORITED: ', favorited);
@@ -85,7 +103,7 @@ function FavoritesFactory($q, localStorageService, SubjectsFactory, zooAPI, zooA
             .then(function (collection) {
                 var favSubjects = collection[0].links.subjects;
                 console.log('FAVFACTORY:Collection: ', favSubjects);
-                return favSubjects;
+                return collection[0];
             })
     }
 
