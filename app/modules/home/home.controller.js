@@ -13,5 +13,4 @@ function HomeController($scope, GenresFactory) {
                 vm.genres = GenresFactory.list();
             });
         });
-
 }

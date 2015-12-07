@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
-
 require('./home.module.js')
     .factory('GenresFactory', GenresFactory);
 
@@ -9,7 +7,7 @@ require('./home.module.js')
 function GenresFactory($q, zooAPIConfig, zooAPI) {
 
     var factory;
-    var _genres;
+    var _genres = [];
 
     factory = {
         getData: getData,
@@ -20,11 +18,8 @@ function GenresFactory($q, zooAPIConfig, zooAPI) {
 
     function getData() {
         return zooAPI.type('subject_sets').get({
-            'workflow_id': zooAPIConfig.workflow_id,
-            // 'metadata.genreId': genre.genreId,
-            // 'page_size': 150
+            workflow_id: zooAPIConfig.workflow_id,
         }).then(function (sets) {
-            console.log('sets', sets)
             _genres = sets;
             return _genres;
         }, function (response) {
@@ -32,7 +27,7 @@ function GenresFactory($q, zooAPIConfig, zooAPI) {
         });
     }
 
-    function list(genre) {
+    function list() {
         return _genres;
     }
 
