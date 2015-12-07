@@ -13,19 +13,8 @@ function Routes($stateProvider) {
             title: 'Home',
             views: {
                 'main': {
-                    controller: 'GenreListController as vm',
+                    controller: 'HomeController as vm',
                     templateUrl: 'home/home.html'
-                }
-            }
-        })
-        .state('GenreDetail', {
-            parent: 'Base',
-            title: 'About the genre',
-            url: '/genre/:genreId',
-            views: {
-                'main': {
-                    controller: 'GenreDetailController as vm',
-                    templateUrl: 'home/genre-detail.html'
                 }
             }
         });
