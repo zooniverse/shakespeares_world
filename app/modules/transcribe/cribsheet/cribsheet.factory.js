@@ -6,16 +6,11 @@ require('./cribsheet.module.js')
     .factory('CribsheetFactory', CribsheetFactory);
 
 // @ngInject
-function CribsheetFactory(localStorageService, SubjectsFactory) {
+function CribsheetFactory(localStorageService, SubjectsFactory, zooAPI, $q, zooAPIConfig) {
 
     var factory;
-    var _snippets;
-
-    if (localStorageService.get('snippets') === null) {
-        localStorageService.set('snippets', []);
-    }
-
-    _snippets = localStorageService.get('snippets');
+    var _preferences;
+    var _snippets = [];
 
     factory = {
         $getData: getData,
@@ -32,7 +27,7 @@ function CribsheetFactory(localStorageService, SubjectsFactory) {
     // TODO: fix so that it only removes a point if it's passed an annotation;
     // a blank / undefined object will wipe everything lololol
     function destroy(snippet) {
-        _.remove(_snippets, snippet);
+        _snippets = _.without(_snippets, snippet);
         updateCache();
         return _snippets;
     }
@@ -42,38 +37,59 @@ function CribsheetFactory(localStorageService, SubjectsFactory) {
     }
 
     function reset() {
-        _snippets.length = 0;
-        updateCache();
-        return _snippets;
+        _preferences = undefined;
+        _snippets = [];
     }
 
-    function getData() {
+    function getData(user) {
+        return zooAPI.type('project_preferences').get({
+            project_id: zooAPIConfig.project_id,
+            user_id: user.id
+        })
+        .then(function (preferences) {
+            if (preferences.length > 0) {
+                return preferences;
+            } else {
+                var newPrefs = zooAPI.type('project_preferences').create({
+                    project: zooAPIConfig.project_id
+                });
+                return newPrefs.save()
+            }
+        })
+        .then(_setPreferences)
+        .then(function () {
+            _snippets = _preferences.preferences.cribsheet || [];
+            return list();
+        });
 
     }
 
     // Update if an snippet exists, create if it doesn't
-    function upsert(snippet) {
-        var inCollection = _.find(_snippets, {
-            $$hashKey: snippet.$$hashKey
+    function upsert(newSnippet) {
+        var clone = _.clone(_snippets);
+        var match = _.findIndex(_snippets, {
+            cropUrl: newSnippet.cropUrl
         });
-        if (inCollection) {
-            inCollection = _.extend(inCollection, snippet);
+
+        if (match > 0) {
+            clone[match] = newSnippet;
         } else {
-            _snippets.push(snippet);
+            clone.push(newSnippet);
         }
+
+        _snippets = clone;
         updateCache();
-        return snippet;
+        return newSnippet;
     }
 
     function updateCache() {
-        var snippets = _.reject(_snippets, {
-            complete: false
+        _preferences.update({
+            'preferences.cribsheet': _snippets
         });
-        localStorageService.set('snippets', snippets);
+        return _preferences.save();
     }
 
     function addCropUrl(snippet) {
-        // Data structures should be immutable, so we'll return a new object.
         return _.extend({}, snippet, {
             cropUrl: [
                 'https://imgproc.zooniverse.org/crop',
@@ -85,4 +101,11 @@ function CribsheetFactory(localStorageService, SubjectsFactory) {
             ].join('')
         });
     }
+
+    // Helper functions
+    function _setPreferences(apiResponse) {
+        _preferences = apiResponse[0];
+        return _preferences;
+    }
 }
+

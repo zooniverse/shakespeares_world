@@ -5,9 +5,17 @@
 
     </div>
     <div class="body">
-        <div class="example" ng-repeat="snippet in vm.snippets">
+        <div
+            class="example"
+            ng-repeat="snippet in vm.snippets track by snippet.cropUrl"
+            ng-mouseenter="hovering=true"
+            ng-mouseleave="hovering=false">
+
+            <div class="delete-snippet glyphicon glyphicon-remove-circle" ng-show="hovering" ng-click="vm.destroy(snippet)"></div>
+
             <div ng-bind="snippet.name"></div>
             <img ng-src="{{snippet.cropUrl}}" />
+
         </div>
 
     </div>

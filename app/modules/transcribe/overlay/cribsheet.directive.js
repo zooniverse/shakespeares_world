@@ -4,10 +4,10 @@ require('./overlay.module.js')
     .directive('cribsheet', cribsheet);
 
 // @ngInject
-function cribsheet(localStorageService) {
+function cribsheet(authFactory) {
     var directive = {
         controllerAs: 'vm',
-        controller: cribsheetController,
+        controller: CribsheetController,
         link: cribsheetLink,
         replace: true,
         scope: true,
@@ -18,21 +18,28 @@ function cribsheet(localStorageService) {
 
     function cribsheetLink(scope, elem) {
         scope.$on('event:toggleCribsheet', function () {
-            var user = localStorageService.get('user');
-            if (!user) {
-                alert('You need to login to use the cribsheet')
+            if (!authFactory.getUser()) {
+                alert('You need to login to use the cribsheet');
             } else {
                 elem.animate({
                     width: 'toggle'
                 });
             }
-
         });
     }
 }
 
 // @ngInject
-function cribsheetController($scope, CribsheetFactory) {
+function CribsheetController($scope, CribsheetFactory) {
     var vm = this;
-    vm.snippets = CribsheetFactory.list();
+
+    vm.destroy = destroySnippet;
+
+    $scope.$watch(CribsheetFactory.list, function () {
+        vm.snippets = CribsheetFactory.list();
+    });
+
+    function destroySnippet(snippet) {
+        CribsheetFactory.destroy(snippet);
+    }
 }

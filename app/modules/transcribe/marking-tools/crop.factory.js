@@ -99,9 +99,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory,
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
-            height: _rect.attr('height'),
-            name: '',
-            url: ''
+            height: _rect.attr('height')
         };
         ModalsFactory.saveSnippet(snippet);
         _reset();
