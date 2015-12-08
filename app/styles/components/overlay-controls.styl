@@ -16,6 +16,13 @@
         line-height: 1.5
         padding: 10px 15px
 
+    >.button.-markingsurface.-favorited
+        @extend .btn-primary
+        background-color: pink
+        border-radius: 0
+        line-height: 1.5
+        padding: 10px 15px
+
     >.button > .icon
         @extend .glyphicon
         color: green
@@ -39,3 +46,6 @@
 
     >.button > .icon.-zoomout
         @extend .glyphicon-zoom-out
+
+    >.button > .icon.-favorite
+        @extend .glyphicon-heart
