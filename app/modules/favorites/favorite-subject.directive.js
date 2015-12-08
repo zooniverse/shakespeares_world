@@ -3,6 +3,7 @@
 require('./favorites.module.js')
     .directive('favoriteSubject', favoriteSubject);
 
+// @ngInject
 function favoriteSubject() {
     var directive = {
         link: favoriteSubjectLink,
@@ -16,15 +17,18 @@ function favoriteSubject() {
     };
     return directive;
 
-    function favoriteSubjectLink(scope, element, attrs) {
-        console.log('favoriteSubjectLin: ', scope.data)
+    function favoriteSubjectLink(scope, element) {
+        console.log('favoriteSubjectLink: ', scope.data)
     }
 }
 
 // @ngInject
 function FavoriteSubjectController(FavoritesFactory) {
     var vm = this;
+    //I know scope isnot defined... How do I get the data from the controller?
     vm.data = scope.data;
     vm.delete = FavoritesFactory.remove();
-    console.log('favoriteDIR-CONTROLLER: ', vm.data)
+    vm.src = scope.data.locations[0]['image/jpeg'];
+    vm.title = scope.data.metadata.title
+    console.log('FavoriteSubjectController: ', vm.data)
 }
