@@ -5,7 +5,8 @@
         <div class="people">
             <div class="person" ng-repeat="person in ::group.members">
                 <div class="row">
-                    <img ng-src="{{ 'images/team/' + person.slug + '.jpg' }}">
+                    <img ng-if="person.slug != ''" ng-src="{{ 'images/team/' + person.slug + '.jpg' }}">
+                    <img ng-if="person.slug == ''" ng-src="{{ 'images/team/empty.png' }}">
                     <div class="bio">
                         <h2 ng-bind="person.name"></h2>
                         <p ng-repeat="para in ::person.bio" ng-bind="para"></p>
