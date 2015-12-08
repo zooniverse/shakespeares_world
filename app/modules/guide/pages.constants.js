@@ -33,5 +33,9 @@ require('./guide.module.js')
         {
             slug: 'examples',
             title: 'Example Transcriptions'
+        },
+        {
+            slug: 'confusions',
+            title: 'Common Confusions'
         }
     ]);

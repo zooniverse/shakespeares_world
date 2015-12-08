@@ -5,7 +5,6 @@ var bulk = require('bulk-require');
 
 // Angular modules
 var appConfig = require('./app.config.js');
-require('angular-animate');
 require('angular-bootstrap-npm');
 require('angular-hotkeys');
 require('angular-local-storage');
@@ -26,7 +25,6 @@ function startApp() {
         'ui.bootstrap',
         'LocalStorageModule',
         'cfp.hotkeys',
-        'ngAnimate',
         // App modules
         'app.core',
         'app.guide',

@@ -8,30 +8,23 @@
                 <p>Transcribe handwritten documents by Shakespeare’s contemporaries and help us understand his life and times. Along the way you’ll find words that have yet to be recorded in the authoritative Oxford English Dictionary, and which will eventually be added to this important resource.</p>
 
                 <a ui-sref="Transcribe" class="btn btn-success btn-lg">Get started</a>
-                <p>or</p>
-                <div class="genre-search">
-                    <div class="row">
-                        <div class="content">
-                            <div class="input-group">
-                                <input type="text" ng-model="selected" placeholder="Try searching for a genre" typeahead="genre as genre.name for genre in vm.genres | filter:{name: $viewValue} | limitTo:8" typeahead-on-select="vm.go($item)" typeahead-loading="vm.loading" class="input">
-                                <div class="input-group-addon" aria-hidden="true">
-                                    <span class="icon"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
     </div>
 </div>
+
 <ul class="genre-list">
     <h3>Choose a genre and start transcribing!</h3>
     <div class="center-content">
-        <div class="genre" ng-repeat="genre in vm.genres" ng-click="vm.go(genre)" ng-class="{ '-active': hover }" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+        <div class="genre"
+            ng-repeat="genre in ::vm.genres"
+            ui-sref="TranscribeSubjectSet({ subjectSet: genre.id })"
+            ng-class="{ '-active': hover }"
+            ng-mouseenter="hover = true"
+            ng-mouseleave="hover = false">
             <div class="title">
-                <h4>{{ genre.name }}</h4>
+                <h4>{{ genre.display_name }}</h4>
             </div>
         </div>
     </div>
