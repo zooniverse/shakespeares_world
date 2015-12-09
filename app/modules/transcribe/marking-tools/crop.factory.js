@@ -125,9 +125,9 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory,
             _hammer.on('panend', _endRect);
             _origin = MarkingSurfaceFactory.getPoint(event.srcEvent);
             _rect.attr(_origin);
-            //Not sure if this should be changed to
-            //document.querySelector('.subject') for IE
-            _subject = MarkingSurfaceFactory.svg.find('.subject').first()[0].getBBox();
+            //native document.querySelector get the first matching element
+            //which achieves the same as JQuery .first()
+            _subject = document.querySelector('.subject').getBBox();
         }
     }
 }
