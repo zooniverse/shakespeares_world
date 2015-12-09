@@ -61,6 +61,7 @@ function contextMenu(hotkeys) {
 function contextMenuController($rootScope, $scope, $timeout, MarkingSurfaceFactory) {
 
     // Setup
+    var reactivateMarkingSurface;
     var vm = this;
     var reactivateMarkingSurface;
     vm.close = closeMenu;

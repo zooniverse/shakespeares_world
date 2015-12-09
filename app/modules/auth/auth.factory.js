@@ -4,7 +4,7 @@ require('./auth.module.js')
     .factory('authFactory', authFactory);
 
 // @ngInject
-function authFactory($interval, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig) {
+function authFactory($interval, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig, CribsheetFactory) {
 
     var factory;
 
@@ -62,6 +62,7 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
             .then(function (response) {
                 response = response[0];
                 var user = {};
+                user.id = response.id;
                 user.display_name = response.display_name;
                 return response.get('avatar')
                     .then(function (response) {
@@ -74,6 +75,7 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
                     })
                     .then(function () {
                         localStorageService.set('user', user);
+                        return CribsheetFactory.$getData(user);
                     });
             }, function (error) {
                 console.warn('Error logging in', error);
@@ -96,6 +98,8 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
         localStorageService.set('auth', null);
         localStorageService.set('user', null);
         zooAPI.auth.signOut();
+        CribsheetFactory.reset();
+        $window.location.reload();
     }
 
     function _startTimer() {

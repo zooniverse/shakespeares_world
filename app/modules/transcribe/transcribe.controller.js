@@ -4,13 +4,13 @@ require('./transcribe.module.js')
     .controller('TranscribeController', TranscribeController);
 
 // @ngInject
-function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, SubjectsFactory, ModalsFactory, localStorageService) {
+function TranscribeController($stateParams, $modal, $scope, $window, AnnotationsFactory, AggregationsFactory, CribsheetFactory, ModalsFactory, localStorageService, PreferencesFactory, SubjectsFactory) {
     // Setup controller
     var vm = this;
     vm.loading = SubjectsFactory.loading;
     vm.subject = SubjectsFactory.current;
     vm.$loadNext = loadNext;
-    vm.$variants = variantsFeedback;
+    vm.$variantsAndNext = variantsFeedback;
     vm.$openTutorial = openTutorial;
 
     // Watchers
@@ -28,6 +28,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         loadSubject()
             .then(function () {
                 vm.annotations = AnnotationsFactory.list();
+                //vm.snippets = CribsheetFactory.list();
             });
     }
 
@@ -59,6 +60,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
             loadNext();
         }
     }
+
 
     function loadNext() {
         var modal1 = ModalsFactory.openNext();

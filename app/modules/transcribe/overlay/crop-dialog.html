@@ -1,0 +1,22 @@
+<div aria-label="Snippet" aria-hidden="{{ !active }}" class="crop-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1" ng-keydown="vm.keyPress($event);">
+
+    <div class="heading">
+        <h3 class="title">Save snippet</h3>
+        <button class="close" role="button" ng-click="vm.close($event)">
+            <span class="icon" aria-hidden="true"></span>
+            <span class="text">Close</span>
+        </button>
+    </div>
+
+    <div class="body">
+        <img ng-src="{{vm.src}}">
+        <input id="#userInput" ng-model="vm.name" class="snippet-name" placeholder="Snippet name" required="required" />
+
+        <div class="buttons">
+            <button class="button -save" ng-click="saveAndClose()">
+                <span>Save Changes</span>
+            </button>
+        </div>
+    </div>
+
+</div>

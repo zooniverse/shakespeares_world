@@ -5,10 +5,10 @@ var angular = require('angular');
 var Hammer = require('hammerjs');
 
 require('./marking-tools.module.js')
-    .factory('graphicTool', graphicTool);
+    .factory('cropTool', cropTool);
 
 // @ngInject
-function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory, ModalsFactory, SubjectsFactory) {
 
     var factory;
     var _enabled;
@@ -18,7 +18,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     var _subject;
 
     factory = {
-        name: 'graphic',
+        name: 'crop',
         activate: activate,
         deactivate: deactivate
     };
@@ -26,14 +26,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     return factory;
 
     function activate() {
-        _hammer = new Hammer(document.querySelectorAll('.pan-zoom')[0]);
-
-        if (_.isUndefined(_rect)) {
-            _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
-                .attr('class', 'graphic-annotation -temp')
-                .appendTo(document.querySelectorAll('.graphic-annotations'));
-        }
-
+        _hammer = new Hammer(MarkingSurfaceFactory.svg.find('.pan-zoom')[0]);
         _hammer.get('pan').set({
             direction: Hammer.DIRECTION_ALL,
             threshold: 0
@@ -44,8 +37,10 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     }
 
     function deactivate() {
+        console.log('snippet off')
         _hammer.destroy();
         MarkingSurfaceFactory.enable();
+        _reset();
     }
 
     function _checkOutOfBounds() {
@@ -79,7 +74,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     }
 
     function _drawRect(event) {
-        var newPoint = _getPoint(event);
+        var newPoint = MarkingSurfaceFactory.getPoint(event.srcEvent);
         _rect.attr('x', (_origin.x < newPoint.x) ? _origin.x : newPoint.x);
         _rect.attr('y', (_origin.y < newPoint.y) ? _origin.y : newPoint.y);
         _rect.attr('width', (_origin.x < newPoint.x) ? newPoint.x - _rect.attr('x') : _origin.x - newPoint.x);
@@ -96,35 +91,43 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
-        AnnotationsFactory.upsert({
-            type: 'graphic',
+        var snippet = {
+            original: {
+                subject_id: SubjectsFactory.current.data.id,
+                location: SubjectsFactory.current.image.src
+            },
             x: _rect.attr('x'),
             y: _rect.attr('y'),
             width: _rect.attr('width'),
             height: _rect.attr('height')
-        });
-        _rect.attr({
-            width: 0,
-            height: 0
-        });
-        $rootScope.$digest();
+        };
+        ModalsFactory.saveSnippet(snippet);
+        _reset();
     }
 
-    function _getPoint(event) {
-        return MarkingSurfaceFactory.getPoint(event.srcEvent);
+    function _reset() {
+        if (_rect) {
+            _rect.remove();
+            _rect = undefined;
+        }
     }
 
     function _startRect(event) {
 
+        if (_.isUndefined(_rect)) {
+            _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
+                .attr('class', 'crop-snippet -temp')
+                .appendTo(MarkingSurfaceFactory.svg.find('.rotate-container'));
+        }
+
         if (_enabled && event.target.nodeName === 'image') {
             _hammer.on('panmove', _drawRect);
             _hammer.on('panend', _endRect);
-            _origin = _getPoint(event);
+            _origin = MarkingSurfaceFactory.getPoint(event.srcEvent);
             _rect.attr(_origin);
-
-            //native document.querySelector get the first matching element
-            //which achieves the same as JQuery .first()
-            _subject = document.querySelector('.subject').getBBox();
+            //Not sure if this should be changed to
+            //document.querySelector('.subject') for IE
+            _subject = MarkingSurfaceFactory.svg.find('.subject').first()[0].getBBox();
         }
     }
 }
