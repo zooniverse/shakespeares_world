@@ -18,12 +18,17 @@ function overlayControls($interval, MarkingSurfaceFactory, $rootScope) {
         var vm = scope.vm;
         vm.alphabet = alphabetToggle;
         vm.centre = MarkingSurfaceFactory.resizeAndCentre;
+        vm.cribsheet = cribsheetToggle;
         vm.rotate = MarkingSurfaceFactory.rotate;
         vm.zoomStart = zoomStart;
         vm.zoomStop = zoomStop;
 
         function alphabetToggle() {
-            $rootScope.$broadcast('event:toggle');
+            $rootScope.$broadcast('event:toggleAlphabet');
+        }
+
+        function cribsheetToggle() {
+            $rootScope.$broadcast('event:toggleCribsheet');
         }
 
         function zoomStart(direction) {

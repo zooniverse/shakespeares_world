@@ -4,7 +4,7 @@ require('./zooapi.module.js')
     .factory('zooAPIProject', zooAPIProject);
 
 // @ngInject
-function zooAPIProject($q, localStorageService, zooAPIConfig, zooAPI) {
+function zooAPIProject($q, zooAPIConfig, zooAPI) {
 
     var factory;
     var _data;

@@ -1,0 +1,29 @@
+<div aria-label="Cribsheet" class="cribsheet-panel" tabindex="-1">
+
+    <div class="heading">
+        <h3 class="title">Cribsheet</h3>
+    </div>
+
+    <div class="body">
+
+        <div
+            class="snippet-item"
+            ng-repeat="snippet in vm.snippets track by snippet.cropUrl"
+            ng-mouseenter="hover = true"
+            ng-mouseleave="hover = false">
+
+                <div class="delete" ng-show="hover" ng-click="vm.destroy(snippet)"></div>
+
+            <div class="image"
+                ng-style="{
+                    'background-image': 'url({{snippet.cropUrl}})'
+                }"
+                >
+            </div>
+
+            <div class="name" ng-bind="snippet.name"></div>
+
+        </div>
+
+    </div>
+</div>

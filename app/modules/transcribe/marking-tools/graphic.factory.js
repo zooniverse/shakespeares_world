@@ -96,7 +96,6 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
     function _endRect() {
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
-
         AnnotationsFactory.upsert({
             type: 'graphic',
             x: _rect.attr('x'),
@@ -122,6 +121,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
             _hammer.on('panend', _endRect);
             _origin = _getPoint(event);
             _rect.attr(_origin);
+
             //native document.querySelector get the first matching element
             //which achieves the same as JQuery .first()
             _subject = document.querySelector('.subject').getBBox();

@@ -10,6 +10,7 @@
     <div class="body">
         <div id="#userInput" ng-model="vm.transcription" class="transcribe" contenteditable="true" placeholder="Transcribe here" content-editable></div>
         <div class="buttons">
+
             <div class="editing" role="group">
                 <button class="button -tag" ng-bind="tag.name" ng-click="vm.surround(tag.tag)" ng-repeat="tag in vm.tags"></button>
             </div>
@@ -22,6 +23,7 @@
         </div>
         <div class="buttons">
             <button class="button -save" ng-click="vm.saveAndClose()">Save Changes</button>
+            <p class="hint">Enter to save and close, Esc to close without saving</p>
         </div>
     </div>
 </div>

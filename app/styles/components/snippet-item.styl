@@ -1,0 +1,37 @@
+.snippet-item
+    @extend .col-xs-4
+    position: relative
+    margin-bottom: 10px
+
+    > .delete
+        background: red
+
+    > .delete
+        @extend .glyphicon
+        @extend .glyphicon-remove
+        background: red
+        position: absolute
+        display: flex
+        justify-content: center
+        align-items: center
+        height: 22px
+        width: 22px
+        top: -11px
+        right: 4px
+        font-size: 14px
+        color: white
+        background: red
+        border-radius: 50%
+
+    .image
+        height: 100px
+        background-size: contain
+        background-color: #fff
+        background-position: center
+        background-repeat: no-repeat
+        border-radius: 10px 10px 0 0
+
+    .name
+        border-radius: 0 0 10px 10px
+        background-color: #fff
+        text-align: center

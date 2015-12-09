@@ -2,5 +2,6 @@
 
 module.exports = require('angular')
     .module('app.auth', [
-        'app.zooapi'
+        'app.zooapi',
+        'app.transcribe.cribsheet'
     ]);
