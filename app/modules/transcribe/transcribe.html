@@ -7,25 +7,29 @@
     <svg marking-surface class="svg" height="100%" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
         <g class="pan-zoom">
+
             <g class="rotate-container">
 
                 <image subject class="subject"></image>
+
                 <g class="previous-lines">
                     <g previous-line data="line" ng-repeat="line in vm.aggregations"></g>
                 </g>
+
                 <g class="annotations">
+
                     <g class="text-annotations">
                         <g text-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'text'}:true"></g>
                     </g>
+
                     <g class="graphic-annotations">
                         <g graphic-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'graphic'}:true"></g>
                     </g>
-                    <g class="marginalia-annotations">
-                        <g marginalia-annotation data="annotation" ng-repeat="annotation in vm.annotations | filter:{type:'marginalia'}:true"></g>
-                    </g>
+
                 </g>
 
             </g>
+
         </g>
 
     </svg>

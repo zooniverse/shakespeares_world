@@ -6,14 +6,13 @@ require('./marking-tools.module.js')
 var _ = require('lodash');
 
 // @ngInject
-function ToolsFactory($rootScope, textTool, graphicTool, marginaliaTool) {
+function ToolsFactory($rootScope, textTool, graphicTool) {
 
     var factory;
 
     factory = {
         text: new Tool(textTool),
-        graphic: new Tool(graphicTool),
-        marginalia: new Tool(marginaliaTool)
+        graphic: new Tool(graphicTool)
     };
 
     return factory;

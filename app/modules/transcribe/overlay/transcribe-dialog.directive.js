@@ -186,7 +186,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         vm.active = true;
         vm.data = data.annotation;
         vm.transcription = data.annotation.text;
-        vm.title = (vm.data.type === 'marginalia') ? 'Transcribe marginalia' : 'Transcribe text';
+        vm.title = 'Transcribe text';
         $timeout(getFocus);
     }
 
@@ -199,11 +199,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
 
     function saveAndCloseDialog() {
         if (vm.transcription !== vm.data.text) {
-            if (vm.data.type === 'marginalia' && vm.transcription.indexOf('<sw-label>') === -1) {
-                vm.data.text = '<sw-label>' + vm.transcription + '</sw-label>';
-            } else {
-                vm.data.text = vm.transcription;
-            }
+            vm.data.text = vm.transcription;
             AnnotationsFactory.checkVariants(vm.data);
             AnnotationsFactory.upsert(vm.data);
         }
