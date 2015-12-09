@@ -43,24 +43,26 @@ function CribsheetFactory(localStorageService, SubjectsFactory, zooAPI, $q, zooA
 
     function getData(user) {
         return zooAPI.type('project_preferences').get({
-            project_id: zooAPIConfig.project_id,
-            user_id: user.id
-        })
-        .then(function (preferences) {
-            if (preferences.length > 0) {
-                return preferences;
-            } else {
-                var newPrefs = zooAPI.type('project_preferences').create({
-                    project: zooAPIConfig.project_id
-                });
-                return newPrefs.save()
-            }
-        })
-        .then(_setPreferences)
-        .then(function () {
-            _snippets = _preferences.preferences.cribsheet || [];
-            return list();
-        });
+                project_id: zooAPIConfig.project_id,
+                user_id: user.id
+            })
+            .then(function (preferences) {
+                if (preferences.length > 0) {
+                    return preferences;
+                } else {
+                    var newPrefs = zooAPI.type('project_preferences').create({
+                        links: {
+                            project: zooAPIConfig.project_id
+                        }
+                    });
+                    return newPrefs.save()
+                }
+            })
+            .then(_setPreferences)
+            .then(function () {
+                _snippets = _preferences.preferences.cribsheet || [];
+                return list();
+            });
 
     }
 
@@ -108,4 +110,3 @@ function CribsheetFactory(localStorageService, SubjectsFactory, zooAPI, $q, zooA
         return _preferences;
     }
 }
-
