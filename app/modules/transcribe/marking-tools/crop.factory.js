@@ -26,7 +26,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory,
     return factory;
 
     function activate() {
-        _hammer = new Hammer(MarkingSurfaceFactory.svg.find('.pan-zoom')[0]);
+        _hammer = new Hammer(document.querySelectorAll('.pan-zoom')[0]);
         _hammer.get('pan').set({
             direction: Hammer.DIRECTION_ALL,
             threshold: 0
@@ -117,7 +117,7 @@ function cropTool($rootScope, $timeout, CribsheetFactory, MarkingSurfaceFactory,
         if (_.isUndefined(_rect)) {
             _rect = angular.element(document.createElementNS(MarkingSurfaceFactory.svg[0].namespaceURI, 'rect'))
                 .attr('class', 'crop-snippet -temp')
-                .appendTo(MarkingSurfaceFactory.svg.find('.rotate-container'));
+                .appendTo(document.querySelectorAll('.rotate-container'));
         }
 
         if (_enabled && event.target.nodeName === 'image') {
