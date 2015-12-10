@@ -1,9 +1,9 @@
 <nav class="navbar navbar-transcribe navbar-static-top">
     <div class="container-fluid">
-        <p>Author : <i>{{vm.author}}</i></p>
-        <p>Title : <i>{{vm.title}}</i></p>
-        <p><a ng-href="{{vm.catalogue}}" target="_blank">Catalogue</a></p>
-        <p><a ng-href="{{vm.original}}" target="_blank">Original</a></p>
+        <p>Author : <i>{{vm.metadata.Author}}</i></p>
+        <p>Title : <i>{{vm.metadata.Title}}</i></p>
+        <p><a ng-href="{{vm.metadata['Hamnet URL']}}" target="_blank">Catalogue</a></p>
+        <p><a ng-href="{{vm.metadata['Luna URL']}}" target="_blank">Original</a></p>
         <div class="controls">
             <button type="button" class="button -tool" ng-class="{ '-active': vm.tools.crop.active, '-disabled': vm.tools.crop.disabled }" ng-click="vm.tools.crop.toggle()">
                 <span class="icon -text" aria-hidden="true"></span> Snapshot
