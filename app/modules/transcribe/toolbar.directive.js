@@ -18,9 +18,9 @@ function transcribeToolbar($timeout, localStorageService, SubjectsFactory, Tools
         var current = SubjectsFactory.current.data.id,
             vm = scope.vm;
         vm.tools = ToolsFactory;
-        scope.$watch(current, function () {
+        scope.$watch(function () {
             vm.metadata = SubjectsFactory.current.data.metadata;
-
+            return current
         });
     }
 }
