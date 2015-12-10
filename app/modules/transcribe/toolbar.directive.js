@@ -15,15 +15,12 @@ function transcribeToolbar($timeout, localStorageService, SubjectsFactory, Tools
     return directive;
 
     function transcribeToolbarLink(scope) {
-        var vm = scope.vm;
+        var current = SubjectsFactory.current.data.id,
+            vm = scope.vm;
         vm.tools = ToolsFactory;
-        if (SubjectsFactory.current) {
+        scope.$watch(function () {
             vm.metadata = SubjectsFactory.current.data.metadata;
-            vm.author = vm.metadata.Author;
-            vm.genre = vm.metadata.Genre;
-            vm.original = vm.metadata['Luna URL'];
-            vm.catalogue = vm.metadata['Hamnet URL'];
-            vm.title = vm.metadata.Title;
-        }
+            return current
+        });
     }
 }
