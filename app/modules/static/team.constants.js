@@ -69,7 +69,7 @@ require('./static.module.js')
             ]
         },
         {
-            title: 'Oxford English Dictinary',
+            title: 'Oxford English Dictionary',
             members: [
                 {
                     name: 'Philip Durkin',
