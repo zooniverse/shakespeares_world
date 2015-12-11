@@ -10,7 +10,7 @@ function SnippetController($modalInstance, CribsheetFactory, data) {
 
     var vm = this;
     vm.close = close;
-    vm.save = save;
+    vm.keyPress = onKeydown;
     vm.snippet = data;
 
     function close() {
@@ -22,4 +22,10 @@ function SnippetController($modalInstance, CribsheetFactory, data) {
         close();
     }
 
+    function onKeydown(event) {
+        if (event.which === 13) { // enter key
+            event.preventDefault();
+            save();
+        }
+    }
 }
