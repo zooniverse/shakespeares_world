@@ -1,7 +1,7 @@
 <nav class="navbar navbar-transcribe navbar-static-top">
     <div class="container-fluid">
-        <p>Author : <i>{{vm.metadata.Author}}</i></p>
-        <p>Title : <i>{{vm.metadata.Title}}</i></p>
+        <p>Author: <i>{{vm.metadata.Author || 'Unknown'}}</i></p>
+        <p>Title: <i>{{vm.metadata.Title || 'Unknown'}}</i></p>
         <p><a ng-href="{{vm.metadata['Hamnet URL']}}" target="_blank">Catalogue</a></p>
         <p><a ng-href="{{vm.metadata['Luna URL']}}" target="_blank">Original</a></p>
         <div class="controls">
