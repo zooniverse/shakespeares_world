@@ -27,7 +27,7 @@ function alphabetSample() {
 }
 
 // @ngInject
-function alphabetSampleController($scope, overlayConfig) {
+function alphabetSampleController(overlayConfig) {
     var vm = this;
     vm.samples = overlayConfig.samples;
 }
