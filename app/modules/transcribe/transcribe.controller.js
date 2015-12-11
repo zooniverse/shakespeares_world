@@ -28,7 +28,6 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         loadSubject()
             .then(function () {
                 vm.annotations = AnnotationsFactory.list();
-                //vm.snippets = CribsheetFactory.list();
             });
     }
 
@@ -45,7 +44,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
 
     function variantsFeedback() {
         var annotations = AnnotationsFactory.list();
-        var vArray = []
+        var vArray = [];
         annotations.forEach(function (el) {
             if (el.type === 'text' && el.variants) {
                 vArray.push(el.variants);
