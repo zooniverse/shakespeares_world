@@ -74,7 +74,7 @@ function cropDialog() {
 }
 
 // @ngInject
-function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, PreferencesFactory, $timeout) {
+function cropDialogController($rootScope, CribsheetFactory, hotkeys, MarkingSurfaceFactory, $timeout) {
     var reactivateMarkingSurface;
     var vm = this;
     var userInput = document.getElementById('#userInput');
