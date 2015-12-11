@@ -77,7 +77,7 @@ function transcribeDialog() {
 // @ngInject
 function transcribeDialogController($rootScope, $scope, $compile, $element, $timeout, AnnotationsFactory, hotkeys, MarkingSurfaceFactory, overlayConfig) {
     var vm = this;
-    var userInput = document.getElementById('#userInput');
+    var userInput = document.getElementById('#transcribeInput');
     vm.abbreviations = overlayConfig.abbrKeys;
     vm.active = false;
     vm.close = closeDialog;
