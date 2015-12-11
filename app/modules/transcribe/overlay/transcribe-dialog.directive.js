@@ -45,11 +45,11 @@ function transcribeDialog() {
             var overlay = getDimensions(angular.element('.overlay').first());
             var group = getDimensions(data.element);
             var dialog = getDimensions(element);
-            var constant = 10; // Used to give some space from the annotation
+            var constant = 15; // Used to give some space from the annotation
 
             var position = {
-                left: (group.offset.left + (group.width / 2)) - (dialog.width / 2),
-                top: group.offset.top - overlay.offset.top
+                left: group.offset.left + (group.width / 2),
+                top: group.offset.top - (overlay.offset.top - constant)
             };
 
             var inTopHalf = (group.offset.top + group.height) < (overlay.height / 2) + overlay.offset.top;
