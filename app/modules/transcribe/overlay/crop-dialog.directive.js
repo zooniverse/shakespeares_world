@@ -2,7 +2,6 @@
 
 var angular = require('angular');
 var Draggabilly = require('draggabilly');
-var Hammer = require('hammerjs');
 
 require('./overlay.module.js')
     .directive('cropDialog', cropDialog);
@@ -21,6 +20,7 @@ function cropDialog() {
 
     // @ngInject
     function cropDialogLink(scope, element, attrs, dialog) {
+
         // Setup
         scope.close = dialog.close;
         scope.saveAndClose = dialog.saveAndClose;
@@ -28,8 +28,10 @@ function cropDialog() {
             containment: '.overlay',
             handle: '.heading'
         });
+
         // Events
         scope.$on('cropDialog:open', openDialog);
+
         // Methods
         function openDialog(event, data) {
             dialog.open(data);
