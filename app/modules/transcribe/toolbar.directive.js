@@ -15,13 +15,8 @@ function transcribeToolbar($timeout, localStorageService, SubjectsFactory, Tools
     return directive;
 
     function transcribeToolbarLink(scope) {
-        // var current = SubjectsFactory.current.data.id,
-            // vm = scope.vm;
-
         var vm = scope.vm;
-
         vm.tools = ToolsFactory;
-
         scope.$watch(function () {
             return SubjectsFactory.current;
         }, function () {
