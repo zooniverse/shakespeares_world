@@ -54,7 +54,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
 
         localStorageService.set('classificationsToSubmit', localStorageService.get('classificationsToSubmit').concat([newClassification]));
         localStorageService.get('classificationsToSubmit').reduce(function (promise, newClassification) {
-            return promise.then(function (response) {
+            return promise.then(function () {
                 var classification = zooAPI.type('classifications').create(newClassification);
                 return classification.save()
                     .then(function (response) {

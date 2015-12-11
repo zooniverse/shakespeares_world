@@ -63,25 +63,36 @@ function AnnotationsFactory(localStorageService, $http) {
 
 
     function checkVariants(annotation) {
+
         //splits string by whitespace (different encodings)
         var lemmas = annotation.text.split(/\s|&nbsp;/g);
         var oedVars = [];
+
         for (var i = 0; i < lemmas.length; ++i) {
+
             //uri encode, remove all <> tags, remove
             var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g, '').toLowerCase());
+
             $http({
                 method: 'GET',
                 url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + urlLemmas + '.txt'
-            }).then(function success(response) {}, function error(response) {
-                var url = response.config.url;
-                var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
-                oedVars.push(words);
-                upsert(_.extend(annotation, {
-                    variants: oedVars
-                }));
-            })
+            }).then(success, failure);
+
         }
+
         return annotation;
+
+        function success(response) {}
+
+        function failure(response) {
+            var url = response.config.url;
+            var words = decodeURIComponent(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf(".")));
+            oedVars.push(words);
+            upsert(_.extend(annotation, {
+                variants: oedVars
+            }));
+        }
+
     }
 
     function updateCache() {
