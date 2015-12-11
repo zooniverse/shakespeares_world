@@ -39,6 +39,11 @@ module.exports = {
         'root': 'build'
     },
 
+    'favicons': {
+        'src': 'app/favicons/*',
+        'dest': 'build/'
+    },
+
     'fonts': {
         'src': ['app/fonts/**/*'],
         'dest': 'build/fonts'
