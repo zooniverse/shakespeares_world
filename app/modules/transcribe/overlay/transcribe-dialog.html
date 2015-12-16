@@ -1,11 +1,4 @@
-<div aria-label="Transcribe line"
-    aria-hidden="{{ !active }}"
-    class="transcribe-dialog"
-    ng-class="{ '-active': vm.active }"
-    ng-style="position"
-    role="dialog"
-    tabindex="-1"
-    ng-keydown="vm.keyPress($event);">
+<div aria-label="Transcribe line" aria-hidden="{{ !active }}" class="transcribe-dialog" ng-class="{ '-active': vm.active }" ng-style="position" role="dialog" tabindex="-1" ng-keydown="vm.keyPress($event)">
 
     <div class="heading">
         <h3 class="title" ng-bind="vm.title"></h3>
@@ -17,20 +10,12 @@
 
     <div class="body">
 
-        <div id="#transcribeInput"
-            ng-model="vm.transcription"
-            class="transcribe"
-            contenteditable="true"
-            placeholder="Transcribe here"
-            content-editable></div>
+        <div id="#transcribeInput" ng-model="vm.transcription" class="transcribe" contenteditable="true" placeholder="Transcribe here" content-editable></div>
 
         <div class="buttons">
 
             <div class="editing" role="group">
-                <button class="button -tag"
-                    ng-bind="tag.name"
-                    ng-click="vm.surround(tag.tag)"
-                    ng-repeat="tag in vm.tags"></button>
+                <button class="button -tag" ng-bind="tag.name" ng-click="vm.surround(tag.tag)" ng-repeat="tag in vm.tags"></button>
             </div>
 
         </div>
@@ -38,10 +23,7 @@
         <div class="buttons">
 
             <div class="editing" role="group">
-                <div ng-repeat="abbreviation in vm.abbreviations"
-                data="abbreviation"
-                ng-click="vm.html(abbreviation.tag)"
-                abbreviations-button></div>
+                <div ng-repeat="abbreviation in vm.abbreviations" data="abbreviation" ng-click="vm.html(abbreviation.tag)" abbreviations-button></div>
             </div>
 
         </div>

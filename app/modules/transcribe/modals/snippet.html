@@ -5,8 +5,10 @@
 <div class="modal-body">
 
     <img ng-src="{{vm.snippet.cropUrl}}">
-    <input id="#userInput" ng-model="vm.snippet.name" class="snippet-name" placeholder="Snippet name" required="required" />
 
+    <form ng-submit="vm.save()">
+        <input id="user-input" ng-model="vm.snippet.name" class="snippet-name" placeholder="Snippet name" required="required" />
+    </form>
 
     <div class="buttons">
         <button class="button -save" ng-click="vm.save()">Save</button>
