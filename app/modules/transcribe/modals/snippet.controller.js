@@ -4,13 +4,12 @@ require('./modals.module.js')
     .controller('SnippetController', SnippetController);
 
 // @ngInject
-function SnippetController($modalInstance, $scope, CribsheetFactory, data, hotkeys) {
-
-    data = CribsheetFactory.addUrl(data);
+function SnippetController($modalInstance, $scope, CribsheetFactory, data, $timeout) {
 
     var vm = this;
     vm.close = close;
-    vm.snippet = data;
+    vm.save = save;
+    vm.snippet = CribsheetFactory.addUrl(data);
 
     function close() {
         $modalInstance.close();
@@ -21,17 +20,8 @@ function SnippetController($modalInstance, $scope, CribsheetFactory, data, hotke
         close();
     }
 
-    hotkeys.bindTo($scope)
-        .add({
-            combo: 'enter',
-            description: 'Save snippet',
-            callback: save
-        })
+    $timeout(function () {
+        document.getElementById('user-input').focus();
+    }, 100);
 
-    //    function onKeydown(event) {
-    //        if (event.which === 13) { // enter key
-    //            event.preventDefault();
-    //            save();
-    //        }
-    //    }
 }
