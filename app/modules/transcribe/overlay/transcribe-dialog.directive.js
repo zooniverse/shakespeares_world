@@ -111,12 +111,13 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     }
 
     function addHtml(html) {
-        var c = document.createTextNode('\u200B'),
-            prevSel = window.getSelection(),
-            prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null,
-            sel,
-            range;
         if (window.getSelection) {
+
+            var prevSel = window.getSelection();
+            var prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null;
+            var sel;
+            var range;
+
             // IE9 and non-IE
             sel = window.getSelection();
             if (sel.getRangeAt && sel.rangeCount) {
@@ -162,7 +163,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
 
         function insertZWS(range) {
             range.collapse(false);
-            range.insertNode(c);
+            range.insertNode(document.createTextNode('\u200B'));
             range.collapse(false);
         }
     }
