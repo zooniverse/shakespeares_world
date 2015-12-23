@@ -22,29 +22,28 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
         clear: clear,
         destroy: destroy,
         list: list,
-        upsert: upsert,
-        updateCache: updateCache
+        upsert: upsert
     };
 
     return factory;
 
     function clear(subjectId) {
         delete _annotations[subjectId];
-        updateCache();
+        _updateLocalStorage();
     }
 
     // TODO: fix so that it only removes a point if it's passed an annotation;
     // a blank / undefined object will wipe everything lololol
     function destroy(annotation) {
         _.remove(list(), annotation);
-        updateCache();
+        _updateLocalStorage();
         return _annotations;
     }
 
     function list() {
         if (_.isUndefined(_annotations[SubjectsFactory.current.data.id])) {
             _annotations[SubjectsFactory.current.data.id] = [];
-            updateCache();
+            _updateLocalStorage();
         }
         return _annotations[SubjectsFactory.current.data.id];
     }
@@ -59,7 +58,7 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
         } else {
             list().push(annotation);
         }
-        updateCache();
+        _updateLocalStorage();
         return annotation;
     }
 
@@ -96,7 +95,7 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
 
     }
 
-    function updateCache() {
+    function _updateLocalStorage() {
         var cleanedAnnotations = _.mapValues(_annotations, function (subjectAnnotations) {
             return _.reject(subjectAnnotations, { complete: false });
         });
