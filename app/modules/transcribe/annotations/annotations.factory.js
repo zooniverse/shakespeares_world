@@ -15,6 +15,9 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
         localStorageService.set('annotations', {});
     }
 
+    // Our main annotation store. We refer to this, rather than its
+    // localStorage counterpart, as we're filtering what we save their to
+    // complete transcriptions only.
     _annotations = localStorageService.get('annotations');
 
     factory = {
@@ -27,25 +30,29 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
 
     return factory;
 
+    // Remove all annotations for a given subject (called once we change subject)
     function clear(subjectId) {
         delete _annotations[subjectId];
         _updateLocalStorage();
     }
 
-    // TODO: fix so that it only removes a point if it's passed an annotation;
-    // a blank / undefined object will wipe everything lololol
+    // Delete a single annotation
     function destroy(annotation) {
-        _.remove(list(), annotation);
-        _updateLocalStorage();
+        if (annotation) {
+            _.remove(list(), annotation);
+            _updateLocalStorage();
+        }
         return _annotations;
     }
 
+    // Return a list of annotations for the current subject
     function list() {
-        if (_.isUndefined(_annotations[SubjectsFactory.current.data.id])) {
-            _annotations[SubjectsFactory.current.data.id] = [];
+        var currentSubjectAnnotations = _annotations[SubjectsFactory.current.data.id];
+        if (_.isUndefined(currentSubjectAnnotations)) {
+            currentSubjectAnnotations = [];
             _updateLocalStorage();
         }
-        return _annotations[SubjectsFactory.current.data.id];
+        return currentSubjectAnnotations;
     }
 
     // Update if an annotation exists, create if it doesn't
@@ -95,6 +102,7 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
 
     }
 
+    // Save the current annotations list to localStorage, excluding incompletes
     function _updateLocalStorage() {
         var cleanedAnnotations = _.mapValues(_annotations, function (subjectAnnotations) {
             return _.reject(subjectAnnotations, { complete: false });
