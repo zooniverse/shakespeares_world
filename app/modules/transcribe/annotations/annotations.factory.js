@@ -6,61 +6,62 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http) {
+function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
 
     var factory;
     var _annotations;
 
-    if (localStorageService.get('annotations') === null) {
-        localStorageService.set('annotations', []);
+    if (!_.isPlainObject(localStorageService.get('annotations'))) {
+        localStorageService.set('annotations', {});
     }
 
     _annotations = localStorageService.get('annotations');
 
     factory = {
         checkVariants: checkVariants,
+        clear: clear,
         destroy: destroy,
         list: list,
-        reset: reset,
         upsert: upsert,
         updateCache: updateCache
     };
 
     return factory;
 
+    function clear(subjectId) {
+        delete _annotations[subjectId];
+        updateCache();
+    }
+
     // TODO: fix so that it only removes a point if it's passed an annotation;
     // a blank / undefined object will wipe everything lololol
     function destroy(annotation) {
-        _.remove(_annotations, annotation);
+        _.remove(list(), annotation);
         updateCache();
         return _annotations;
     }
 
     function list() {
-        return _annotations;
-    }
-
-    function reset() {
-        _annotations.length = 0;
-        updateCache();
-        return _annotations;
+        if (_.isUndefined(_annotations[SubjectsFactory.current.data.id])) {
+            _annotations[SubjectsFactory.current.data.id] = [];
+            updateCache();
+        }
+        return _annotations[SubjectsFactory.current.data.id];
     }
 
     // Update if an annotation exists, create if it doesn't
     function upsert(annotation) {
-        var inCollection = _.find(_annotations, {
+        var inCollection = _.find(list(), {
             $$hashKey: annotation.$$hashKey
         });
         if (inCollection) {
             inCollection = _.extend(inCollection, annotation);
         } else {
-
-            _annotations.push(annotation);
+            list().push(annotation);
         }
         updateCache();
         return annotation;
     }
-
 
     function checkVariants(annotation) {
 
@@ -96,9 +97,10 @@ function AnnotationsFactory(localStorageService, $http) {
     }
 
     function updateCache() {
-        var annotations = _.reject(_annotations, {
-            complete: false
-        });
+        // var annotations = _.reject(list(), {
+        //     complete: false
+        // });
+
         localStorageService.set('annotations', annotations);
     }
 

@@ -11,7 +11,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     vm.subject = SubjectsFactory.current;
     vm.$loadNext = loadNext;
     vm.$variantsAndNext = variantsFeedback;
-    vm.$openTutorial = openTutorial;
+    vm.$openTutorial = ModalsFactory.openTutorial;
 
     // Watchers
     $scope.$watch(getLoadingStatus, setLoadingStatus);
@@ -25,10 +25,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
             localStorageService.set('viewedTutorial', true);
             openTutorial();
         }
-        loadSubject()
-            .then(function () {
-                vm.annotations = AnnotationsFactory.list();
-            });
+        loadSubject();
     }
 
     function getLoadingStatus() {
@@ -60,7 +57,6 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         }
     }
 
-
     function loadNext() {
         var modal1 = ModalsFactory.openNext();
         modal1.result
@@ -68,7 +64,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
                 var modal2 = ModalsFactory.openTalk();
                 modal2.result
                     .then(function () {
-                        AnnotationsFactory.reset();
+                        AnnotationsFactory.clear(vm.subject.data.id);
                         SubjectsFactory.$advanceQueue()
                             .then(loadSubject);
                     });
@@ -78,11 +74,12 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     function loadSubject() {
         return SubjectsFactory.$getData($stateParams.subjectSet)
             .then(subjectLoaded, subjectLoadError)
+            .then(loadAnnotations)
             .then(loadAggregations);
     }
 
-    function openTutorial() {
-        ModalsFactory.openTutorial();
+    function loadAnnotations() {
+        vm.annotations = AnnotationsFactory.list();
     }
 
     function setLoadingStatus() {
