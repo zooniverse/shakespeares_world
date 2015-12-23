@@ -97,11 +97,10 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
     }
 
     function updateCache() {
-        // var annotations = _.reject(list(), {
-        //     complete: false
-        // });
-
-        localStorageService.set('annotations', annotations);
+        var cleanedAnnotations = _.mapValues(_annotations, function (subjectAnnotations) {
+            return _.reject(subjectAnnotations, { complete: false });
+        });
+        localStorageService.set('annotations', cleanedAnnotations);
     }
 
 }
