@@ -6,7 +6,6 @@ require('./modals.module.js')
 
 // @ngInject
 function TranscribeNextController($modalInstance, ClassificationFactory, AnnotationsFactory, SubjectsFactory) {
-    var annotations = AnnotationsFactory.list();
     var vm = this;
     vm.cancel = cancel;
     vm.viewAnnotations = viewAnnotations;
@@ -42,25 +41,50 @@ function TranscribeNextController($modalInstance, ClassificationFactory, Annotat
     }
 
     function viewAnnotations() {
+        var annotations = AnnotationsFactory.list();
+
         if (annotations.length > 0) {
-            var i, doc = new jsPDF('p', 'mm');
-            for (i = 0; i < annotations.length; i++) {
-                doc.setProperties({
-                    title: 'Your transcriptions',
-                    subject: 'Transcriptions'
-                });
-                doc.setTextColor(18, 18, 18);
-                doc.setFont('times');
-                doc.setFontSize(12);
-                if (annotations[i].type !== '   graphic') {
-                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Text: ' + annotations[i].text);
-                } else {
-                    doc.text(10, 20 + (2 * i * 10), 'Type: ' + annotations[i].type + '\n' + 'Tag: ' + annotations[i].tag);
-                }
-            }
+
+            // Set up the jsPDF document
+            var doc = new jsPDF('p', 'mm');
+            doc.setProperties({
+                title: 'Your transcriptions',
+                subject: 'Transcriptions',
+            });
+            doc.setTextColor(18, 18, 18);
+            doc.setFontSize(12);
+
+            // We use a monospace font to ensure we our text wraps in a
+            // consistent way. Unfortunately, there's a bug in jsPDF that
+            // prevents it working on localhost, use terminal instead
+            // for testing: https://github.com/MrRio/jsPDF/issues/509
+            doc.setFont('courier');
+
+            // We need to break up each transcription into separate lines, in
+            // order to make them wrap. By reducing over them, instead of
+            // looping, we can create an array of text strings and let jsPDF
+            // handle line height.
+            var text = annotations.reduce(function (strings, annotation) {
+                var type = annotation.type;
+                var content = doc.splitTextToSize(titleCase(type) + ': '
+                    + annotation[type], 100);
+
+                strings.push('Type: ' + type);
+                strings = strings.concat(content);
+                strings.push('\n');
+
+                return strings;
+            }, []);
+
+            doc.text(10, 20, text);
             doc.save('Subject-' + SubjectsFactory.current.data.id + '.pdf');
         } else {
             alert('No transcription found');
         }
+
     }
+}
+
+function titleCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
