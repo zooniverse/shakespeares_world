@@ -86,7 +86,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
     vm.html = addHtml;
     vm.open = openDialog;
     vm.saveAndClose = saveAndCloseDialog;
-    vm.surround = surroundSelection;
+    vm.addTag = addTag;
     vm.tags = overlayConfig.teiTags;
     vm.title = '';
     vm.transcription = '';
@@ -96,31 +96,28 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
         }
     });
 
-    function surroundSelection(tag) {
-        var tagNode = document.createElement(tag),
-            sel = window.getSelection();
+    // Adds a type tag to the transcription input. Surrounds the selected text
+    // with the tag passed in, does nothing if there's no text selected.
+    function addTag(tag) {
         if (window.getSelection) {
-            if (sel.rangeCount) {
-                var range = sel.getRangeAt(0).cloneRange();
-                var c = document.createTextNode('\u200B');
-                range.surroundContents(tagNode);
-                range.collapse(false);
-                range.insertNode(c);
-                range.selectNode(c);
-                range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
+            var selection = window.getSelection();
+            if (selection.focusOffset !== selection.anchorOffset) {
+                var range = selection.getRangeAt(0).cloneRange();
+                range.surroundContents(document.createElement(tag));
+                selection.removeAllRanges();
+                selection.addRange(range);
             }
         }
     }
 
     function addHtml(html) {
-        var c = document.createTextNode('\u200B'),
-            prevSel = window.getSelection(),
-            prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null,
-            sel,
-            range;
         if (window.getSelection) {
+
+            var prevSel = window.getSelection();
+            var prevRange = prevSel.rangeCount ? prevSel.getRangeAt(0) : null;
+            var sel;
+            var range;
+
             // IE9 and non-IE
             sel = window.getSelection();
             if (sel.getRangeAt && sel.rangeCount) {
@@ -166,7 +163,7 @@ function transcribeDialogController($rootScope, $scope, $compile, $element, $tim
 
         function insertZWS(range) {
             range.collapse(false);
-            range.insertNode(c);
+            range.insertNode(document.createTextNode('\u200B'));
             range.collapse(false);
         }
     }
