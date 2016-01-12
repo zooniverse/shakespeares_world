@@ -72,7 +72,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
 
     function submitBlank() {
         return _createNewClassification()
-            .then(function addBlankData(classification) {
+            .then(function _addBlankData(classification) {
                 classification.annotations.push({
                     task: 'T0',
                     value: true
@@ -83,28 +83,16 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
     }
 
     function submitComplete() {
-        return _createNewClassification()
-            .then(function addCompleteData(classification) {
-                classification.annotations.push({
-                    task: 'T0',
-                    value: false
-                });
-                classification.annotations.push({
-                    task: 'T2',
-                    value: _.clone(AnnotationsFactory.list(), true)
-                });
-                classification.annotations.push({
-                    task: 'T3',
-                    value: true
-                });
-                return classification;
-            })
-            .then(_submitToApi);
+        return _submitClassification(true);
     }
 
     function submitIncomplete() {
+        return _submitClassification(false);
+    }
+
+    function _submitClassification(complete) {
         return _createNewClassification()
-            .then(function addIncompleteData(classification) {
+            .then(function _addClassificationData(classification) {
                 classification.annotations.push({
                     task: 'T0',
                     value: false
@@ -115,7 +103,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                 });
                 classification.annotations.push({
                     task: 'T3',
-                    value: false
+                    value: complete
                 });
                 return classification;
             })
