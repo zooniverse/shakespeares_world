@@ -6,68 +6,61 @@ require('./annotations.module.js')
     .factory('AnnotationsFactory', AnnotationsFactory);
 
 // @ngInject
-function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
+function AnnotationsFactory(localStorageService, $http) {
 
     var factory;
     var _annotations;
 
-    if (!_.isPlainObject(localStorageService.get('annotations'))) {
-        localStorageService.set('annotations', {});
+    if (localStorageService.get('annotations') === null) {
+        localStorageService.set('annotations', []);
     }
 
-    // Our main annotation store. We refer to this, rather than its
-    // localStorage counterpart, as we're filtering what we save their to
-    // complete transcriptions only.
     _annotations = localStorageService.get('annotations');
 
     factory = {
         checkVariants: checkVariants,
-        clear: clear,
         destroy: destroy,
         list: list,
-        upsert: upsert
+        reset: reset,
+        upsert: upsert,
+        updateCache: updateCache
     };
 
     return factory;
 
-    // Remove all annotations for a given subject (called once we change subject)
-    function clear(subjectId) {
-        delete _annotations[subjectId];
-        _updateLocalStorage();
-    }
-
-    // Delete a single annotation
+    // TODO: fix so that it only removes a point if it's passed an annotation;
+    // a blank / undefined object will wipe everything lololol
     function destroy(annotation) {
-        if (annotation) {
-            _.remove(list(), annotation);
-            _updateLocalStorage();
-        }
+        _.remove(_annotations, annotation);
+        updateCache();
         return _annotations;
     }
 
-    // Return a list of annotations for the current subject
     function list() {
-        var currentSubjectAnnotations = _annotations[SubjectsFactory.current.data.id];
-        if (_.isUndefined(currentSubjectAnnotations)) {
-            currentSubjectAnnotations = [];
-            _updateLocalStorage();
-        }
-        return currentSubjectAnnotations;
+        return _annotations;
+    }
+
+    function reset() {
+        _annotations.length = 0;
+        updateCache();
+        return _annotations;
     }
 
     // Update if an annotation exists, create if it doesn't
     function upsert(annotation) {
-        var inCollection = _.find(list(), {
+        var inCollection = _.find(_annotations, {
             $$hashKey: annotation.$$hashKey
         });
         if (inCollection) {
             inCollection = _.extend(inCollection, annotation);
         } else {
-            list().push(annotation);
+
+            _annotations.push(annotation);
         }
-        _updateLocalStorage();
+        updateCache();
         return annotation;
     }
+
 
     function checkVariants(annotation) {
 
@@ -102,12 +95,11 @@ function AnnotationsFactory(localStorageService, $http, SubjectsFactory) {
 
     }
 
-    // Save the current annotations list to localStorage, excluding incompletes
-    function _updateLocalStorage() {
-        var cleanedAnnotations = _.mapValues(_annotations, function (subjectAnnotations) {
-            return _.reject(subjectAnnotations, { complete: false });
+    function updateCache() {
+        var annotations = _.reject(_annotations, {
+            complete: false
         });
-        localStorageService.set('annotations', cleanedAnnotations);
+        localStorageService.set('annotations', annotations);
     }
 
 }
