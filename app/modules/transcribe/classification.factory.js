@@ -72,7 +72,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
 
     function submitBlank() {
         return _createNewClassification()
-            .then(function _addBlankData(classification) {
+            .then(function addBlankData(classification) {
                 classification.annotations.push({
                     task: 'T0',
                     value: true
@@ -83,16 +83,8 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
     }
 
     function submitComplete() {
-        return _submitClassification(true);
-    }
-
-    function submitIncomplete() {
-        return _submitClassification(false);
-    }
-
-    function _submitClassification(complete) {
         return _createNewClassification()
-            .then(function _addClassificationData(classification) {
+            .then(function addCompleteData(classification) {
                 classification.annotations.push({
                     task: 'T0',
                     value: false
@@ -103,7 +95,27 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
                 });
                 classification.annotations.push({
                     task: 'T3',
-                    value: complete
+                    value: true
+                });
+                return classification;
+            })
+            .then(_submitToApi);
+    }
+
+    function submitIncomplete() {
+        return _createNewClassification()
+            .then(function addIncompleteData(classification) {
+                classification.annotations.push({
+                    task: 'T0',
+                    value: false
+                });
+                classification.annotations.push({
+                    task: 'T2',
+                    value: _.clone(AnnotationsFactory.list(), true)
+                });
+                classification.annotations.push({
+                    task: 'T3',
+                    value: false
                 });
                 return classification;
             })
