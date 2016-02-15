@@ -83,14 +83,15 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
     }
 
     function signIn() {
-        localStorageService.set('redirectOnSignIn', $location.absUrl());
+        var urlBase = $location.absUrl().replace('https:', 'http:');
+        localStorageService.set('redirectOnSignIn', urlBase);
         $window.location.href = zooAPI.root.match(/^(.*)\/[^/]*$/)[1] +
             '/oauth/authorize' +
             '?response_type=token' +
             '&client_id=' +
             zooAPIConfig.app_id +
             '&redirect_uri=' +
-            $location.absUrl().match(/.+?(?=\#\/)/)[0];
+            urlBase.match(/.+?(?=\#\/)/)[0];
     }
 
     function signOut() {
