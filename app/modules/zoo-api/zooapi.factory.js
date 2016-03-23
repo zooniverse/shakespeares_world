@@ -8,13 +8,10 @@ var Panoptes = require('panoptes-client');
 // @ngInject
 function zooAPI(zooAPIConfig) {
 
-    var _client;
+    // There's only a version of this project on production, so rather than
+    // defer to the client we manually override the API root.
+    Panoptes.apiClient.root = 'https://www.zooniverse.org/api';
 
-    _client = new Panoptes({
-        appID: zooAPIConfig.app_id,
-        host: 'https://panoptes.zooniverse.org'
-    });
-
-    return _client.api;
+    return Panoptes.apiClient;
 
 }
