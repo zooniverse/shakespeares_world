@@ -21,7 +21,7 @@ function AuthHeaderController($scope, authFactory) {
     vm.signIn = authFactory.signIn;
     vm.signOut = authFactory.signOut;
     vm.user = authFactory.getUser();
-
+    console.log(vm.user)
     $scope.$on('LocalStorageModule.notification.setitem', function (event, data) {
         if (data.key === 'user') {
             vm.user = authFactory.getUser();

@@ -3,30 +3,38 @@
 require('./auth.module.js')
     .factory('authFactory', authFactory);
 
+var oauth = require('panoptes-client').oauth;
+
 // @ngInject
-function authFactory($interval, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig, CribsheetFactory) {
+function authFactory($interval, $timeout, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig, CribsheetFactory, $rootScope) {
 
     var factory;
 
-    if (localStorageService.get('user') === null) {
-        localStorageService.set('user', null);
-    }
+    // if (localStorageService.get('user') === null) {
+    //     localStorageService.set('user', null);
+    // }
 
-    if (localStorageService.get('auth') === null) {
-        localStorageService.set('auth', null);
-    } else {
-        var auth = localStorageService.get('auth');
-        if (0 < (Math.floor(Date.now() / 1000) - auth.token_start) < auth.expires_in) {
-            _setToken(auth.access_token);
-            _startTimer();
-            _setUserData();
-        } else {
-            signOut();
-        }
-    }
+    // if (localStorageService.get('auth') === null) {
+    //     localStorageService.set('auth', null);
+    // } else {
+    //     var auth = localStorageService.get('auth');
+    //     if (0 < (Math.floor(Date.now() / 1000) - auth.token_start) < auth.expires_in) {
+    //         _setToken(auth.access_token);
+    //         _startTimer();
+    //         _setUserData();
+    //     } else {
+    //         signOut();
+    //     }
+    // }
+
+    var _user = {};
+
+    // localStorage.setItem('panoptesClientOAuth_redirectUri', $location.absUrl());
+
+    oauth.checkCurrent()
+      .then(_setUserData);
 
     factory = {
-        completeSignIn: completeSignIn,
         signIn: signIn,
         signOut: signOut,
         getUser: getUser
@@ -34,81 +42,53 @@ function authFactory($interval, $location, $window, localStorageService, ModalsF
 
     return factory;
 
-    function completeSignIn(params) {
-        localStorageService.set('auth', {
-            access_token: params.access_token,
-            token_start: Date.now(),
-            // Convert to milliseconds for consistency
-            expires_in: params.expires_in * 1000
-        });
-        _setToken(params.access_token);
-        _startTimer();
-        return _setUserData()
-            .then(function () {
-                $window.location.href = localStorageService.get('redirectOnSignIn');
-            });
-    }
 
     function getUser() {
-        return localStorageService.get('user');
-    }
-
-    function _setToken(token) {
-        zooAPI.headers.Authorization = 'Bearer ' + token;
+        console.log('giving back user')
+        return (_user.id) ? _user : false;
     }
 
     function _setUserData() {
+        console.log('getting user data')
         return zooAPI.type('me').get()
             .then(function (response) {
-                response = response[0];
-                var user = {};
-                user.id = response.id;
-                user.display_name = response.display_name;
-                return response.get('avatar')
-                    .then(function (response) {
-                        response = response[0];
-                        if (response.src) {
-                            user.avatar = response.src;
-                        }
-                    }, function () {
-                        return;
-                    })
-                    .then(function () {
-                        localStorageService.set('user', user);
-                        return CribsheetFactory.$getData(user);
-                    });
-            }, function (error) {
-                console.warn('Error logging in', error);
-            });
+                var response = response[0];
+                _user.id = response.id;
+                _user.display_name = response.display_name;
+                return response.get('avatar');
+            })
+            .then(function (response) {
+                var response = response[0];
+                _user.avatar = (response.src) ? response.src : null;
+            })
+            .then(function () {
+                console.log(_user);
+                return _user;
+            })
+
+
+            //         .then(function (response) {
+            //             response = response[0];
+            //             if (response.src) {
+            //                 _user.avatar = response.src;
+            //             }
+            //         })
+            //         .then(function () {
+
+            //             return CribsheetFactory.$getData(user);
+            //         });
+            // }, function (error) {
+            //     console.warn('Error logging in', error);
+            // });
     }
 
     function signIn() {
-        localStorageService.set('redirectOnSignIn', $location.absUrl());
-        $window.location.href = zooAPI.root.match(/^(.*)\/[^/]*$/)[1] +
-            '/oauth/authorize' +
-            '?response_type=token' +
-            '&client_id=' +
-            zooAPIConfig.app_id +
-            '&redirect_uri=' +
-            $location.absUrl().match(/.+?(?=\#\/)/)[0];
+        oauth.signIn($location.absUrl())
     }
 
     function signOut() {
-        delete zooAPI.headers.Authorization;
-        localStorageService.set('auth', null);
-        localStorageService.set('user', null);
-        zooAPI.auth.signOut();
-        CribsheetFactory.reset();
-        $window.location.reload();
-    }
-
-    function _startTimer() {
-        var auth = localStorageService.get('auth');
-        var expiry = auth.token_start + auth.expires_in - Date.now();
-        $interval(function () {
-            signOut();
-            ModalsFactory.openExpired();
-        }, expiry, 1);
+        _user = {};
+        oauth.signOut();
     }
 
 }
