@@ -13,7 +13,11 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
     var _user = {};
 
     oauth.checkCurrent()
-      .then(_setUserData);
+      .then(function (user) {
+        if (user) {
+            _setUserData();
+        }
+      });
 
     factory = {
         signIn: signIn,
