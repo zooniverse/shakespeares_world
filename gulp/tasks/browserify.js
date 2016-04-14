@@ -16,6 +16,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
 var watchify = require('watchify');
+var envify = require('envify');
 
 // Based on: http://blog.avisi.nl/2014/04/25/how-to-keep-a-fast-build-with-browserify-and-reactjs/
 function buildScript(file) {
@@ -39,6 +40,7 @@ function buildScript(file) {
         babelify,
         debowerify,
         ngAnnotate,
+        envify,
         'brfs',
         'bulkify',
         'browserify-shim'

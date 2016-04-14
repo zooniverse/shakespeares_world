@@ -10,6 +10,9 @@ var appConfig = {
     // Staging app id, for testing
     // app_id: '20e59774007cc12f7c90d720060ba9b838a349198c469c519f0f6798782979e6'
 };
+
+console.log('app env', process.env.NODE_ENV)
+
 // @ngInject
 function localStorage(localStorageServiceProvider) {
     localStorageServiceProvider
