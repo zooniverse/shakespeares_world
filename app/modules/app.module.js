@@ -4,10 +4,6 @@ var angular = require('angular');
 var bulk = require('bulk-require');
 var oauth = require('panoptes-client').oauth;
 
-
-// import { panoptesAppId } from './constants/config.json';
-
-
 // Angular modules
 var appConfig = require('./app.config.js');
 require('angular-bootstrap-npm');
@@ -22,11 +18,11 @@ bulk(__dirname, ['./**/!(app.module).js']);
 // Create and bootstrap application
 angular.element(document).ready(function () {
     oauth.init(appConfig.constants.app_id)
-        .then(startApp);
+        .then(startApp, function (error) { console.error('Error starting the app', error)});
 });
 
 function startApp() {
-
+    console.log('starting')
     var requires = [
         // Angular modules
         'ui.router',

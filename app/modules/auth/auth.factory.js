@@ -10,26 +10,7 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
 
     var factory;
 
-    // if (localStorageService.get('user') === null) {
-    //     localStorageService.set('user', null);
-    // }
-
-    // if (localStorageService.get('auth') === null) {
-    //     localStorageService.set('auth', null);
-    // } else {
-    //     var auth = localStorageService.get('auth');
-    //     if (0 < (Math.floor(Date.now() / 1000) - auth.token_start) < auth.expires_in) {
-    //         _setToken(auth.access_token);
-    //         _startTimer();
-    //         _setUserData();
-    //     } else {
-    //         signOut();
-    //     }
-    // }
-
     var _user = {};
-
-    // localStorage.setItem('panoptesClientOAuth_redirectUri', $location.absUrl());
 
     oauth.checkCurrent()
       .then(_setUserData);
@@ -44,12 +25,10 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
 
 
     function getUser() {
-        console.log('giving back user')
         return (_user.id) ? _user : false;
     }
 
     function _setUserData() {
-        console.log('getting user data')
         return zooAPI.type('me').get()
             .then(function (response) {
                 var response = response[0];
@@ -60,26 +39,13 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
             .then(function (response) {
                 var response = response[0];
                 _user.avatar = (response.src) ? response.src : null;
-            })
-            .then(function () {
-                console.log(_user);
+                $rootScope.$broadcast('auth:loginChange', _user);
                 return _user;
             })
-
-
-            //         .then(function (response) {
-            //             response = response[0];
-            //             if (response.src) {
-            //                 _user.avatar = response.src;
-            //             }
-            //         })
-            //         .then(function () {
-
-            //             return CribsheetFactory.$getData(user);
-            //         });
-            // }, function (error) {
-            //     console.warn('Error logging in', error);
-            // });
+            .then(CribsheetFactory.$getData)
+            .catch(function (error) {
+                console.error('somethings wrong', error)
+            });
     }
 
     function signIn() {
@@ -88,6 +54,7 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
 
     function signOut() {
         _user = {};
+        $rootScope.$broadcast('auth:loginChange');
         oauth.signOut();
     }
 
