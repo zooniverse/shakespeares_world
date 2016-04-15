@@ -37,7 +37,6 @@ function buildScript(file) {
     }
 
     var transforms = [
-        babelify,
         debowerify,
         ngAnnotate,
         envify,
@@ -48,6 +47,10 @@ function buildScript(file) {
 
     transforms.forEach(function(transform) {
         bundler.transform(transform);
+    });
+
+    bundler.transform(envify, {
+        global: true
     });
 
     function rebundle() {

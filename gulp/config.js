@@ -29,7 +29,7 @@ module.exports = {
             'Bucket': 'zooniverse-static',
             'Prefix': 'preview.zooniverse.org/folgerdemo/',
         },
-        'preview': {
+        'staging': {
             'Bucket': 'zooniverse-static',
             'Prefix': 'preview.zooniverse.org/shakespearesworld/',
         }
