@@ -43,12 +43,18 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
             .then(function (response) {
                 var response = response[0];
                 _user.avatar = (response.src) ? response.src : null;
-                $rootScope.$broadcast('auth:loginChange', _user);
                 return _user;
+            }, function(error) {
+                console.info('No avatar found for', _user.id);
+                return _user;
+            })
+            .then(function (user) {
+                $rootScope.$broadcast('auth:loginChange', user);
+                return user;
             })
             .then(CribsheetFactory.$getData)
             .catch(function (error) {
-                console.error('somethings wrong', error)
+                console.error('Something\'s gone very wrong with getting the user data', error);
             });
     }
 

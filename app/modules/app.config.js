@@ -14,8 +14,6 @@ var appConfig = {
     })()
 };
 
-console.log('app env', process.env.NODE_ENV)
-
 // @ngInject
 function localStorage(localStorageServiceProvider) {
     localStorageServiceProvider
