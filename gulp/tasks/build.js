@@ -3,10 +3,10 @@
 var gulp        = require('gulp');
 var runSequence = require('run-sequence');
 
-gulp.task('build', ['clean'], function(cb) {
+gulp.task('build', ['clean'], function(callback) {
 
-  cb = cb || function() {};
+  callback = callback || function() {};
 
-  runSequence(['styles', 'images', 'fonts', 'views', 'favicons'], cb);
+  runSequence(['styles', 'images', 'fonts', 'views', 'favicons'], callback);
 
 });
