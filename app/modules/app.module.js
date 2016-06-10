@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 var bulk = require('bulk-require');
-var oauth = require('panoptes-client').oauth;
+var OAuth = require('panoptes-client/lib/oauth');
 
 // Angular modules
 var appConfig = require('./app.config.js');
@@ -17,8 +17,10 @@ bulk(__dirname, ['./**/!(app.module).js']);
 
 // Create and bootstrap application
 angular.element(document).ready(function () {
-    oauth.init(appConfig.constants.app_id)
-        .then(startApp, function (error) { console.error('Error starting the app', error)});
+    OAuth.init(appConfig.constants.app_id)
+        .then(startApp, function (error) {
+            console.error('Error starting the app', error);
+        });
 });
 
 function startApp() {
