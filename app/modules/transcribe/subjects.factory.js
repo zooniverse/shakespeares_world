@@ -81,48 +81,24 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
     }
 
     function _populateQueue() {
-        var deferred = $q.defer();
-        var viewedSubjectIDs = _.pluck(_data.viewed, 'id');
-        getPage(1);
-        return deferred.promise;
-
-        function getPage(page) {
-            return zooAPIProject.get()
-                .then(function (project) {
-                    if (_subjectSet) {
-                        return zooAPI.type('subjects').get({
-                            page: page,
-                            sort: 'queued',
-                            workflow_id: project.links.workflows[0],
-                            subject_set_id: _subjectSet,
-                            order: 'asc'
-                        });
-                    } else {
-                        return zooAPI.type('subjects').get({
-                            page: page,
-                            sort: 'queued',
-                            workflow_id: project.links.workflows[0],
-                            subject_set_id: _.sample(project.links.subject_sets)
-                        });
-                    }
-                })
-                .then(function (subjects) {
-                    if (!subjects.length) {
-                        factory.loading = false;
-                        return deferred.reject('outOfData');
-                    } else {
-                        var newSubjects = _.reject(subjects, function rejectViewedSubjects(newSubject) {
-                            return viewedSubjectIDs.indexOf(newSubject.id) > -1;
-                        });
-                        if (!newSubjects.length) {
-                            getPage(page + 1);
-                        } else {
-                            _queue = _queue.concat(newSubjects);
-                            return deferred.resolve(_queue);
-                        }
-                    }
+        return zooAPIProject.get()
+            .then(function (project) {
+                return zooAPI.type('subjects').get({
+                    sort: 'queued',
+                    workflow_id: project.links.workflows[0],
+                    // Get a random set if one isn't specified already
+                    subject_set_id: (_subjectSet) ? _subjectSet : _.sample(project.links.subject_sets)
                 });
-        }
+            })
+            .then(function (subjects) {
+                if (subjects.length) {
+                    _queue = _queue.concat(subjects);
+                    return _queue;
+                } else {
+                    factory.loading = false;
+                    return $q.reject('outOfData');
+                }
+            });
     }
 
     function _setCurrent() {
