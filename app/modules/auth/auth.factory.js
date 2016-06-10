@@ -3,7 +3,7 @@
 require('./auth.module.js')
     .factory('authFactory', authFactory);
 
-var PanoptesClient = require('panoptes-client');
+var OAuth = require('panoptes-client/lib/oauth');
 
 // @ngInject
 function authFactory($interval, $timeout, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig, CribsheetFactory, $rootScope) {
@@ -12,7 +12,7 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
 
     var _user = {};
 
-    PanoptesClient.oauth.checkCurrent()
+    OAuth.checkCurrent()
       .then(function (user) {
         if (user) {
             _setUserData();
@@ -59,13 +59,13 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
     }
 
     function signIn() {
-        PanoptesClient.oauth.signIn($location.absUrl())
+        OAuth.signIn($location.absUrl())
     }
 
     function signOut() {
         _user = {};
         $rootScope.$broadcast('auth:loginChange');
-        PanoptesClient.oauth.signOut();
+        OAuth.signOut();
     }
 
 }

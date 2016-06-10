@@ -3,7 +3,7 @@
 require('./zooapi.module.js')
     .factory('zooAPI', zooAPI);
 
-var Panoptes = require('panoptes-client');
+var ApiClient = require('panoptes-client/lib/api-client');
 
 // @ngInject
 function zooAPI(zooAPIConfig) {
@@ -12,6 +12,6 @@ function zooAPI(zooAPIConfig) {
     // defer to the client we manually override the API root.
     // Panoptes.apiClient.root = 'https://www.zooniverse.org/api';
 
-    return Panoptes.apiClient;
+    return ApiClient;
 
 }
