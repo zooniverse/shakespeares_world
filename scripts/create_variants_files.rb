@@ -15,7 +15,7 @@ end
 INPUT_FILE = ARGV[0]
 OUTPUT_DIR = ARGV[1]
 
-CSV.foreach(INPUT_FILE) do |row|
+CSV.foreach(INPUT_FILE, :encoding => "UTF-8") do |row|
   word, start_date = row[0, 2]
   row[2..-1].each do |variant|
     if not variant
