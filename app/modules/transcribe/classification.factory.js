@@ -7,7 +7,7 @@ require('./transcribe.module.js')
     .factory('ClassificationFactory', ClassificationFactory);
 
 // @ngInject
-function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIProject) {
+function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageService, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIProject) {
 
     var factory;
 
@@ -39,7 +39,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
         return zooAPIProject.get()
             .then(function (project) {
                 classification.links.project = project.id;
-                classification.links.workflow = project.links.workflows[0];
+                classification.links.workflow = zooAPIConfig.workflow_id;
                 return zooAPI.type('workflows').get(classification.links.workflow);
             })
             .then(function (workflow) {
