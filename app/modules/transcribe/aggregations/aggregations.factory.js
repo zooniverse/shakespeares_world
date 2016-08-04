@@ -6,7 +6,7 @@ require('./aggregations.module.js')
     .factory('AggregationsFactory', AggregationsFactory);
 
 // @ngInject
-function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
+function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIProject) {
 
     var factory;
     var _aggregations = [];
@@ -36,7 +36,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIProject) {
             .then(function (project) {
                 return {
                     subject_id: SubjectsFactory.current.data.id,
-                    workflow_id: project.links.workflows[0]
+                    workflow_id: zooAPIConfig.workflow_id
                 };
             });
     }
