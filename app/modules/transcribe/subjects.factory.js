@@ -7,7 +7,7 @@ require('./transcribe.module.js')
     .factory('SubjectsFactory', SubjectsFactory);
 
 // @ngInject
-function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
+function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
 
     if (localStorageService.get('subjects') === null) {
         localStorageService.set('subjects', {
@@ -85,7 +85,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIProject) {
             .then(function (project) {
                 return zooAPI.type('subjects').get({
                     sort: 'queued',
-                    workflow_id: project.links.workflows[0],
+                    workflow_id: zooAPIConfig.workflow_id,
                     // Get a random set if one isn't specified already
                     subject_set_id: (_subjectSet) ? _subjectSet : _.sample(project.links.subject_sets)
                 });
