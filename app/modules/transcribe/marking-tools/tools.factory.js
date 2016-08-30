@@ -7,7 +7,7 @@ var _ = require('lodash');
 
 // @ngInject
 
-function ToolsFactory($rootScope, cropTool, textTool, graphicTool, localStorageService) {
+function ToolsFactory($rootScope, authFactory, cropTool, textTool, graphicTool, localStorageService) {
 
 
     var factory;
@@ -24,7 +24,7 @@ function ToolsFactory($rootScope, cropTool, textTool, graphicTool, localStorageS
     function Tool(toolFactory) {
         this.name = toolFactory.name;
         this.active = false;
-        this.disabled = anonymUser();
+        this.disabled = anonymUser;
         this.toggle = toggle;
         this.markingTool = toolFactory;
         this._activate = _activate;
@@ -54,13 +54,7 @@ function ToolsFactory($rootScope, cropTool, textTool, graphicTool, localStorageS
         }
 
         function anonymUser() {
-            var user = localStorageService.get('user');
-            if (!user) {
-                return true;
-            } else {
-                return false
-            }
-
+            return !authFactory.getUser();
         }
     }
 
