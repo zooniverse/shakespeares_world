@@ -75,7 +75,7 @@ function AnnotationsFactory(localStorageService, $http) {
 
             $http({
                 method: 'GET',
-                url: 'https://static.zooniverse.org/www.shakespearesworld.org/variants/' + urlLemmas + '.txt'
+                url: 'https://static.zooniverse.org/variants.shakespearesworld.org/' + urlLemmas + '.txt'
             }).then(success, failure);
 
         }
