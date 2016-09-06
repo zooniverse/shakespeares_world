@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'base64'
 require 'csv'
 require 'pry'
 require 'aws-sdk'
@@ -36,7 +37,7 @@ variants.each_with_index do |(key, data), index|
   puts "Up to entry: #{index}" if index % 1000 == 0
 
   ##create a file for use with s3 cli sync tool
-  file_path = "#{OUTPUT_DIR}/#{key}.txt"
+  file_path = "#{OUTPUT_DIR}/#{Base64.urlsafe_encode64(key)}.txt"
   dirname = File.dirname(file_path)
   unless File.directory?(dirname)
     FileUtils.mkdir_p(dirname)
