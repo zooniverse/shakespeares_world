@@ -21,7 +21,7 @@ CSV.foreach(INPUT_FILE, :encoding => "UTF-8") do |row|
     if not variant
       next
     end
-    lower_variant = variant.downcase
+    lower_variant = variant.gsub(/<[^>]*>/, '').gsub(/[^a-zA-Z]/, '').downcase
     entry = "#{start_date}:#{word}"
     if variants.has_key?(lower_variant)
       unless variants[lower_variant].split.include?(entry)

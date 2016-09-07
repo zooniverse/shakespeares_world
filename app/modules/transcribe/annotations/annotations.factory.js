@@ -71,7 +71,7 @@ function AnnotationsFactory(localStorageService, $http) {
         for (var i = 0; i < lemmas.length; ++i) {
 
             //uri encode, remove all <> tags, remove
-            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^\w\s]|_/g, '').replace(/\d+/g, '').toLowerCase());
+            var urlLemmas = encodeURIComponent(lemmas[i].replace(/<[^>]*>/g, '').replace(/[^a-zA-Z]/g, '').toLowerCase());
 
             $http({
                 method: 'GET',
