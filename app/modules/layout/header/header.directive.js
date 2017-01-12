@@ -32,7 +32,7 @@ function appHeader() {
                 state: 'Team'
             },
             {
-                label: 'Guide',
+                label: 'How to Transcribe',
                 state: 'GuideBase'
             }
         ];
