@@ -48,7 +48,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
     function getData(subjectSet) {
         factory.loading = true;
         _subjectSet = (subjectSet) ? subjectSet : null;
-        if (_subjectSet) {
+        if (_subjectSet && !_data.current) {
             _queue.length = 0;
             return advanceQueue()
                 .then(_createSubject);
