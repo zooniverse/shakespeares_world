@@ -8,7 +8,7 @@ require('./marking-tools.module.js')
     .factory('textTool', textTool);
 
 // @ngInject
-function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory, SubjectsFactory) {
 
     var factory;
     var _panzoom;
@@ -78,8 +78,10 @@ function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactor
     }
 
     function _startLine(event) {
+        console.log('SubjectsFactory.current.id', SubjectsFactory.current.data.id)
         var point = MarkingSurfaceFactory.getPoint(event);
         AnnotationsFactory.upsert({
+            subject: SubjectsFactory.current.data.id,
             type: 'text',
             complete: false,
             startPoint: {

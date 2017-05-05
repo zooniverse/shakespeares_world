@@ -48,7 +48,10 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
     function getData(subjectSet) {
         factory.loading = true;
         _subjectSet = (subjectSet) ? subjectSet : null;
-        if (_subjectSet && !_data.current) {
+        console.log('>>>>>>>>>>>> queue: ', _queue)
+        // add check if current id is the same as annotation stored
+        // first add subject id to annotation stored
+        if (_subjectSet) {
             _queue.length = 0;
             return advanceQueue()
                 .then(_createSubject);
@@ -59,6 +62,8 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
                 .then(_createSubject);
         }
     }
+
+
 
     function _createSubject() {
         factory.current = {
