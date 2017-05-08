@@ -78,7 +78,6 @@ function textTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactor
     }
 
     function _startLine(event) {
-        console.log('SubjectsFactory.current.id', SubjectsFactory.current.data.id)
         var point = MarkingSurfaceFactory.getPoint(event);
         AnnotationsFactory.upsert({
             type: 'text',
