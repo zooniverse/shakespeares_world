@@ -60,6 +60,8 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         }
     }
 
+
+
     function _createSubject() {
         factory.current = {
             data: _data.current,

@@ -16,6 +16,27 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     // Watchers
     $scope.$watch(getLoadingStatus, setLoadingStatus);
 
+    // Event handler for page reload and window close
+    $(window).on('beforeunload', function(e) {
+        if(localStorageService.get('annotations')[0].type !== "") {
+            var dialogText = 'Are you sure you want to leave this page?\nAny unsaved work will be lost.';
+            e.returnValue = dialogText;
+            return dialogText;
+        }
+    });
+
+    // Event handler for changes of routes, e.g. back button and home page link
+    $scope.$on('$stateChangeStart', function(e) {
+        if(localStorageService.get('annotations')[0].type !== "") {
+            var answer = confirm("Are you sure you want to leave this page?\nAny unsaved work will be lost.");
+            if (!answer) {
+                e.preventDefault();
+            } else (
+                localStorageService.set('annotations', [])
+            )
+        }
+    });
+
     // Init
     activate();
 
@@ -76,6 +97,7 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     }
 
     function loadSubject() {
+
         return SubjectsFactory.$getData($stateParams.subjectSet)
             .then(subjectLoaded, subjectLoadError)
             .then(loadAggregations);
