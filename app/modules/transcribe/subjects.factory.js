@@ -46,33 +46,6 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         }
     }
 
-    function _askConfirmation() {
-        var answer = confirm("You have unsaved work. Are you sure you want to move on?\nAny unsaved work will be lost.");
-        return answer;
-    }
-
-    function _isAnnotatedSubjectEqualToCurrent() {
-        var found = false;
-        _annotations.forEach(function(element) {
-            if (element.subject === _data.current.id) {
-                found = true;
-            }
-        });
-        return found;
-    }
-
-    function _doYouWantToChangeSubject() {
-        if (_askConfirmation()) {
-                localStorageService.set('annotations', []);
-                _queue.length = 0;
-                return advanceQueue()
-                    .then(_createSubject);
-            }
-            else {
-                return _createSubject();
-            }
-    }
-
     function getData(subjectSet) {
         factory.loading = true;
         _subjectSet = (subjectSet) ? subjectSet : null;
@@ -94,6 +67,11 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         }
     }
 
+    function _askConfirmation() {
+        var answer = confirm("You have unsaved work. Are you sure you want to move on?\nAny unsaved work will be lost.");
+        return answer;
+    }
+
     function _createSubject() {
         factory.current = {
             data: _data.current,
@@ -102,6 +80,30 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         return $q.when(factory.current.data)
             .then(_loadImage);
     }
+
+    function _doYouWantToChangeSubject() {
+        if (_askConfirmation()) {
+                localStorageService.set('annotations', []);
+                _queue.length = 0;
+                return advanceQueue()
+                    .then(_createSubject);
+            }
+            else {
+                return _createSubject();
+            }
+    }
+
+    function _isAnnotatedSubjectEqualToCurrent() {
+        var found = false;
+        _annotations.forEach(function(element) {
+            if (element.subject === _data.current.id) {
+                found = true;
+            }
+        });
+        return found;
+    }
+
+
 
     function _loadImage() {
         var deferred = $q.defer();
