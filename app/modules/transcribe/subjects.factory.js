@@ -61,7 +61,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         return found;
     }
 
-    function _doYouWantToSaveWork() {
+    function _doYouWantToChangeSubject() {
         if (_askConfirmation()) {
                 localStorageService.set('annotations', []);
                 _queue.length = 0;
@@ -78,8 +78,9 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         _subjectSet = (subjectSet) ? subjectSet : null;
         if (_subjectSet) {
             if (_isAnnotatedSubjectEqualToCurrent()) {
-                _doYouWantToSaveWork();
+                return _doYouWantToChangeSubject();
             } else {
+                localStorageService.set('annotations', []);
                 _queue.length = 0;
                 return advanceQueue()
                     .then(_createSubject);

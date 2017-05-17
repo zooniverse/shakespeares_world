@@ -54,7 +54,7 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
             })
             .then(CribsheetFactory.$getData)
             .catch(function (error) {
-                console.error('Something\'s gone very wrong with getting the user data', error);
+                console.error('Something\'s gone wrong with getting the user data', error);
             });
     }
 
