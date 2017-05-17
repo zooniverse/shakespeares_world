@@ -76,6 +76,9 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     }
 
     function loadSubject() {
+        console.log('====================================');
+        console.log($stateParams.subjectSet);
+        console.log('====================================');
         return SubjectsFactory.$getData($stateParams.subjectSet)
             .then(subjectLoaded, subjectLoadError)
             .then(loadAggregations);
