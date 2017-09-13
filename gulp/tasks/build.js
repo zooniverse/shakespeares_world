@@ -3,7 +3,7 @@
 var gulp        = require('gulp');
 var runSequence = require('run-sequence');
 
-gulp.task('build', function(callback) {
+gulp.task('build', ['clean'], function(callback) {
 
   callback = callback || function() {};
 
