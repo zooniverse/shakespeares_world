@@ -86,7 +86,7 @@
     "morgan": "^1.2.2",
     "ng-load": "^1.0.2",
     "nib": "^1.1.0",
-    "node-dir": "^0.1.6",
+    "node-dir": "0.1.16",
     "npm": "^5.3.0",
     "panoptes-client": "^2.2.0",
     "pretty-hrtime": "^1.0.3",
