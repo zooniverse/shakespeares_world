@@ -7,7 +7,7 @@ require('./transcribe.module.js')
     .factory('SubjectsFactory', SubjectsFactory);
 
 // @ngInject
-function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
+function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
 
     if (localStorageService.get('subjects') === null) {
         localStorageService.set('subjects', {
@@ -83,14 +83,14 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
 
     function _doYouWantToChangeSubject() {
         if (_askConfirmation()) {
-                localStorageService.set('annotations', []);
-                _queue.length = 0;
-                return advanceQueue()
-                    .then(_createSubject);
-            }
-            else {
-                return _createSubject();
-            }
+            deleteAnnotations();
+            _queue.length = 0;
+            return advanceQueue()
+                .then(_createSubject);
+        }
+        else {
+            return _createSubject();
+        }
     }
 
     function _isAnnotatedSubjectEqualToCurrent() {
@@ -103,7 +103,11 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         return found;
     }
 
-
+    function deleteAnnotations() {
+        _annotations.forEach(function(element) {
+            AnnotationsFactory.destroy(element);
+        });
+    }
 
     function _loadImage() {
         var deferred = $q.defer();
