@@ -10,7 +10,7 @@ require('angular-bootstrap-npm');
 require('angular-hotkeys');
 require('angular-local-storage');
 require('angular-sanitize');
-require('angular-ui-router');
+require('@uirouter/angularjs');
 
 // App modules
 bulk(__dirname, ['./**/!(app.module).js']);
