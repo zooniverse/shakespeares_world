@@ -7,7 +7,7 @@ require('./transcribe.module.js')
     .factory('SubjectsFactory', SubjectsFactory);
 
 // @ngInject
-function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
+function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
 
     if (localStorageService.get('subjects') === null) {
         localStorageService.set('subjects', {
@@ -17,6 +17,7 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
     }
 
     var factory;
+    var _annotations = localStorageService.get('annotations');
     var _data = localStorageService.get('subjects');
     var _queue = [];
     var _subjectSet = null;
@@ -49,15 +50,26 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         factory.loading = true;
         _subjectSet = (subjectSet) ? subjectSet : null;
         if (_subjectSet) {
-            _queue.length = 0;
-            return advanceQueue()
-                .then(_createSubject);
-        } else if (_data.current) {
+            if (_isAnnotatedSubjectEqualToCurrent()) {
+                return _doYouWantToChangeSubject();
+            } else {
+                localStorageService.set('annotations', []);
+                _queue.length = 0;
+                return advanceQueue()
+                    .then(_createSubject);
+            }
+        }
+        else if (_data.current) {
             return _createSubject();
         } else {
             return advanceQueue()
                 .then(_createSubject);
         }
+    }
+
+    function _askConfirmation() {
+        var answer = confirm("You have unsaved work. Are you sure you want to move on?\nAny unsaved work will be lost.");
+        return answer;
     }
 
     function _createSubject() {
@@ -67,6 +79,34 @@ function SubjectsFactory($q, localStorageService, zooAPI, zooAPIConfig, zooAPIPr
         };
         return $q.when(factory.current.data)
             .then(_loadImage);
+    }
+
+    function _doYouWantToChangeSubject() {
+        if (_askConfirmation()) {
+            deleteAnnotations();
+            _queue.length = 0;
+            return advanceQueue()
+                .then(_createSubject);
+        }
+        else {
+            return _createSubject();
+        }
+    }
+
+    function _isAnnotatedSubjectEqualToCurrent() {
+        var found = false;
+        _annotations.forEach(function(element) {
+            if (element.subject === _data.current.id) {
+                found = true;
+            }
+        });
+        return found;
+    }
+
+    function deleteAnnotations() {
+        _annotations.forEach(function(element) {
+            AnnotationsFactory.destroy(element);
+        });
     }
 
     function _loadImage() {
