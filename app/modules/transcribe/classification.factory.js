@@ -26,7 +26,7 @@ function ClassificationFactory($q, AnnotationsFactory, appConfig, localStorageSe
     function _createNewClassification() {
         var classification = {
             metadata: {
-                user_agent: appConfig.appTitle,
+                user_agent: window.navigator.userAgent,
                 user_language: 'en_GB',
                 started_at: SubjectsFactory.current.data.started_at,
                 finished_at: moment().format()
