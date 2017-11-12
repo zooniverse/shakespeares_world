@@ -114,6 +114,7 @@
   },
   "dependencies": {
     "envify": "^4.1.0",
+    "graphql-request": "^1.4.0",
     "jspdf-browserify": "^1.0.272"
   }
 }
