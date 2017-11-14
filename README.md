@@ -19,6 +19,10 @@ To deploy to [http://preview.zooniverse.org/shakespearesworld/](http://preview.z
 To deploy to [https://shakespearesworld.org/](http://shakespearesworld.org) run `npm run deploy-production`.
 
 
+## Aggregation
+
+The project now uses Caesar to request aggregated lines via the GraphQL endpoint. To show an aggregated line, the minimum consensus score on a line must be > **2.5**, or the number of views on the line must be > **4** . The minimum number of views is set as the consensus score can be artificially low if a user decides to type a bunch of words that aren't there/try to do the full page of text but only has dots round the first line.
+
 ---
 
 ## Built using:
