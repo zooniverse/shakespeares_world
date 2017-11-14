@@ -4,7 +4,7 @@ var _ = require('lodash');
 var GraphQLClient = require('graphql-request').GraphQLClient;
 
 var MIN_NUMBER_VIEWS = 4;
-var MIN_CONSENSUS_SCORE = 3;
+var MIN_CONSENSUS_SCORE = 2.5;
 
 require('./aggregations.module.js')
     .factory('AggregationsFactory', AggregationsFactory);
@@ -18,7 +18,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     var _client = new GraphQLClient(appConfig.graphqlEndpoint);
     var _query = `query Aggregation($workflowId: ID!, $subjectId: ID!) {
         workflow(id: $workflowId) {
-            reductions(subjectId: $subjectId) {
+            reductions(subjectId: $subjectId, reducerKey: "poly_line_text") {
                 data
             }
         }
@@ -61,7 +61,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     function _getAggregations(params) {
         return _client.request(_query, params)
             .then(function (aggregations) {
-                var path = 'workflow.reductions[1].data.frame0';
+                var path = 'workflow.reductions[0]';
                 return _.get(aggregations, path, []);
             });
     }
@@ -72,7 +72,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
         }
 
         return aggregations.filter(function (aggregation) {
-            return aggregation.number_views >= MIN_NUMBER_VIEWS &&
+            return aggregation.number_views >= MIN_NUMBER_VIEWS ||
                 aggregation.consensus_score >= MIN_CONSENSUS_SCORE;
         });
     }
