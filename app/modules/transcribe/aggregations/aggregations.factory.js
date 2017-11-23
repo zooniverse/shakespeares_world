@@ -35,6 +35,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
         _aggregations.length = 0;
         return _createParamsObject()
             .then(_getAggregations)
+            .then(_filterAggregations)
             .then(_formatAggregations)
             .then(function (newAggregations) {
                 _aggregations = _aggregations.concat(newAggregations);
