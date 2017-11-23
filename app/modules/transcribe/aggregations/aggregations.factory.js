@@ -35,6 +35,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
         _aggregations.length = 0;
         return _createParamsObject()
             .then(_getAggregations)
+
             .then(_filterAggregations)
             .then(_formatAggregations)
             .then(function (newAggregations) {
@@ -62,12 +63,13 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     function _getAggregations(params) {
         return _client.request(_query, params)
             .then(function (aggregations) {
-                var path = 'workflow.reductions[0]';
+                var path = 'data.frame0';
                 return _.get(aggregations, path, []);
             });
     }
 
     function _filterAggregations(aggregations) {
+        console.info('agg', aggregations)
         if (aggregations.length === 0) {
             return aggregations;
         }
