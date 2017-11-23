@@ -63,7 +63,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     function _getAggregations(params) {
         return _client.request(_query, params)
             .then(function (aggregations) {
-                var path = 'data.frame0';
+                var path = 'workflow.reductions[0].data.frame0';
                 return _.get(aggregations, path, []);
             });
     }
