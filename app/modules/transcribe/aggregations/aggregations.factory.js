@@ -69,7 +69,6 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     }
 
     function _filterAggregations(aggregations) {
-        console.info('agg', aggregations)
         if (aggregations.length === 0) {
             return aggregations;
         }
