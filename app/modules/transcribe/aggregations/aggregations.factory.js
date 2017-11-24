@@ -16,13 +16,13 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
 
     var _aggregations = [];
     var _client = new GraphQLClient(appConfig.graphqlEndpoint);
-    var _query = `query Aggregation($workflowId: ID!, $subjectId: ID!) {
-        workflow(id: $workflowId) {
-            reductions(subjectId: $subjectId, reducerKey: "poly_line_text") {
-                data
-            }
-        }
-    }`;
+    var _query = 'query Aggregation($workflowId: ID!, $subjectId: ID!) {\
+        workflow(id: $workflowId) {\
+            reductions(subjectId: $subjectId, reducerKey: "poly_line_text") {\
+                data\
+            }\
+        }\
+    }';
 
     factory = {
         $getData: $getData,
