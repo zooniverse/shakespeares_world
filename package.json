@@ -33,7 +33,7 @@
   ],
   "private": true,
   "engines": {
-    "node": "4"
+    "node": "9"
   },
   "devDependencies": {
     "@uirouter/angularjs": "^1.0.3",
