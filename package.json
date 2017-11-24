@@ -33,7 +33,7 @@
   ],
   "private": true,
   "engines": {
-    "node": ">=4.8.x"
+    "node": "9"
   },
   "devDependencies": {
     "@uirouter/angularjs": "^1.0.3",
@@ -99,22 +99,21 @@
     "uglifyify": "^4.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.9.0"
+    "watchify": "^3.9.0",
+    "check-engines": "^1.5.0",
+    "envify": "^4.1.0",
+    "graphql-request": "^1.4.0"
   },
   "scripts": {
-    "start": "gulp dev",
-    "deploy-staging": "NODE_ENV=production gulp deploy-staging",
-    "deploy-production": "NODE_ENV=production gulp deploy-production"
+    "start": "check-engines && gulp dev",
+    "deploy-staging": "check-engines && NODE_ENV=production gulp deploy-staging",
+    "deploy-production": "check-engines && NODE_ENV=production gulp deploy-production",
+    "build": "check-engines && NODE_ENV=production gulp production"
   },
   "browser": {
     "./node_modules/angular-bootstrap-npm/dist/angular-bootstrap.min.js": "angular-bootstrap-npm"
   },
   "browserify-shim": {
     "angular-bootstrap-npm": "angular-bootstrap-npm"
-  },
-  "dependencies": {
-    "envify": "^4.1.0",
-    "graphql-request": "^1.4.0",
-    "jspdf-browserify": "^1.0.272"
   }
 }
