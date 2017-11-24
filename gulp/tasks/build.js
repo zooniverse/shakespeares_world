@@ -7,6 +7,6 @@ gulp.task('build', ['clean'], function(callback) {
 
   callback = callback || function() {};
 
-  runSequence(['styles', 'images', 'fonts', 'views', 'favicons'], callback);
+  return runSequence(['styles', 'images', 'fonts', 'views', 'favicons'], callback);
 
 });
