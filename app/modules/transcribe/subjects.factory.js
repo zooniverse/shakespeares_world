@@ -123,7 +123,6 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
     function _populateQueue() {
         return zooAPIProject.get()
             .then(function (project) {
-                console.log('_.sample(project.links.subject_sets)', project.links.subject_sets)
                 return zooAPI.get('/subjects/queued', {
                     workflow_id: zooAPIConfig.workflow_id,
                     // Get a random set if one isn't specified already
