@@ -94,6 +94,15 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         }
     }
 
+    function _getSubjectSetId() {
+        if (_subjectSet) {
+          console.log('_subjectSet', _subjectSet)
+          return Promise.resolve(_subjectSet);
+        } else {
+          return _getRandomWorkflowAssociatedSubjectSets()
+        }
+      }
+
     function _isAnnotatedSubjectEqualToCurrent() {
         var found = false;
         _annotations.forEach(function(element) {
@@ -114,6 +123,7 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         return zooAPI.type('workflows').get(zooAPIConfig.workflow_id)
             .then(function(wf) {
                 var randomSet = _.sample(wf.links.subject_sets)
+                console.log('random set', randomSet)
                 return randomSet
             })
             .catch(function(error) {
