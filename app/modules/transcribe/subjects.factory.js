@@ -39,7 +39,8 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
             _updateStorage();
         }
         if (!_queue.length) {
-            return _populateQueue()
+            return  _getSubjectSetId()
+                .then(_populateQueue)
                 .then(_setCurrent);
         } else {
             return $q.when(_setCurrent());
@@ -93,6 +94,14 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         }
     }
 
+    function _getSubjectSetId() {
+        if (_subjectSet) {
+          return Promise.resolve(_subjectSet);
+        } else {
+          return _getRandomWorkflowAssociatedSubjectSets()
+        }
+      }
+
     function _isAnnotatedSubjectEqualToCurrent() {
         var found = false;
         _annotations.forEach(function(element) {
@@ -109,6 +118,17 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         });
     }
 
+    function _getRandomWorkflowAssociatedSubjectSets() {
+        return zooAPI.type('workflows').get(zooAPIConfig.workflow_id)
+            .then(function(wf) {
+                var randomSet = _.sample(wf.links.subject_sets)
+                return randomSet
+            })
+            .catch(function(error) {
+                console.log('Error fetching active subject sets', error)
+            })
+    }
+
     function _loadImage() {
         var deferred = $q.defer();
         factory.current.image = new Image();
@@ -120,13 +140,13 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         return deferred.promise;
     }
 
-    function _populateQueue() {
+    function _populateQueue(subjectSetId) {
         return zooAPIProject.get()
             .then(function (project) {
                 return zooAPI.get('/subjects/queued', {
                     workflow_id: zooAPIConfig.workflow_id,
                     // Get a random set if one isn't specified already
-                    subject_set_id: (_subjectSet) ? _subjectSet : _.sample(['2778', '2776'])
+                    subject_set_id: subjectSetId
                 });
             })
             .then(function (subjects) {
