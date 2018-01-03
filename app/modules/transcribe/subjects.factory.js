@@ -9,16 +9,12 @@ require('./transcribe.module.js')
 // @ngInject
 function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zooAPIConfig, zooAPIProject) {
 
-    if (localStorageService.get('subjects') === null) {
-        localStorageService.set('subjects', {
-            current: null,
-            viewed: []
-        });
-    }
-
     var factory;
     var _annotations = localStorageService.get('annotations');
-    var _data = localStorageService.get('subjects');
+    var _data = {
+        current: null,
+        viewed: []
+    };
     var _queue = [];
     var _subjectSet = null;
 
@@ -36,7 +32,6 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         if (_data.current) {
             _data.viewed.push(_data.current);
             _data.current = null;
-            _updateStorage();
         }
         if (!_queue.length) {
             return  _getSubjectSetId()
@@ -163,11 +158,5 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
     function _setCurrent() {
         _data.current = _queue.shift();
         _data.current.started_at = moment().format();
-        _updateStorage();
     }
-
-    function _updateStorage() {
-        localStorageService.set('subjects', _data);
-    }
-
 }
