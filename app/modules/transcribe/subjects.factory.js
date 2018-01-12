@@ -153,7 +153,7 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
     }
 
     function _setCurrent() {
-        _data.current = _queue.shift();
+        _data.current = _queue[Math.floor(Math.random() * _queue.length)];
         _data.current.started_at = moment().format();
         _updateStorage();
     }
