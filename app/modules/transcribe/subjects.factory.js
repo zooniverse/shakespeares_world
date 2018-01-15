@@ -49,20 +49,12 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
 
     function getData(subjectSet) {
         factory.loading = true;
-        _subjectSet = (subjectSet) ? subjectSet : null;
-        if (_subjectSet) {
-            if (_isAnnotatedSubjectEqualToCurrent()) {
-                return _doYouWantToChangeSubject();
-            } else {
-                localStorageService.set('annotations', []);
-                _queue.length = 0;
-                return advanceQueue()
-                    .then(_createSubject);
-            }
-        }
-        else if (_data.current) {
-            return _createSubject();
+        _subjectSet = subjectSet;
+        if (_isAnnotatedSubjectEqualToCurrent()) {
+            return _doYouWantToChangeSubject();
         } else {
+            localStorageService.set('annotations', []);
+            _queue.length = 0;
             return advanceQueue()
                 .then(_createSubject);
         }
@@ -100,7 +92,7 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         } else {
           return _getRandomWorkflowAssociatedSubjectSets()
         }
-      }
+    }
 
     function _isAnnotatedSubjectEqualToCurrent() {
         var found = false;
@@ -161,7 +153,8 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
     }
 
     function _setCurrent() {
-        _data.current = _queue.shift();
+        var randonIndex = Math.floor(Math.random() * _queue.length);
+        _data.current = _queue.splice(randonIndex, 1)[0];
         _data.current.started_at = moment().format();
         _updateStorage();
     }
