@@ -61,7 +61,7 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
     }
 
     function _askConfirmation() {
-        var answer = confirm("You have unsaved work. Are you sure you want to move on?\nAny unsaved work will be lost.");
+        var answer = confirm("You have unsaved work!\nPress OK if you want a new subject; this will delete all your unsaved work.\nPress Cancel to reload the subject you were previously working on and restore your unsaved work.");
         return answer;
     }
 
