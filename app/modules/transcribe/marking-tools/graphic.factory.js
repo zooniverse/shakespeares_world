@@ -8,7 +8,7 @@ require('./marking-tools.module.js')
     .factory('graphicTool', graphicTool);
 
 // @ngInject
-function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory) {
+function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFactory, SubjectsFactory) {
 
     var factory;
     var _enabled;
@@ -97,6 +97,7 @@ function graphicTool($rootScope, $timeout, AnnotationsFactory, MarkingSurfaceFac
         _hammer.off('panmove', _drawRect);
         _hammer.off('panend', _endRect);
         AnnotationsFactory.upsert({
+            subject: SubjectsFactory.current.data.id,
             type: 'graphic',
             x: _rect.attr('x'),
             y: _rect.attr('y'),
