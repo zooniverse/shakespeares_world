@@ -10,7 +10,6 @@ require('./annotations.module.js')
 function graphicAnnotation($rootScope, AnnotationsFactory) {
     var directive = {
         link: graphicAnnotationLink,
-        replace: true,
         restrict: 'A',
         scope: {
             data: '='
