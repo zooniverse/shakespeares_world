@@ -6,24 +6,10 @@ require('./static.module.js')
             title: 'Folger Shakespeare Library',
             members: [
                 {
-                    name: 'Paul Dingman',
-                    slug: 'paul-dingman',
-                    bio: [
-                        'Paul is the Project Manager for Early Modern Manuscripts Online (EMMO) at the Folger Shakespeare Library. He earned a PhD in History with a concentration in medieval/early modern Europe and is especially interested in cultural history and the digital humanities. Before returning to school to pursue his doctorate, Paul worked for several years in the field of information technology.'
-                    ]
-                },
-                {
                     name: 'Sarah Powell',
                     slug: 'sarah-powell',
                     bio: [
                         'Sarah Powell is the Paleographer for Early Modern Manuscripts Online (EMMO) at the Folger Shakespeare Library. She earned her degree in Latin from Trinity College, Dublin. She has a PGCE (Post Graduate Cert in Education) in Latin with Classics from King’s College, London and worked as a teacher for over a decade.'
-                    ]
-                },
-                {
-                    name: 'Elizabeth Tobey, EMMO Intern',
-                    slug: 'liz-tobey',
-                    bio: [
-                        'Elizabeth has been working as a part-time intern on the EMMO Project since September 2014. She recently earned a Masters of Library Science degree from the University of Maryland, and she also has a doctoral degree from the University of Maryland in Art History and Archaeology, specializing on the art and social history of the Italian Renaissance.'
                     ]
                 },
                 {
@@ -63,7 +49,7 @@ require('./static.module.js')
                     name: 'Victoria Van Hyning',
                     slug: 'victoria-vanhyning',
                     bio: [
-                        'Victoria is the humanities PI of Zooniverse and an early modernist working on English Catholic women\'s autobiography in the period when it was illegal to practice Catholicism in England and parts of the British Isles (c.1535–1790s). She will use the Shakespeare\'s World data in her research, in order to look for examples of Catholic women\'s writing.'
+                        'Victoria served as the Humanities PI of Zooniverse from 2015 to 2018, and is the Co-I of Shakespeare\'s World with Heather Wolfe. She is an early modernist working on English Catholic women\'s autobiography in the period when it was illegal to practice Catholicism in England and parts of the British Isles (c.1535–1790s). She will use the Shakespeare\'s World data in her research, in order to look for examples of Catholic women\'s writing.'
                     ]
                 }
             ]
@@ -83,6 +69,25 @@ require('./static.module.js')
                     slug: '',
                     bio: [
                         'James McCracken is Content Technology Manager in the dictionaries department of Oxford University Press. He has worked in lexical data engineering, corpus development, and website architecture, and has been involved in building semantic web resources for digital humanities projects. He was formerly a lexicographer for the Oxford English Dictionary.'
+                    ]
+                }
+            ]
+        },
+        {
+            title: 'Alumni',
+            members: [
+                {
+                    name: 'Paul Dingman',
+                    slug: 'paul-dingman',
+                    bio: [
+                        'Paul served as the Project Manager for Early Modern Manuscripts Online (EMMO) at the Folger Shakespeare Library until mid 2017. He earned a PhD in History with a concentration in medieval/early modern Europe and is especially interested in cultural history and the digital humanities. Before returning to school to pursue his doctorate, Paul worked for several years in the field of information technology.'
+                    ]
+                },
+                {
+                    name: 'Elizabeth Tobey, EMMO Intern',
+                    slug: 'liz-tobey',
+                    bio: [
+                        'Elizabeth served as a part-time intern on the EMMO Project. She holds a Masters of Library Science degree from the University of Maryland, and a doctoral degree from the University of Maryland in Art History and Archaeology, specializing on the art and social history of the Italian Renaissance.'
                     ]
                 }
             ]
