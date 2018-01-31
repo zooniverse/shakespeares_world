@@ -114,5 +114,8 @@
   },
   "browserify-shim": {
     "angular-bootstrap-npm": "angular-bootstrap-npm"
+  },
+  "dependencies": {
+    "pump": "^3.0.0"
   }
 }
