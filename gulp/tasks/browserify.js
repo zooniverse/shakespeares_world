@@ -11,6 +11,7 @@ var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
 var handleErrors = require('../util/handleErrors');
 var ngAnnotate = require('browserify-ngannotate');
+var pump = require('pump');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var streamify = require('gulp-streamify');
@@ -59,18 +60,23 @@ function buildScript(file) {
 
         gutil.log('Rebundle...');
 
-        return stream.on('error', handleErrors)
-            .pipe(source(file))
-            .pipe(gulpif(createSourcemap, buffer()))
-            .pipe(gulpif(createSourcemap, sourcemaps.init()))
-            .pipe(gulpif(global.isProd, streamify(
-                uglify({
-                    compress: { drop_console: true }
-                })
-            )))
-            .pipe(gulpif(createSourcemap, sourcemaps.write('./')))
-            .pipe(gulp.dest(config.scripts.dest))
-            .pipe(gulpif(browserSync.active, browserSync.reload({ stream: true, once: true })));
+        return stream.on('error', function() {
+            pump([
+                source(file),
+                gulpif(createSourcemap, buffer()),
+                gulpif(createSourcemap, sourcemaps.init()),
+                gulpif(global.isProd, streamify(
+                    uglify({
+                        compress: { drop_console: true }
+                    })
+                )),
+                gulpif(createSourcemap, sourcemaps.write('./')),
+                gulp.dest(config.scripts.dest),
+                gulpif(browserSync.active, browserSync.reload({ stream: true, once: true }))
+                ],
+                handleErrors
+           )
+        })
     }
 
     return rebundle();
