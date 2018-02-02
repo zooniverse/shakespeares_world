@@ -66,7 +66,7 @@ function buildScript(file) {
             .pipe(gulpif(createSourcemap, sourcemaps.init()))
             .pipe(gulpif(global.isProd, streamify(
                 uglify({
-                    compress: { drop_console: true }
+                    compress: { } // leave console.log in prod, for testing
                 })
                 .on('error', handleErrors)
             )))

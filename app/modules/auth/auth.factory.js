@@ -4,6 +4,7 @@ require('./auth.module.js')
     .factory('authFactory', authFactory);
 
 var OAuth = require('panoptes-client/lib/oauth');
+var Auth = require('panoptes-client/lib/auth');
 
 // @ngInject
 function authFactory($interval, $timeout, $location, $window, localStorageService, ModalsFactory, zooAPI, zooAPIConfig, CribsheetFactory, $rootScope) {
@@ -11,13 +12,27 @@ function authFactory($interval, $timeout, $location, $window, localStorageServic
     var factory;
 
     var _user = {};
+    // 2 hrs
+    var timeout = 120 * 60 * 1000;
+
+    $timeout( function() {
+        Auth.checkBearerToken()
+            .then(function (token) {
+                console.log('Token refreshed: ', token);
+            })
+            .catch(function (error) {
+                console.log('Failed to refresh token: ', error);
+                factory.signOut;
+            })
+    }, 10000); // 20 sec, just for testing. Swap with timeout variable when I get this to work
+
 
     OAuth.checkCurrent()
-      .then(function (user) {
-        if (user) {
-            _setUserData();
-        }
-      });
+        .then(function (user) {
+            if (user) {
+                _setUserData();
+            }
+        });
 
     factory = {
         signIn: signIn,
