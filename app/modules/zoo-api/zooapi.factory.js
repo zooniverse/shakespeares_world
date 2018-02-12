@@ -6,7 +6,7 @@ require('./zooapi.module.js')
 var ApiClient = require('panoptes-client/lib/api-client');
 var OAuth = require('panoptes-client/lib/oauth')
 // @ngInject
-function zooAPI(zooAPIConfig) {
+function zooAPI($rootScope, zooAPIConfig) {
     ApiClient.beforeEveryRequest = function() {
         return OAuth.checkBearerToken()
             .then(function (token) {
@@ -14,7 +14,9 @@ function zooAPI(zooAPIConfig) {
             })
             .catch(function (error) {
                 console.log('Failed to refresh token: ', error);
-                factory.signOut;
+                alert('Your session has finished. Please save your work and login again.')
+                $rootScope.$broadcast('auth:loginChange');
+                OAuth.signOut();
             })
     }
     // There's only a version of this project on production, so rather than
