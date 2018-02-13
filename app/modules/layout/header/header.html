@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" collapse="vm.headerCollapse">
             <ul class="nav navbar-nav">
                 <li ng-repeat="link in ::vm.links">
-                    <a ui-sref="{{ link.state }}" ui-sref-active="-active" class="link" ng-bind="link.label"></a>
+                    <a ui-sref="{{ link.state }}" ui-sref-active="-active" class="link" ng-bind="link.label" target="sw"></a>
                 </li>
                 <li><a class="link" href="https://www.zooniverse.org/projects/zooniverse/shakespeares-world/talk/" target="swtalk">Talk</a></li>
                 <li>
