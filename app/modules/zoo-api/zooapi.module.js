@@ -1,4 +1,6 @@
 'use strict';
 
 module.exports = require('angular')
-    .module('app.zooapi', []);
+    .module('app.zooapi', [
+        'app.transcribe.annotations'
+    ]);
