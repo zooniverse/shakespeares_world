@@ -7,12 +7,12 @@ require('./transcribe.module.js')
 function Routes($stateProvider) {
     $stateProvider
         .state('TranscribeSubjectSet', {
-            url: '/transcribe/:subjectSet',
+            url: '/classify/:subjectSet',
             title: 'Transcribe',
             parent: 'Base',
             views: {
                 'main': {
-                    templateUrl: 'transcribe/transcribe.html',
+                    templateUrl: 'transcribe/classify.html',
                     controller: 'TranscribeController as vm'
                 }
             },
@@ -22,12 +22,12 @@ function Routes($stateProvider) {
             }
         })
         .state('Transcribe', {
-            url: '/transcribe',
+            url: '/classify',
             title: 'Transcribe',
             parent: 'Base',
             views: {
                 'main': {
-                    templateUrl: 'transcribe/transcribe.html',
+                    templateUrl: 'transcribe/classify.html',
                     controller: 'TranscribeController as vm'
                 }
             },
