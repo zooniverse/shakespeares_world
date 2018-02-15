@@ -20,8 +20,8 @@ function appHeader() {
 
         vm.links = [
             {
-                label: 'Home',
-                state: 'Home'
+                label: 'Transcribe',
+                state: 'Transcribe'
             },
             {
                 label: 'About',
