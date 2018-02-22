@@ -4,15 +4,16 @@ require('./transcribe.module.js')
     .config(Routes);
 
 // @ngInject
-function Routes($stateProvider) {
+function Routes($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.when('/classify', '/transcribe');
     $stateProvider
         .state('TranscribeSubjectSet', {
-            url: '/classify/:subjectSet',
+            url: '/transcribe/:subjectSet',
             title: 'Transcribe',
             parent: 'Base',
             views: {
                 'main': {
-                    templateUrl: 'transcribe/classify.html',
+                    templateUrl: 'transcribe/transcribe.html',
                     controller: 'TranscribeController as vm'
                 }
             },
@@ -22,12 +23,12 @@ function Routes($stateProvider) {
             }
         })
         .state('Transcribe', {
-            url: '/classify',
+            url: '/transcribe',
             title: 'Transcribe',
             parent: 'Base',
             views: {
                 'main': {
-                    templateUrl: 'transcribe/classify.html',
+                    templateUrl: 'transcribe/transcribe.html',
                     controller: 'TranscribeController as vm'
                 }
             },
