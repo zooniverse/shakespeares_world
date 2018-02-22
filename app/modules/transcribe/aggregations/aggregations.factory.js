@@ -18,7 +18,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     var _client = new GraphQLClient(appConfig.graphqlEndpoint);
     var _query = 'query Aggregation($workflowId: ID!, $subjectId: ID!) {\
         workflow(id: $workflowId) {\
-            reductions(subjectId: $subjectId, reducerKey: "poly_line_text") {\
+            subject_reductions(subjectId: $subjectId, reducerKey: "poly_line_text") {\
                 data\
             }\
         }\
@@ -63,7 +63,7 @@ function AggregationsFactory($q, SubjectsFactory, zooAPI, zooAPIConfig, zooAPIPr
     function _getAggregations(params) {
         return _client.request(_query, params)
             .then(function (aggregations) {
-                var path = 'workflow.reductions[0].data.frame0';
+                var path = 'workflow.subject_reductions[0].data.frame0';
                 return _.get(aggregations, path, []);
             });
     }
