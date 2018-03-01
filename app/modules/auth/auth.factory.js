@@ -20,7 +20,21 @@ function authFactory($location, $rootScope, AnnotationsFactory, zooAPI, Cribshee
             return user;
         })
         .then(function(user) {
-            return zooAPI.beforeEveryRequest = _checkUserAndToken(user);
+            zooAPI.beforeEveryRequest = function() {
+                return OAuth.checkBearerToken()
+                    .then(function (token) {
+                        // The Panoptes client doesn't return an error but just null
+                        // when it can't refresh the token.
+                        if (user && token === null) {
+                            // We are logged in but don't have a token any more.
+                            // Need to save any unsaved work and redirect to Panoptes for a new token.
+                            alert('Your session is expired. Press OK to save your work and start a new one.')
+                            AnnotationsFactory.updateCache();
+                            OAuth.signIn($location.absUrl());
+                        }
+                        console.log('Token refreshed: ', token);
+                    })
+            }
         });
 
     factory = {
@@ -70,23 +84,6 @@ function authFactory($location, $rootScope, AnnotationsFactory, zooAPI, Cribshee
         _user = {};
         $rootScope.$broadcast('auth:loginChange');
         OAuth.signOut();
-    }
-
-    function _checkUserAndToken(user) {
-        return OAuth.checkBearerToken()
-            .then(function (token) {
-                console.log('>>>>>>> just for testing, user and token', user, token);
-                // The Panoptes client doesn't return an error but just null
-                // when it can't refresh the token.
-                if (user && token === null) {
-                    // We are logged in but don't have a token any more.
-                    // Need to save any unsaved work and redirect to Panoptes for a new token.
-                    alert('Your session is expired. Press OK to save your work and start a new one.')
-                    AnnotationsFactory.updateCache();
-                    OAuth.signIn($location.absUrl());
-                }
-                console.log('Token refreshed: ', token);
-            })
     }
 
 }
