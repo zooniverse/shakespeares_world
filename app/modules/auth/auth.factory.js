@@ -17,22 +17,20 @@ function authFactory($location, $rootScope, AnnotationsFactory, zooAPI, Cribshee
             if (user) {
                 _setUserData();
             }
-            return user;
         })
-        .then(function(user) {
+        .then(function() {
             zooAPI.beforeEveryRequest = function() {
                 return OAuth.checkBearerToken()
                     .then(function (token) {
                         // The Panoptes client doesn't return an error but just null
                         // when it can't refresh the token.
-                        if (user && token === null) {
+                        if (_user.id && token === null) {
                             // We are logged in but don't have a token any more.
                             // Need to save any unsaved work and redirect to Panoptes for a new token.
                             alert('Your session is expired. Press OK to save your work and start a new one.')
                             AnnotationsFactory.updateCache();
                             OAuth.signIn($location.absUrl());
                         }
-                        console.log('Token refreshed: ', token);
                     })
             }
         });
