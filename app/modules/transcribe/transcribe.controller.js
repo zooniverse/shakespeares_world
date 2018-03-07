@@ -78,7 +78,8 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
     function loadSubject() {
         return SubjectsFactory.$getData($stateParams.subjectSet)
             .then(subjectLoaded, subjectLoadError)
-            .then(loadAggregations);
+            .then(loadAggregations)
+            .catch(handleErrors);
     }
 
     function openTutorial() {
@@ -93,11 +94,14 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         vm.subject = SubjectsFactory.current;
     }
 
+    function handleErrors(result) {
+        return Promise.reject(new Error('Error loading subject'));
+    }
     function subjectLoadError(result) {
         if (result === 'outOfData') {
             $scope.$broadcast('subject:outOfData');
         } else {
-            console.error('Error loading subject', result);
+            return Promise.reject(new Error('Error loading subject'));
         }
     }
 

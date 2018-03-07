@@ -6,7 +6,7 @@ require('./auth.module.js')
 var OAuth = require('panoptes-client/lib/oauth');
 
 // @ngInject
-function authFactory($location, $rootScope, AnnotationsFactory, zooAPI, CribsheetFactory) {
+function authFactory($location, $rootScope, $state, $transitions, AnnotationsFactory, zooAPI, CribsheetFactory) {
 
     var factory;
 
@@ -22,14 +22,17 @@ function authFactory($location, $rootScope, AnnotationsFactory, zooAPI, Cribshee
             zooAPI.beforeEveryRequest = function() {
                 return OAuth.checkBearerToken()
                     .then(function (token) {
-                        // The Panoptes client doesn't return an error but just null
-                        // when it can't refresh the token.
+                        // The Panoptes client doesn't return an error but just null when it can't refresh the token.
+                        // So we check for null, instead of using a catch block.
+
                         if (_user.id && token === null) {
                             // We are logged in but don't have a token any more.
-                            // Need to save any unsaved work and redirect to Panoptes for a new token.
-                            alert('Your session is expired. Press OK to save your work and start a new one.')
-                            AnnotationsFactory.updateCache();
-                            OAuth.signIn($location.absUrl());
+                            // alert('Your session is expired. Press OK to save your work and start a new one.')
+                            // Save any unsaved work and redirect to Panoptes for a new token.
+                            // AnnotationsFactory.updateCache();
+                            // OAuth.signIn($location.absUrl());
+                            return Promise.reject(new Error('HELP!'));
+
                         }
                     })
             }
