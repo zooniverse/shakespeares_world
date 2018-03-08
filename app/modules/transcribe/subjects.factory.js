@@ -114,10 +114,7 @@ function SubjectsFactory($q, AnnotationsFactory, localStorageService, zooAPI, zo
         return zooAPI.type('workflows').get(zooAPIConfig.workflow_id)
             .then(function(wf) {
                 var randomSet = _.sample(wf.links.subject_sets)
-                return randomSet
-            })
-            .catch(function(error) {
-                console.log('Error fetching active subject sets', error)
+                return randomSet;
             })
     }
 
