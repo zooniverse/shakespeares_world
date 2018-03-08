@@ -98,6 +98,6 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         if (error === 'outOfData') {
             $scope.$broadcast('subject:outOfData');
         }
-        console.log('Oh no: ', error)
+        console.log(error);
     }
 }

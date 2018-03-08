@@ -6,7 +6,7 @@ require('./auth.module.js')
 var OAuth = require('panoptes-client/lib/oauth');
 
 // @ngInject
-function authFactory($location, $rootScope, $state, $transitions, AnnotationsFactory, zooAPI, CribsheetFactory) {
+function authFactory($location, $rootScope, $state, $transitions, $window, AnnotationsFactory, zooAPI, CribsheetFactory) {
 
     var factory;
 
@@ -22,18 +22,22 @@ function authFactory($location, $rootScope, $state, $transitions, AnnotationsFac
             zooAPI.beforeEveryRequest = function() {
                 return OAuth.checkBearerToken()
                     .then(function (token) {
-                        // The Panoptes client doesn't return an error but just null when it can't refresh the token.
-                        // So we check for null, instead of using a catch block.
-
-                        if (_user.id && token === null) {
-                            // We are logged in but don't have a token any more.
-                            alert('Your session is expired. Press OK to save your work and start a new one.')
-                            // Save any unsaved work and redirect to Panoptes for a new token.
-                            // AnnotationsFactory.updateCache();
-                            // OAuth.signIn($location.absUrl());
-                            return Promise.reject(new Error('HELP!'));
-
-                        }
+                        // We catch any request to access the transcribe route.
+                        $transitions.onStart({ to: 'Transcribe'}, function(transition) {
+                            token = $window.sessionStorage.getItem('panoptesClientOAuth_tokenDetails');
+                            // The Panoptes client doesn't return an error but just null when it can't refresh the token.
+                            // So we check for null, instead of using a catch block.
+                            if (_user.id && token === null) {
+                                // We're logged in but don't have a token any more.
+                                alert('Your session is expired. Press OK to save your work and start a new one.')
+                                // Save any unsaved work and redirect to Panoptes for a new token.
+                                AnnotationsFactory.updateCache();
+                                OAuth.signIn($location.absUrl());
+                                // Abort ui-router state transition
+                                return Promise.reject(new Error('ui-router transition aborted'));
+                            }
+                          }
+                        )
                     })
             }
         });
