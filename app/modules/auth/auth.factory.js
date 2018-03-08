@@ -27,7 +27,7 @@ function authFactory($location, $rootScope, $state, $transitions, AnnotationsFac
 
                         if (_user.id && token === null) {
                             // We are logged in but don't have a token any more.
-                            // alert('Your session is expired. Press OK to save your work and start a new one.')
+                            alert('Your session is expired. Press OK to save your work and start a new one.')
                             // Save any unsaved work and redirect to Panoptes for a new token.
                             // AnnotationsFactory.updateCache();
                             // OAuth.signIn($location.absUrl());

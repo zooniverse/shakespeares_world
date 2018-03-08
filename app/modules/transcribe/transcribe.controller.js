@@ -94,7 +94,10 @@ function TranscribeController($stateParams, $modal, $scope, $window, Annotations
         vm.subject = SubjectsFactory.current;
     }
 
-    function handleErrors(result) {
-        return Promise.reject(new Error('Error loading subject'));
+    function handleErrors(error) {
+        if (error === 'outOfData') {
+            $scope.$broadcast('subject:outOfData');
+        }
+        console.log('Oh no: ', error)
     }
 }
