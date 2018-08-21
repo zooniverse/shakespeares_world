@@ -33,7 +33,7 @@
   ],
   "private": true,
   "engines": {
-    "node": "9"
+    "node": "8"
   },
   "devDependencies": {
     "@uirouter/angularjs": "^1.0.3",
@@ -105,8 +105,7 @@
   },
   "scripts": {
     "start": "check-engines && gulp dev",
-    "deploy-staging": "check-engines && NODE_ENV=production gulp deploy-staging",
-    "deploy-production": "check-engines && NODE_ENV=production gulp deploy-production",
+    "deploy": "check-engines && NODE_ENV=production gulp deploy",
     "build": "check-engines && NODE_ENV=production gulp production"
   },
   "browser": {

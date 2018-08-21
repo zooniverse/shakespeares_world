@@ -20,21 +20,6 @@ module.exports = {
         'sourcemap': true
     },
 
-    'deploy': {
-        'production': {
-            'Bucket': 'zooniverse-static',
-            'Prefix': 'www.shakespearesworld.org/',
-        },
-        'alpha': {
-            'Bucket': 'zooniverse-static',
-            'Prefix': 'preview.zooniverse.org/folgerdemo/',
-        },
-        'staging': {
-            'Bucket': 'zooniverse-static',
-            'Prefix': 'preview.zooniverse.org/shakespearesworld/',
-        }
-    },
-
     'dist': {
         'root': 'build'
     },
