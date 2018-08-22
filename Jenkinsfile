@@ -21,7 +21,7 @@ node {
       }
     }
 
-    // if (BRANCH_NAME == 'staging') {
+    if (BRANCH_NAME == 'staging') {
       newImage.inside {
         sh 'export BUCKET="zooniverse-static"; export PREFIX="preview.zooniverse.org/shakespearesworld/"; export BASE_URL="https://preview.zooniverse.org/shakespearesworld"; npm run build && npm run deploy'
       }
